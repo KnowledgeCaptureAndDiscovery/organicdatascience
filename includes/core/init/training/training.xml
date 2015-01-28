@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+<mainpage>
+The '''[http://www.organicdatascience.org/ Organic Data Science framework]''' is designed to enable ad-hoc unanticipated collaborations.  This requires that new collaborators should be able to come up to speed very quickly on what activities are ongoing, and be able to contribute to tasks that are relevant to them.  To support this goal, we provide training materials for newcomers.  Note that no training is needed if you just want to browse the site and see what is going on, but not edit or change anything.
+
+==Training==
+Training is only required if you want to contribute by editing the content of ongoing tasks.  We first train you as a '''participant''', which means that you can contribute to tasks that others are leading. This training takes approximately one hour.  If you want to be able to create and lead new tasks, you must take the '''owner''' training. his training takes approximately two hours.<br/>
+<br/>
+[[File:Guidelines_TrainingsProcessSmall.png|600px]]<br/>
+<br/>
+The training materials include [[Organic Data Science Framework Documentation|documentation]] and practice.  You can practice in this wiki without fear of disrupting anything in the actual [http://www.organicdatascience.org/|Organic Data Science site]. To get started, click on the entry on the left-hand side that has your name in it.  Read that page and follow the instructionsin it.  Don’t forget to login first.  If you don’t find an entry with your name, please contact us.
+<br/><br/>
+[[File:Guidelines_HowToStart.png|200px]]<br/>
+<br/>
+Once you are done with the training, you can use the same login information for the Organic Data Science wiki and start contributing.
+
+==Questions==
+Please contact us at '''organic.data.science@gmail.com'''.  We will respond quickly!
+</mainpage>
+-->
+<userguidelines>
+	<task title="Train @@name@@ on using organic data science wiki" type="medium" start="1" target="21" docu="Organic Data Science Framework Documentation">
+		<content>
+			==About this Page==
+			This page is to '''train @@name@@''' using the task centred organic data science wiki. 
+			New users like you can '''try all features''' in a '''sandbox environment''' which does not affect 
+			the data in the organic data science wiki.
+			
+			==About the Training Process==
+			Every visitor of the organic data science wiki is by default a reader. A reader has read access to all tasks but is not able to 
+			contribute to tasks. In the first training part you can learn how to contribute as participant to existing tasks. After you have 
+			accomplished the first part of the training you are able to add content to tasks. Your user account will be also activated for 
+			the organic data science wiki. To manage tasks you need to accomplish the second part of the training. After the second part of 
+			the training you are able to own and organize tasks. As an owner you are typical create tasks or restructure existing tasks.<br/><br/>
+			<p style="margin:0px;">
+				[[File:Guidelines_TrainingsProcess.png|600px]]
+			</p>
+			<table cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td width="287" style="background-color:#fff2d6;"> @@trainindex1@@</td>
+					<td width="26"></td>
+					<td width="287" style="background-color:#fff2d6;"> @@trainindex2@@</td>
+				</tr>
+			</table>
+			<br/><br/>
+			
+			==How do you Start your Training==
+			Your training is split into several short units named tasks. 
+			A train task can contain several sub train tasks. The training tasks are structured similar to the [[Organic Data Science Framework Documentation|Organic Data Science Documentation]].
+			Every training tasks has a link to the related documentation page. Click on the link beside documentation to open the related documentation. You can start your first training [[Train @@name@@ on contributing as participant|here]]. After you have completed this 
+			task you follow the hierarchical task structure until you have completed all training tasks.
+			<br/><br/>
+			[[File:Guidelines_Doculink.png|400px]]	
+			<br/><br/>
+			'''Hint:''' Please do not change any task or page which does not contain your name. 
+			<br/><br/>
+		</content>
+		<subtasks>
+			<task title="Train @@name@@ on contributing as participant" type="medium" start="1" target="12" expertise="participating" docu="Contribute as Participant" >
+				<content>
+					<br/>
+					<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+					'''Practice:''' Complete the subtasks!
+					<br/><br/>
+				</content>
+				<subtasks>
+					<task title="Train @@name@@ on exploring tasks" type="medium" start="1" target="8"  expertise="participating|exploring" docu="Exploring Tasks">
+						<content>
+							<br/>
+							<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>								
+							'''Practice:''' Complete the subtasks!
+							<br/><br/>
+						</content>
+						<subtasks>
+							<task title="Train @@name@@ on using the task explorer" type="medium" start="1" target="6" expertise="participating|exploring" docu="Exploring Tasks#Task Explorer">
+								<content>
+									<br/>
+									<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+									'''Practice:''' Complete the subtasks!
+									<br/><br/>
+								</content>
+								<subtasks>	
+									<task title="Train @@name@@ on task name search" type="low" progress="0.1" start="1" target="2" expertise="participating|exploring" docu="Exploring Tasks#Task Name Search">
+										<content>
+											<br/>
+											<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+											'''Practice:'''<br/>
+											<ul>
+												<li>Search for <code>@@name@@</code>.</li>
+												<li>Search for <code>explor</code>.</li>
+												<li>Search for <code>exploring</code> compare with previous search results.</li>
+											</ul>
+											<br/><br/>
+										</content>
+									</task>
+									<task title="Train @@name@@ on expertise filtering" type="low" progress="0.1" start="2" target="3" expertise="participating|exploring" docu="Exploring Task#Expertise Filter">
+										<content>
+											<br/>
+											<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+											'''Practice:'''<br/>
+											<ul>
+												<li>Apply expertise filter <code>exploring</code>.</li>
+												<li>Expand all tasks in the task explorer.</li>
+												<li>Search additionally for <code>expertise filter</code>.</li>
+											</ul>
+											<br/><br/>
+										</content>
+									</task>
+									<task title="Train @@name@@ on using task tabs" type="low" progress="0.1" start="3" target="4" expertise="participating|exploring" docu="Exploring Tasks#All Tasks Tab">
+										<content>
+											<br/>
+											<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+											'''Practice:'''<br/>
+											<ul>
+												<li>Switch to <code>My Tasks</code> tab.</li>
+												<li>Switch to <code>All Tasks</code> tab.</li>
+											</ul>
+											<br/><br/>
+										</content>
+									</task>
+									<task title="Train @@name@@ on using task views" type="low" progress="0.1" start="4" target="5" expertise="participating|exploring" docu="Exploring Tasks#Hierarchical View and List View">
+										<content>
+											<br/>
+											<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+											'''Practice:'''<br/>
+											<ul>												
+												<li>Apply task name search <code>explor</code></li>
+												<li>Switch to the list view</li>
+												<li>Switch to the hierarchical view</li>
+												<li>Remove task name search</li>												
+											</ul>
+											<br/><br/>
+										</content>
+									</task>
+									<task title="Train @@name@@ on explorer resizing" type="low" progress="0.1" start="5" target="6" expertise="participating|exploring" docu="Exploring Tasks#Resizing">
+										<content>
+											<br/>
+											<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+											'''Practice:'''<br/>
+											<ul>												
+												<li>Make the task explorer larger</li>
+												<li>Make the task explorer smaller</li>											
+											</ul>
+											<br/><br/>
+										</content>
+									</task>
+								</subtasks>
+							</task>		
+							<task title="Train @@name@@ on using subtask explorer" type="low" progress="0.1" start="6" target="7" expertise="participating|exploring" docu="Exploring Tasks#Subtask Explorer">
+								<content>
+									<br/>
+									<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+									'''Practice:''' Open task <code>[[Train @@name@@ on using organic data science wiki]]</code> and navigate via subtask explorer to <code>Train @@name@@ using subtask explorer</code> task.
+									<br/><br/>
+								</content>
+							</task>	
+							<task title="Train @@name@@ on using timeline explorer" type="low" progress="0.1" start="7" target="8" expertise="participating|exploring" docu="Exploring Tasks#Timeline Explorer">
+								<content>
+									<br/>
+									<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+									'''Practice:''' Open task <code>[[Train @@name@@ on using organic data science wiki]]</code> and click on timeline.
+									<br/><br/>
+								</content>
+							</task>							
+						</subtasks>
+					</task>
+					<task title="Train @@name@@ on participating on tasks" type="low" progress="0.1" start="8" target="9" expertise="participating" docu="Participating on Tasks">
+						<content>						
+						<br/>
+						<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+						'''Practice:'''<br/>
+						<ul>												
+							<li>Add yourself as participant to the task. You should use your full name <code>&lt;firstname lastname&gt;.</code></li>
+							<li>Add content to this page. E.g. <code>This is my first edit!</code></li>		
+							<li>Set the progress of this task to 100 percentage.</li>	
+							<li>Set the progress of all previous completed tasks to 100 percentage.</li>									
+						</ul>
+						<br/><br/>
+						</content>
+					</task>
+					<task title="Train @@name@@ on using person pages" type="medium" start="9" target="11" expertise="participating|person page" docu="Person Page">
+						<content>
+							<br/>
+							<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+							'''Practice:''' Complete the subtasks!
+							<br/><br/>
+						</content>
+						<subtasks>
+							<task title="Train @@name@@ on using personal expertise" type="low" progress="0.1" start="9" target="10" expertise="participating" docu="Person Page">
+								<content>
+									<br/>
+									<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+									'''Practice:'''<br/>
+									<ul>	
+										<li>Add the personal expertise <code>participating</code> and <code>owning</code> to your person page.</li>											
+										<li>Add at least 2 personal expertise of your choice to your person page.</li>
+										<li>Hover over the expertise <code>participating</code> and look at your tasks.</li>	
+										<li>Hover over an expertise of your choice and look at your tasks.</li>										
+									</ul>
+									<br/>
+									'''Hint: '''Expertise words used in organic data science wiki should be related to the expected participant’s 
+									background. All defined expertise within the trainings wiki is limited to the trainings wiki. After you have accomplish 
+									the whole training you should add your expertise in the [http://organicdatascience.org|organic data science wiki].
+									<br/><br/>
+								</content>
+							</task>
+							<task title="Train @@name@@ on using personal tasks" type="low" progress="0.1" start="10" target="11" expertise="participating" docu="Person Page">
+								<content>
+									<br/>
+									<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+									'''Practice:'''<br/>
+									<ul>												
+										<li>Hover over tasks and look at expertise.</li>
+										<li>Open at least one task via your person page.</li>											
+									</ul>
+									<br/><br/>
+								</content>
+							</task>
+						</subtasks>
+					</task>
+					<task title="Train @@name@@ on understanding basic task states" type="low" progress="0.1" start="11" target="12" expertise="participating|task states" docu="Basic Task States">
+						<content>
+							<br/>
+							<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+							'''Practice:'''<br/>
+							<ul>												
+								<li>Read the documentation section [[Basic Task States#Underspecified Tasks|Underspecified Tasks]].</li>
+								<li>Set the progress of this tasks to 50 percentage.</li>	
+								<li>Read the documentation section [[Basic Task States#Fully specified Tasks|Fully specified Tasks]].</li>	
+								<li>Set the progress of this tasks to 100 percentage.</li>										
+							</ul>
+							<br/><br/>
+						</content>
+					</task>
+				</subtasks>
+			</task>
+			<task title="Train @@name@@ on contributing as owner" type="medium" start="12" target="21" expertise="owning" docu="Contribute as Owner">
+				<content>
+					<br/>
+					<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+					'''Practice:''' Complete the subtasks!
+					<br/><br/>
+				</content>
+				<subtasks>
+					<task title="Train @@name@@ on creating tasks" type="medium" start="12" target="16" expertise="owning|creating" docu="Create Task">
+						<content>
+							<content>
+								<br/>
+								<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+								'''Practice:''' Complete the subtasks!
+								<br/><br/>
+							</content>
+						</content>
+						<subtasks>
+							<task title="Train @@name@@ on creating task" type="low" progress="0.1" start="12" target="13" expertise="owning|creating" docu="Create Task#Create Plain Task">
+								<content>
+									<br/>
+									<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+									'''Practice:'''<br/>
+									<ul>												
+										<li>Create a new subtask names <code>@@name@@s first task</code>.</li>		
+										<li>Set the progress of this tasks to 100 percentage.</li>						
+									</ul>
+									<br/><br/>
+								</content>
+							</task>
+							<task title="Train @@name@@ on adding task attributes" type="low" progress="0.1" start="13" target="14" expertise="owning|add attributes" docu="Create Task#Add Task Attributes">
+								<content>
+									<br/>
+									<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+									'''Practice:'''<br/>
+									<ul>												
+										<li>Add all mandatory attributes to the task <code>@@name@@s first task</code>. Choose the attribute values that they fit to the parent task.</li>	
+										<li>Set the progress of the task <code>@@name@@s first task</code> to 0 percentage.</li>		
+										<li>Set the progress of this tasks to 100 percentage</li>								
+									</ul>
+									<br/><br/>
+								</content>
+							</task>
+							<task title="Train @@name@@ on adding additional properties" type="low" progress="0.1" start="14" target="15" expertise="owning|add properties" docu="Create Task#Add Additional Attributes">
+								<content>
+									<br/>
+									<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+									'''Practice:'''<br/>
+									<ul>												
+										<li>Add an additional property with the name <code>led by</code> and the value <code>@@name@@</code> to this task.</li>	
+										<li>Set the progress of this tasks to 50 percentage.</li>	
+										<li>Add an additional property of your choice. E.g. <code>related to</code>, ...</li>		
+										<li>Set the progress of this tasks to 100 percentage.</li>								
+									</ul>
+									<br/><br/>
+								</content>
+							</task>
+							<task title="Train @@name@@ on adding content" type="low" progress="0.1" start="15" target="16" expertise="owning|add content" docu="Create Task#Add Content">
+								<content>
+									<br/>
+									<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+									'''Practice:'''<br/>
+									<ul>												
+										<li>Add content to the task <code>@@name@@s first task</code>.</li>	
+										<li>Set the progress of the task <code>@@name@@s first task</code> to 100 percentage.</li>		
+										<li>Set the progress of this tasks to 100 percentage.</li>								
+									</ul>
+									<br/><br/>
+								</content>
+							</task>							
+						</subtasks>
+					</task>
+					<task title="Train @@name@@ on using task alert" type="low" progress="0.1" start="16" target="17" expertise="owning|task alert" docu="Task Alert">
+						<content>
+							<br/>
+							<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+							'''Practice:'''<br/>
+							<ul>												
+								<li>Open the task with the alert!</li>		
+								<li>Set the progress of the alerted task to 100%!</li>	
+								<li>Set the progress of this tasks to 100 percentage.</li>								
+							</ul>
+							<br/><br/>
+						</content>
+						<subtasks>
+							<task title="@@name@@s task alert" type="low" progress="10" start="-2" target="-1" expertise="owning|task alert" docu="Task Alert">
+							<content>
+								<br/><br/>
+								This task should be used to learn how to use the task alert.<br/><br/>
+								'''Hint:''' This should typically show up in orange to indicate an overdue task. This is not possible in this train wiki due to time dependencies.
+								But after you have changed the progress to 100 percentage you can see the parent task have no more orange point which indicates a overdue subtask.
+								<br/><br/>
+							</content>
+						</task>
+						</subtasks>
+					</task>
+					<task title="Train @@name@@ on organizing tasks" type="medium" start="17" target="20" expertise="owning|renaming|moving|deleting" docu="Organize Tasks">
+						<content>
+							<br/>
+							<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+							'''Practice:''' Complete the subtasks!
+							<br/><br/>
+						</content>
+						<subtasks>
+							<task title="Train @@name@@ on renaming tasks" type="low" progress="0.1" start="17" target="18" expertise="owning|renaming" docu="Organize Tasks#Rename Task">
+								<content>
+									<br/>
+									<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+									'''Practice:'''<br/>
+									<ul>												
+										<li>Rename the subtask <code>@@name@@s task to rename</code> task to <code>@@name@@ learned renaming tasks</code>.</li>		
+										<li>Set the progress of this tasks to 100 percentage.</li>								
+									</ul>
+									<br/><br/>
+								</content>
+								<subtasks>
+									<task title="@@name@@s task to rename" type="low" progress="100" start="17" target="18" noindex="true">
+										<content>
+											This task should be used to train renaming tasks.
+										</content>
+									</task>
+								</subtasks>
+							</task>
+							<task title="Train @@name@@ on moving tasks" type="low" progress="0.1" start="18" target="19" expertise="owning|moving" docu="Organize Tasks#Move Task">
+								<content>
+									<br/>
+									<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+									'''Practice:'''<br/>
+									<ul>												
+										<li>Expand all subtasks, move task <code>@@name@@s subtask to move</code> to task <code>Train @@name@@ on moving tasks</code>.</li>	
+										<li>Set the progress of this tasks to 100 percentage.</li>								
+									</ul>
+									<br/><br/>
+								</content>
+								<subtasks>
+									<task title="@@name@@s task to move" type="low" progress="100" start="18" target="19" noindex="true">
+										<content>
+											This task should be used to train moving tasks.
+										</content>
+										<subtasks>
+											<task title="@@name@@s subtask to move" type="low" progress="100" start="18" target="19" noindex="true">
+												<content>
+												This task should be used to train moving tasks.
+												</content>
+											</task>
+										</subtasks>
+									</task>
+								</subtasks>
+							</task>
+							<task title="Train @@name@@ on deleting tasks" type="low" progress="0.1" start="19" target="20" expertise="owning|deleting" docu="Organize Tasks#Delete Task">
+								<content>
+									<br/>
+									<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+									'''Practice:'''<br/>
+									<ul>												
+										<li>Delete task <code>@@name@@s task to delete</code>.</li>	
+										<li>Set the progress of this tasks to 100 percentage.</li>								
+									</ul>
+									<br/><br/>
+								</content>
+								<subtasks>
+									<task title="@@name@@s task to delete" type="low" progress="100" start="19" target="20" noindex="true">
+										<content>
+											This task should be used to train deleting tasks.
+										</content>
+										<subtasks>
+											<task title="@@name@@s subtask to delete" type="low" progress="100" start="19" target="20" noindex="true">
+												<content>
+												This task should be used to train deleting tasks.
+												</content>
+											</task>
+										</subtasks>
+									</task>
+								</subtasks>
+							</task>
+						</subtasks>
+					</task>
+					<task title="Train @@name@@ on understanding extended task states" type="low" progress="0.1" start="20" target="21" expertise="owning|task states" docu="Extended Task States">
+						<content>
+							<br/>
+							<p><i>Click on the documentation in the Properties box below to go over documentation, then do the practice below.</i></p>	
+							'''Practice:'''<br/>
+							<ul>												
+								<li>Read the documentation section [[Extended Task States]].</li>
+								<li>Set the progress of this tasks to 100 percentage.</li>										
+							</ul>
+							<br/><br/>
+						</content>
+					</task>
+				</subtasks>
+			</task>
+			
+		</subtasks>
+	</task>
+</userguidelines>

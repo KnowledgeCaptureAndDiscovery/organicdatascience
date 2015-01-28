@@ -1,0 +1,10 @@
+.picker__holder{
+	width:273px;
+}
+.picker__box{
+	padding: 0px 5px;
+	width:260px;
+}
+.picker__day {
+ 	padding: 0;
+} 

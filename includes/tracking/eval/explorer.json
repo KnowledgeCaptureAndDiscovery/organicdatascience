@@ -1,0 +1,3050 @@
+{
+    "explorer": [
+        {
+            "id": "Couple_the_lake_and_catchment_models",
+            "title": "Couple the lake and catchment models",
+            "exist": true,
+            "facts": {
+                "type": "high",
+                "expertise": [
+                    "hydrology",
+                    "ecosystem modeling",
+                    "hydrodynamic modeling"
+                ],
+                "start": 1406908957,
+                "target": 1427817757,
+                "progress": 24.380174854607,
+                "owner": "Chris Duffy",
+                "participants": [
+                    "Jordan Read"
+                ],
+                "metaprogress": 100,
+                "missingparam": false,
+                "overdue": false,
+                "childoverdue": false,
+                "warnings": [],
+                "childwarning": false
+            },
+            "children": [
+                {
+                    "id": "Develop_how_the_coupling_works",
+                    "title": "Develop how the coupling works",
+                    "exist": true,
+                    "facts": {
+                        "type": "low",
+                        "expertise": [
+                            "computational hydrology",
+                            "ecosystem modeling"
+                        ],
+                        "start": 1408464157,
+                        "target": 1420041757,
+                        "progress": "unknown",
+                        "owner": "Chris Duffy",
+                        "participants": [
+                            "Jordan Read",
+                            "Gopal Bhatt",
+                            "Lele Shu"
+                        ],
+                        "metaprogress": 80,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Calibrate_the_coupled_lake-catchment_model",
+                    "title": "Calibrate the coupled lake-catchment model",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "Chris Duffy",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 20,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Verify_and_validate_the_coupled_lake-catchment_model",
+                    "title": "Verify and validate the coupled lake-catchment model",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "Paul Hanson",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 20,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Make_predictions_and_projections_to_test_the_coupled_lake-catchment_model",
+                    "title": "Make predictions and projections to test the coupled lake-catchment model",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "Paul Hanson",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 20,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                }
+            ]
+        },
+        {
+            "id": "Develop_Framework_for_Organic_Data_Science",
+            "title": "Develop Framework for Organic Data Science",
+            "exist": true,
+            "facts": {
+                "type": "high",
+                "expertise": [
+                    "unknown"
+                ],
+                "start": 1380643357,
+                "target": 1475251357,
+                "progress": 33.150687045493,
+                "owner": "Yolanda Gil",
+                "participants": [
+                    "Felix Michel"
+                ],
+                "metaprogress": 100,
+                "missingparam": false,
+                "overdue": false,
+                "childoverdue": true,
+                "warnings": [],
+                "childwarning": false
+            },
+            "children": [
+                {
+                    "id": "Framework_Design",
+                    "title": "Framework Design",
+                    "exist": true,
+                    "facts": {
+                        "type": "high",
+                        "expertise": [
+                            "computer science",
+                            "collaboration",
+                            "testing"
+                        ],
+                        "start": 1398268958,
+                        "target": 1411228958,
+                        "progress": 100,
+                        "owner": "Felix Michel",
+                        "participants": [
+                            "Yolanda Gil"
+                        ],
+                        "metaprogress": 100,
+                        "missingparam": false,
+                        "overdue": true,
+                        "childoverdue": true,
+                        "warnings": [],
+                        "childwarning": false
+                    },
+                    "children": [
+                        {
+                            "id": "Comparison_with_Other_Collaborative_Platforms",
+                            "title": "Comparison with Other Collaborative Platforms",
+                            "exist": true,
+                            "facts": {
+                                "type": "low",
+                                "expertise": [
+                                    "collaboration",
+                                    "computer science"
+                                ],
+                                "start": 1405440157,
+                                "target": 1409500957,
+                                "progress": "unknown",
+                                "owner": "Felix Michel",
+                                "participants": [
+                                    "Yolanda Gil"
+                                ],
+                                "metaprogress": 80,
+                                "missingparam": true,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        },
+                        {
+                            "id": "User_Tutorial",
+                            "title": "User Tutorial",
+                            "exist": true,
+                            "facts": {
+                                "type": "low",
+                                "expertise": [
+                                    "collaboration",
+                                    "computer science",
+                                    "social computing"
+                                ],
+                                "start": 1407945759,
+                                "target": 1409241759,
+                                "progress": "unknown",
+                                "owner": "Felix Michel",
+                                "participants": [
+                                    "Yolanda Gil"
+                                ],
+                                "metaprogress": 80,
+                                "missingparam": true,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        },
+                        {
+                            "id": "Develop_task-centered_features",
+                            "title": "Develop task-centered features",
+                            "exist": true,
+                            "facts": {
+                                "type": "medium",
+                                "expertise": [
+                                    "computer science",
+                                    "collaboration"
+                                ],
+                                "start": 1398873758,
+                                "target": 1409414558,
+                                "progress": 0,
+                                "owner": "Felix Michel",
+                                "participants": [
+                                    "Yolanda Gil"
+                                ],
+                                "metaprogress": 100,
+                                "missingparam": false,
+                                "overdue": true,
+                                "childoverdue": false,
+                                "warnings": [],
+                                "childwarning": false
+                            },
+                            "children": [
+                                {
+                                    "id": "Task_Alerts",
+                                    "title": "Task Alerts",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "low",
+                                        "expertise": [
+                                            "collaboration",
+                                            "computer science"
+                                        ],
+                                        "start": 1407168158,
+                                        "target": 1408032158,
+                                        "progress": "unknown",
+                                        "owner": "Felix Michel",
+                                        "participants": [
+                                            "Yolanda Gil"
+                                        ],
+                                        "metaprogress": 80,
+                                        "missingparam": true,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "User_Tracking",
+                                    "title": "User Tracking",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "low",
+                                        "expertise": [
+                                            "collaboration",
+                                            "computer science"
+                                        ],
+                                        "start": 1400169759,
+                                        "target": 1409241759,
+                                        "progress": "unknown",
+                                        "owner": "Felix Michel",
+                                        "participants": [
+                                            "Yolanda Gil"
+                                        ],
+                                        "metaprogress": 80,
+                                        "missingparam": true,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    },
+                                    "children": [
+                                        {
+                                            "id": "Consolidating_User_Pages",
+                                            "title": "Consolidating User Pages",
+                                            "exist": true,
+                                            "facts": {
+                                                "type": "low",
+                                                "expertise": [
+                                                    "unknown"
+                                                ],
+                                                "start": 1408377757,
+                                                "target": 1408982557,
+                                                "progress": "unknown",
+                                                "owner": "Varun Ratnakar",
+                                                "participants": [
+                                                    "Yolanda Gil",
+                                                    "Felix Michel"
+                                                ],
+                                                "metaprogress": 80,
+                                                "missingparam": true,
+                                                "warnings": [],
+                                                "childwarning": false
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "Worklist",
+                                    "title": "Worklist",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "low",
+                                        "expertise": [
+                                            "collaboration",
+                                            "computer science"
+                                        ],
+                                        "start": 1404144159,
+                                        "target": 1406822559,
+                                        "progress": "unknown",
+                                        "owner": "Felix Michel",
+                                        "participants": [
+                                            "Yolanda Gil"
+                                        ],
+                                        "metaprogress": 80,
+                                        "missingparam": true,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Timeline_Tracking",
+                                    "title": "Timeline Tracking",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "low",
+                                        "expertise": [
+                                            "collaboration",
+                                            "computer science"
+                                        ],
+                                        "start": 1400169759,
+                                        "target": 1404144159,
+                                        "progress": "unknown",
+                                        "owner": "Felix Michel",
+                                        "participants": [
+                                            "Yolanda Gil"
+                                        ],
+                                        "metaprogress": 80,
+                                        "missingparam": true,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Progress_Tracking",
+                                    "title": "Progress Tracking",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "low",
+                                        "expertise": [
+                                            "collaboration",
+                                            "computer science"
+                                        ],
+                                        "start": 1400169758,
+                                        "target": 1404144158,
+                                        "progress": "unknown",
+                                        "owner": "Felix Michel",
+                                        "participants": [
+                                            "Yolanda Gil"
+                                        ],
+                                        "metaprogress": 80,
+                                        "missingparam": true,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Timeline",
+                                    "title": "Timeline",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "low",
+                                        "expertise": [
+                                            "collaboration",
+                                            "computer science"
+                                        ],
+                                        "start": 1401465759,
+                                        "target": 1404144159,
+                                        "progress": "unknown",
+                                        "owner": "Felix Michel",
+                                        "participants": [
+                                            "Yolanda Gil"
+                                        ],
+                                        "metaprogress": 80,
+                                        "missingparam": true,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Explorer_Navigation",
+                                    "title": "Explorer Navigation",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "low",
+                                        "expertise": [
+                                            "collaboration",
+                                            "computer science"
+                                        ],
+                                        "start": 1404144158,
+                                        "target": 1406736158,
+                                        "progress": "unknown",
+                                        "owner": "Felix Michel",
+                                        "participants": [
+                                            "Yolanda Gil"
+                                        ],
+                                        "metaprogress": 80,
+                                        "missingparam": true,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Task_Representation",
+                                    "title": "Task Representation",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "low",
+                                        "expertise": [
+                                            "collaboration",
+                                            "computer science"
+                                        ],
+                                        "start": 1398873759,
+                                        "target": 1405440159,
+                                        "progress": "unknown",
+                                        "owner": "Felix Michel",
+                                        "participants": [
+                                            "Yolanda Gil"
+                                        ],
+                                        "metaprogress": 80,
+                                        "missingparam": true,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "id": "User_Documentation",
+                            "title": "User Documentation",
+                            "exist": true,
+                            "facts": {
+                                "type": "low",
+                                "expertise": [
+                                    "collaboration",
+                                    "computer science"
+                                ],
+                                "start": 1407945759,
+                                "target": 1409155359,
+                                "progress": "unknown",
+                                "owner": "Felix Michel",
+                                "participants": [
+                                    "Yolanda Gil"
+                                ],
+                                "metaprogress": 80,
+                                "missingparam": true,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "Human_Centered_Computing_to_Support_Organic_Data_Science",
+                    "title": "Human Centered Computing to Support Organic Data Science",
+                    "exist": true,
+                    "facts": {
+                        "type": "medium",
+                        "expertise": [
+                            "social computing"
+                        ],
+                        "start": 1380643358,
+                        "target": 1443628958,
+                        "progress": 0,
+                        "owner": "Yolanda Gil",
+                        "participants": [
+                            "Felix Michel"
+                        ],
+                        "metaprogress": 100,
+                        "missingparam": false,
+                        "overdue": false,
+                        "childoverdue": false,
+                        "warnings": [],
+                        "childwarning": false
+                    },
+                    "children": [
+                        {
+                            "id": "Study_emerging_normalization_and_standardization",
+                            "title": "Study emerging normalization and standardization",
+                            "exist": true,
+                            "facts": {
+                                "type": "low",
+                                "expertise": [
+                                    "social computing"
+                                ],
+                                "start": 1420128158,
+                                "target": 1438358558,
+                                "progress": "unknown",
+                                "owner": "Yolanda Gil",
+                                "participants": [
+                                    "unknown"
+                                ],
+                                "metaprogress": 80,
+                                "missingparam": true,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        },
+                        {
+                            "id": "Develop_an_approach_to_social_computing_for_collective_problem_solving",
+                            "title": "Develop an approach to social computing for collective problem solving",
+                            "exist": true,
+                            "facts": {
+                                "type": "low",
+                                "expertise": [
+                                    "unknown"
+                                ],
+                                "start": "unknown",
+                                "target": "unknown",
+                                "progress": "unknown",
+                                "owner": "Yolanda Gil",
+                                "participants": [
+                                    "unknown"
+                                ],
+                                "metaprogress": 40,
+                                "missingparam": true,
+                                "warnings": [],
+                                "childwarning": false
+                            },
+                            "children": [
+                                {
+                                    "id": "Develop_social_principles_to_guide_collective_problem_solving",
+                                    "title": "Develop social principles to guide collective problem solving",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "low",
+                                        "expertise": [
+                                            "unknown"
+                                        ],
+                                        "start": 1398960157,
+                                        "target": 1438358557,
+                                        "progress": "unknown",
+                                        "owner": "Yolanda Gil",
+                                        "participants": [
+                                            "Felix Michel",
+                                            "Matheus Hauder"
+                                        ],
+                                        "metaprogress": 80,
+                                        "missingparam": true,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "id": "Develop_an_approach_to_contributor_credits_in_organic_data_science",
+                            "title": "Develop an approach to contributor credits in organic data science",
+                            "exist": true,
+                            "facts": {
+                                "type": "low",
+                                "expertise": [
+                                    "social computing"
+                                ],
+                                "start": 1380643357,
+                                "target": 1417363357,
+                                "progress": "unknown",
+                                "owner": "Yolanda Gil",
+                                "participants": [
+                                    "Felix Michel"
+                                ],
+                                "metaprogress": 80,
+                                "missingparam": true,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "Disseminate_results_from_the_Organic_Data_Science_framework",
+                    "title": "Disseminate results from the Organic Data Science framework",
+                    "exist": true,
+                    "facts": {
+                        "type": "medium",
+                        "expertise": [
+                            "social computing",
+                            "computer science"
+                        ],
+                        "start": 1405440158,
+                        "target": 1443628958,
+                        "progress": 0,
+                        "owner": "Yolanda Gil",
+                        "participants": [
+                            "Felix Michel"
+                        ],
+                        "metaprogress": 100,
+                        "missingparam": false,
+                        "overdue": false,
+                        "childoverdue": false,
+                        "warnings": [],
+                        "childwarning": false
+                    },
+                    "children": [
+                        {
+                            "id": "Write_paper_about_the_initial_framework_design",
+                            "title": "Write paper about the initial framework design",
+                            "exist": true,
+                            "facts": {
+                                "type": "medium",
+                                "expertise": [
+                                    "computer science",
+                                    "social computing",
+                                    "collaboration"
+                                ],
+                                "start": 1405440159,
+                                "target": 1413216159,
+                                "progress": 0,
+                                "owner": "Yolanda Gil",
+                                "participants": [
+                                    "Felix Michel",
+                                    "Matheus Hauder",
+                                    "Chris Duffy"
+                                ],
+                                "metaprogress": 100,
+                                "missingparam": false,
+                                "overdue": false,
+                                "childoverdue": false,
+                                "warnings": [],
+                                "childwarning": false
+                            },
+                            "children": [
+                                {
+                                    "id": "Design_user_evaluation_of_initial_framework_design",
+                                    "title": "Design user evaluation of initial framework design",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "low",
+                                        "expertise": [
+                                            "computer science",
+                                            "collaboration"
+                                        ],
+                                        "start": 1408377757,
+                                        "target": 1409500957,
+                                        "progress": "unknown",
+                                        "owner": "Felix Michel",
+                                        "participants": [
+                                            "Yolanda Gil",
+                                            "Felix Michel"
+                                        ],
+                                        "metaprogress": 80,
+                                        "missingparam": true,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Train_new_users_to_exercise_initial_framework",
+                                    "title": "Train new users to exercise initial framework",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "low",
+                                        "expertise": [
+                                            "social computing"
+                                        ],
+                                        "start": 1407168159,
+                                        "target": 1409500959,
+                                        "progress": "unknown",
+                                        "owner": "Felix Michel",
+                                        "participants": [
+                                            "Yolanda Gil"
+                                        ],
+                                        "metaprogress": 80,
+                                        "missingparam": true,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    },
+                                    "children": [
+                                        {
+                                            "id": "Develop_training_materials",
+                                            "title": "Develop training materials",
+                                            "exist": true,
+                                            "facts": {
+                                                "type": "low",
+                                                "expertise": [
+                                                    "social computing"
+                                                ],
+                                                "start": 1407772958,
+                                                "target": 1408118558,
+                                                "progress": "unknown",
+                                                "owner": "Yolanda Gil",
+                                                "participants": [
+                                                    "Felix Michel"
+                                                ],
+                                                "metaprogress": 80,
+                                                "missingparam": true,
+                                                "warnings": [],
+                                                "childwarning": false
+                                            }
+                                        },
+                                        {
+                                            "id": "Implement_training_tasks_for_new_users",
+                                            "title": "Implement training tasks for new users",
+                                            "exist": true,
+                                            "facts": {
+                                                "type": "low",
+                                                "expertise": [
+                                                    "unknown"
+                                                ],
+                                                "start": 1408377758,
+                                                "target": 1409500958,
+                                                "progress": "unknown",
+                                                "owner": "Felix Michel",
+                                                "participants": [
+                                                    "Yolanda Gil"
+                                                ],
+                                                "metaprogress": 80,
+                                                "missingparam": true,
+                                                "warnings": [],
+                                                "childwarning": false
+                                            }
+                                        },
+                                        {
+                                            "id": "Set_up_training_wiki_site",
+                                            "title": "Set up training wiki site",
+                                            "exist": true,
+                                            "facts": {
+                                                "type": "low",
+                                                "expertise": [
+                                                    "unknown"
+                                                ],
+                                                "start": 1408377758,
+                                                "target": 1408982558,
+                                                "progress": "unknown",
+                                                "owner": "Varun Ratnakar",
+                                                "participants": [
+                                                    "Felix Michel"
+                                                ],
+                                                "metaprogress": 80,
+                                                "missingparam": true,
+                                                "warnings": [],
+                                                "childwarning": false
+                                            }
+                                        },
+                                        {
+                                            "id": "Pretest_training_materials_for_new_users",
+                                            "title": "Pretest training materials for new users",
+                                            "exist": true,
+                                            "facts": {
+                                                "type": "low",
+                                                "expertise": [
+                                                    "unknown"
+                                                ],
+                                                "start": 1409068958,
+                                                "target": 1409500958,
+                                                "progress": "unknown",
+                                                "owner": "Felix Michel",
+                                                "participants": [
+                                                    "Yolanda Gil"
+                                                ],
+                                                "metaprogress": 80,
+                                                "missingparam": true,
+                                                "warnings": [],
+                                                "childwarning": false
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "Draft_paper_about_the_initial_framework_design",
+                                    "title": "Draft paper about the initial framework design",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "unknown"
+                                        ],
+                                        "start": 1408723358,
+                                        "target": 1413216158,
+                                        "progress": 0,
+                                        "owner": "Yolanda Gil",
+                                        "participants": [
+                                            "Felix Michel",
+                                            "Xuan Yu"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    },
+                                    "children": [
+                                        {
+                                            "id": "Draft_initial_versions_of_key_sections",
+                                            "title": "Draft initial versions of key sections",
+                                            "exist": true,
+                                            "facts": {
+                                                "type": "medium",
+                                                "expertise": [
+                                                    "unknown"
+                                                ],
+                                                "start": 1410537758,
+                                                "target": 1412006558,
+                                                "progress": 0,
+                                                "owner": "Yolanda Gil",
+                                                "participants": [
+                                                    "unknown"
+                                                ],
+                                                "metaprogress": 100,
+                                                "missingparam": false,
+                                                "overdue": false,
+                                                "childoverdue": false,
+                                                "warnings": [],
+                                                "childwarning": false
+                                            },
+                                            "children": [
+                                                {
+                                                    "id": "Write_motivating_scenarios",
+                                                    "title": "Write motivating scenarios",
+                                                    "exist": true,
+                                                    "facts": {
+                                                        "type": "low",
+                                                        "expertise": [
+                                                            "unknown"
+                                                        ],
+                                                        "start": 1410537759,
+                                                        "target": 1412006559,
+                                                        "progress": "unknown",
+                                                        "owner": "Paul Hanson",
+                                                        "participants": [
+                                                            "Chris Duffy",
+                                                            "Xuan Yu"
+                                                        ],
+                                                        "metaprogress": 80,
+                                                        "missingparam": true,
+                                                        "warnings": [],
+                                                        "childwarning": false
+                                                    }
+                                                },
+                                                {
+                                                    "id": "Write_related_work",
+                                                    "title": "Write related work",
+                                                    "exist": true,
+                                                    "facts": {
+                                                        "type": "low",
+                                                        "expertise": [
+                                                            "unknown"
+                                                        ],
+                                                        "start": 1410537759,
+                                                        "target": 1412006559,
+                                                        "progress": "unknown",
+                                                        "owner": "Yolanda Gil",
+                                                        "participants": [
+                                                            "Matheus Hauder",
+                                                            "Felix Michel"
+                                                        ],
+                                                        "metaprogress": 80,
+                                                        "missingparam": true,
+                                                        "warnings": [],
+                                                        "childwarning": false
+                                                    }
+                                                },
+                                                {
+                                                    "id": "Write_about_approach",
+                                                    "title": "Write about approach",
+                                                    "exist": true,
+                                                    "facts": {
+                                                        "type": "low",
+                                                        "expertise": [
+                                                            "unknown"
+                                                        ],
+                                                        "start": 1410537759,
+                                                        "target": 1412006559,
+                                                        "progress": "unknown",
+                                                        "owner": "Yolanda Gil",
+                                                        "participants": [
+                                                            "Felix Michel",
+                                                            "Matheus Hauder"
+                                                        ],
+                                                        "metaprogress": 80,
+                                                        "missingparam": true,
+                                                        "warnings": [],
+                                                        "childwarning": false
+                                                    }
+                                                },
+                                                {
+                                                    "id": "Write_about_social_principles",
+                                                    "title": "Write about social principles",
+                                                    "exist": true,
+                                                    "facts": {
+                                                        "type": "low",
+                                                        "expertise": [
+                                                            "unknown"
+                                                        ],
+                                                        "start": 1410537759,
+                                                        "target": 1412006559,
+                                                        "progress": "unknown",
+                                                        "owner": "Yolanda Gil",
+                                                        "participants": [
+                                                            "Felix Michel"
+                                                        ],
+                                                        "metaprogress": 80,
+                                                        "missingparam": true,
+                                                        "warnings": [],
+                                                        "childwarning": false
+                                                    }
+                                                },
+                                                {
+                                                    "id": "Write_about_framework_design",
+                                                    "title": "Write about framework design",
+                                                    "exist": true,
+                                                    "facts": {
+                                                        "type": "low",
+                                                        "expertise": [
+                                                            "computer science"
+                                                        ],
+                                                        "start": 1411401759,
+                                                        "target": 1412006559,
+                                                        "progress": "unknown",
+                                                        "owner": "Felix Michel",
+                                                        "participants": [
+                                                            "Yolanda Gil"
+                                                        ],
+                                                        "metaprogress": 80,
+                                                        "missingparam": true,
+                                                        "warnings": [],
+                                                        "childwarning": false
+                                                    }
+                                                },
+                                                {
+                                                    "id": "Write_about_the_evaluation",
+                                                    "title": "Write about the evaluation",
+                                                    "exist": true,
+                                                    "facts": {
+                                                        "type": "low",
+                                                        "expertise": [
+                                                            "computer science",
+                                                            "collaboration"
+                                                        ],
+                                                        "start": 1410537759,
+                                                        "target": 1412006559,
+                                                        "progress": "unknown",
+                                                        "owner": "Felix Michel",
+                                                        "participants": [
+                                                            "Yolanda Gil"
+                                                        ],
+                                                        "metaprogress": 80,
+                                                        "missingparam": true,
+                                                        "warnings": [],
+                                                        "childwarning": false
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "Assemble_first_full_draft_of_the_paper",
+                                            "title": "Assemble first full draft of the paper",
+                                            "exist": true,
+                                            "facts": {
+                                                "type": "low",
+                                                "expertise": [
+                                                    "unknown"
+                                                ],
+                                                "start": 1412006557,
+                                                "target": 1412092957,
+                                                "progress": "unknown",
+                                                "owner": "Yolanda Gil",
+                                                "participants": [
+                                                    "unknown"
+                                                ],
+                                                "metaprogress": 80,
+                                                "missingparam": true,
+                                                "warnings": [],
+                                                "childwarning": false
+                                            }
+                                        },
+                                        {
+                                            "id": "Finalize_writing_the_paper",
+                                            "title": "Finalize writing the paper",
+                                            "exist": true,
+                                            "facts": {
+                                                "type": "low",
+                                                "expertise": [
+                                                    "unknown"
+                                                ],
+                                                "start": 1412870558,
+                                                "target": 1413216158,
+                                                "progress": "unknown",
+                                                "owner": "Felix Michel",
+                                                "participants": [
+                                                    "Yolanda Gil"
+                                                ],
+                                                "metaprogress": 80,
+                                                "missingparam": true,
+                                                "warnings": [],
+                                                "childwarning": false
+                                            }
+                                        },
+                                        {
+                                            "id": "Review_first_full_draft_of_the_paper",
+                                            "title": "Review first full draft of the paper",
+                                            "exist": true,
+                                            "facts": {
+                                                "type": "low",
+                                                "expertise": [
+                                                    "unknown"
+                                                ],
+                                                "start": 1412179358,
+                                                "target": 1412352158,
+                                                "progress": "unknown",
+                                                "owner": "Matheus Hauder",
+                                                "participants": [
+                                                    "Florian Matthes"
+                                                ],
+                                                "metaprogress": 80,
+                                                "missingparam": true,
+                                                "warnings": [],
+                                                "childwarning": false
+                                            }
+                                        },
+                                        {
+                                            "id": "Collect_final_evaluation_data",
+                                            "title": "Collect final evaluation data",
+                                            "exist": true,
+                                            "facts": {
+                                                "type": "low",
+                                                "expertise": [
+                                                    "unknown"
+                                                ],
+                                                "start": 1412179357,
+                                                "target": 1412870557,
+                                                "progress": "unknown",
+                                                "owner": "Felix Michel",
+                                                "participants": [
+                                                    "unknown"
+                                                ],
+                                                "metaprogress": 80,
+                                                "missingparam": true,
+                                                "warnings": [],
+                                                "childwarning": false
+                                            }
+                                        },
+                                        {
+                                            "id": "Develop_paper_outline",
+                                            "title": "Develop paper outline",
+                                            "exist": true,
+                                            "facts": {
+                                                "type": "low",
+                                                "expertise": [
+                                                    "unknown"
+                                                ],
+                                                "start": 1409587357,
+                                                "target": 1410537757,
+                                                "progress": "unknown",
+                                                "owner": "Yolanda Gil",
+                                                "participants": [
+                                                    "Felix Michel"
+                                                ],
+                                                "metaprogress": 80,
+                                                "missingparam": true,
+                                                "warnings": [],
+                                                "childwarning": false
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "Collect_data_about_feature_use_in_the_new_framework",
+                                    "title": "Collect data about feature use in the new framework",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "low",
+                                        "expertise": [
+                                            "unknown"
+                                        ],
+                                        "start": 1408377757,
+                                        "target": 1412956957,
+                                        "progress": "unknown",
+                                        "owner": "Felix Michel",
+                                        "participants": [
+                                            "Yolanda Gil"
+                                        ],
+                                        "metaprogress": 80,
+                                        "missingparam": true,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "Develop_a_computational_model_for_water_and_carbon_isotopes_in_lake-catchment_systems",
+            "title": "Develop a computational model for water and carbon isotopes in lake-catchment systems",
+            "exist": true,
+            "facts": {
+                "type": "high",
+                "expertise": [
+                    "computational hydrology",
+                    "organic carbon modeling",
+                    "ecosystem modeling"
+                ],
+                "start": 1406908957,
+                "target": 1420041757,
+                "progress": 38.815804702729,
+                "owner": "Chris Duffy",
+                "participants": [
+                    "Jordan Read",
+                    "Paul Hanson"
+                ],
+                "metaprogress": 100,
+                "missingparam": false,
+                "overdue": false,
+                "childoverdue": false,
+                "warnings": [],
+                "childwarning": true
+            },
+            "children": [
+                {
+                    "id": "Develop_a_spatially_distributed_lake-catchment_model",
+                    "title": "Develop a spatially distributed lake-catchment model",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "Chris Duffy",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 20,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Develop_prediction_questions_for_lake-catchment_model",
+                    "title": "Develop prediction questions for lake-catchment model",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "Paul Hanson",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 20,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Document_state_of_the_art_in_carbon_modeling",
+                    "title": "Document state of the art in carbon modeling",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "Paul Hanson",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 20,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Develop_New_Theory_for_Age_of_Water_and_Carbon_in_Lake-Catchments",
+                    "title": "Develop New Theory for Age of Water and Carbon in Lake-Catchments",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": 1399824157,
+                        "target": 1415635357,
+                        "progress": "unknown",
+                        "owner": "Chris Duffy",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 60,
+                        "missingparam": true,
+                        "warnings": {
+                            "start": {
+                                "lower": 1406908957,
+                                "upper": 1420041757
+                            }
+                        },
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Develop_a_simple_model_for_isotopic_age_of_water_and_carbon",
+                    "title": "Develop a simple model for isotopic age of water and carbon",
+                    "exist": true,
+                    "facts": {
+                        "type": "high",
+                        "expertise": [
+                            "computational hydrology"
+                        ],
+                        "start": 1403020957,
+                        "target": 1417363357,
+                        "progress": 62.650616354306,
+                        "owner": "Chris Duffy",
+                        "participants": [
+                            "Jordan Read"
+                        ],
+                        "metaprogress": 100,
+                        "missingparam": false,
+                        "overdue": false,
+                        "childoverdue": false,
+                        "warnings": {
+                            "start": {
+                                "lower": 1406908957,
+                                "upper": 1420041757
+                            }
+                        },
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Hold_a_workshop_to_engage_GLEON_researchers",
+                    "title": "Hold a workshop to engage GLEON researchers",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "unknown",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 0,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                }
+            ]
+        },
+        {
+            "id": "Develop_mathematical_model_of_age_of_water_and_carbon",
+            "title": "Develop mathematical model of age of water and carbon",
+            "exist": true,
+            "facts": {
+                "type": "medium",
+                "expertise": [
+                    "ecosystem modeling",
+                    "computational hydrology"
+                ],
+                "start": 1399824157,
+                "target": 1415721757,
+                "progress": 0,
+                "owner": "Chris Duffy",
+                "participants": [
+                    "Jordan Read",
+                    "Paul Hanson",
+                    "Gopal Bhatt"
+                ],
+                "metaprogress": 100,
+                "missingparam": false,
+                "overdue": false,
+                "childoverdue": false,
+                "warnings": [],
+                "childwarning": false
+            },
+            "children": [
+                {
+                    "id": "Write_paper:_Dynamic_age_of_water_and_carbon",
+                    "title": "Write paper: Dynamic age of water and carbon",
+                    "exist": true,
+                    "facts": {
+                        "type": "medium",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": 1408982559,
+                        "target": 1414857759,
+                        "progress": "unknown",
+                        "owner": "unknown",
+                        "participants": [
+                            "Paul Hanson",
+                            "Jordan Read",
+                            "Yolanda Gil",
+                            "Gopal Bhatt",
+                            "Lele Shu"
+                        ],
+                        "metaprogress": 75,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                }
+            ]
+        },
+        {
+            "id": "Document_the_GLM_lake_model",
+            "title": "Document the GLM lake model",
+            "exist": true,
+            "facts": {
+                "type": "medium",
+                "expertise": [
+                    "unknown"
+                ],
+                "start": 1405440158,
+                "target": 1420128158,
+                "progress": 0,
+                "owner": "Paul Hanson",
+                "participants": [
+                    "unknown"
+                ],
+                "metaprogress": 100,
+                "missingparam": false,
+                "overdue": false,
+                "childoverdue": false,
+                "warnings": [],
+                "childwarning": false
+            },
+            "children": [
+                {
+                    "id": "Support_for_the_lake_model",
+                    "title": "Support for the lake model",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "Paul Hanson",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 20,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    },
+                    "children": [
+                        {
+                            "id": "Document_RGLM_tools",
+                            "title": "Document RGLM tools",
+                            "exist": true,
+                            "facts": {
+                                "type": "unknown",
+                                "expertise": [
+                                    "unknown"
+                                ],
+                                "start": "unknown",
+                                "target": "unknown",
+                                "progress": "unknown",
+                                "owner": "Paul Hanson",
+                                "participants": [
+                                    "unknown"
+                                ],
+                                "metaprogress": 20,
+                                "missingparam": true,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "Document_the_PIHM_catchment_model",
+            "title": "Document the PIHM catchment model",
+            "exist": true,
+            "facts": {
+                "type": "unknown",
+                "expertise": [
+                    "unknown"
+                ],
+                "start": "unknown",
+                "target": "unknown",
+                "progress": "unknown",
+                "owner": "Chris Duffy",
+                "participants": [
+                    "Xuan Yu",
+                    "Gopal Bhatt"
+                ],
+                "metaprogress": 20,
+                "missingparam": true,
+                "warnings": [],
+                "childwarning": false
+            },
+            "children": [
+                {
+                    "id": "Document_calibration_approaches_for_the_PIHM_catchment_model",
+                    "title": "Document calibration approaches for the PIHM catchment model",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "unknown",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 0,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    },
+                    "children": [
+                        {
+                            "id": "Document_PIHM_calibration_as_an_on-line_service",
+                            "title": "Document PIHM calibration as an on-line service",
+                            "exist": true,
+                            "facts": {
+                                "type": "unknown",
+                                "expertise": [
+                                    "unknown"
+                                ],
+                                "start": "unknown",
+                                "target": "unknown",
+                                "progress": "unknown",
+                                "owner": "unknown",
+                                "participants": [
+                                    "unknown"
+                                ],
+                                "metaprogress": 0,
+                                "missingparam": true,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        },
+                        {
+                            "id": "Document_PIHM_manual_calibration",
+                            "title": "Document PIHM manual calibration",
+                            "exist": true,
+                            "facts": {
+                                "type": "unknown",
+                                "expertise": [
+                                    "unknown"
+                                ],
+                                "start": "unknown",
+                                "target": "unknown",
+                                "progress": "unknown",
+                                "owner": "unknown",
+                                "participants": [
+                                    "unknown"
+                                ],
+                                "metaprogress": 0,
+                                "missingparam": true,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        },
+                        {
+                            "id": "Document_PIHM_calibration_using_evolutionary_algorithms",
+                            "title": "Document PIHM calibration using evolutionary algorithms",
+                            "exist": true,
+                            "facts": {
+                                "type": "unknown",
+                                "expertise": [
+                                    "unknown"
+                                ],
+                                "start": "unknown",
+                                "target": "unknown",
+                                "progress": "unknown",
+                                "owner": "unknown",
+                                "participants": [
+                                    "unknown"
+                                ],
+                                "metaprogress": 0,
+                                "missingparam": true,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "Engage_broader_community",
+            "title": "Engage broader community",
+            "exist": true,
+            "facts": {
+                "type": "medium",
+                "expertise": [
+                    "unknown"
+                ],
+                "start": 1409587358,
+                "target": 1483200158,
+                "progress": 74.489807728647,
+                "owner": "Hilary Dugan",
+                "participants": [
+                    "unknown"
+                ],
+                "metaprogress": 100,
+                "missingparam": false,
+                "overdue": false,
+                "childoverdue": false,
+                "warnings": [],
+                "childwarning": true
+            },
+            "children": [
+                {
+                    "id": "Set_up_first_advisory_com_meeting",
+                    "title": "Set up first advisory com meeting",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "unknown",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 0,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "G16_Workshop",
+                    "title": "G16 Workshop",
+                    "exist": true,
+                    "facts": {
+                        "type": "high",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": 1405699358,
+                        "target": 1414166558,
+                        "progress": 74.489807728647,
+                        "owner": "Paul Hanson",
+                        "participants": [
+                            "Chris Duffy"
+                        ],
+                        "metaprogress": 100,
+                        "missingparam": false,
+                        "overdue": false,
+                        "childoverdue": false,
+                        "warnings": {
+                            "type": [
+                                "medium",
+                                "low"
+                            ],
+                            "start": {
+                                "lower": 1409587358,
+                                "upper": 1483200158
+                            }
+                        },
+                        "childwarning": true
+                    },
+                    "children": [
+                        {
+                            "id": "Participant_list",
+                            "title": "Participant list",
+                            "exist": true,
+                            "facts": {
+                                "type": "low",
+                                "expertise": [
+                                    "unknown"
+                                ],
+                                "start": 1408377758,
+                                "target": 1410537758,
+                                "progress": "unknown",
+                                "owner": "Paul Hanson",
+                                "participants": [
+                                    "unknown"
+                                ],
+                                "metaprogress": 80,
+                                "missingparam": true,
+                                "warnings": {
+                                    "start": {
+                                        "lower": 1409587358,
+                                        "upper": 1414166558
+                                    }
+                                },
+                                "childwarning": false
+                            }
+                        },
+                        {
+                            "id": "Logistics",
+                            "title": "Logistics",
+                            "exist": true,
+                            "facts": {
+                                "type": "low",
+                                "expertise": [
+                                    "unknown"
+                                ],
+                                "start": 1408377758,
+                                "target": 1412956958,
+                                "progress": "unknown",
+                                "owner": "Craig Snortheim",
+                                "participants": [
+                                    "unknown"
+                                ],
+                                "metaprogress": 80,
+                                "missingparam": true,
+                                "warnings": {
+                                    "start": {
+                                        "lower": 1409587358,
+                                        "upper": 1414166558
+                                    }
+                                },
+                                "childwarning": false
+                            }
+                        },
+                        {
+                            "id": "Leadership_list",
+                            "title": "Leadership list",
+                            "exist": true,
+                            "facts": {
+                                "type": "low",
+                                "expertise": [
+                                    "unknown"
+                                ],
+                                "start": 1408377758,
+                                "target": 1408377758,
+                                "progress": "unknown",
+                                "owner": "Paul Hanson",
+                                "participants": [
+                                    "unknown"
+                                ],
+                                "metaprogress": 80,
+                                "missingparam": true,
+                                "warnings": {
+                                    "start": {
+                                        "lower": 1409587358,
+                                        "upper": 1414166558
+                                    },
+                                    "target": {
+                                        "lower": 1409587358,
+                                        "upper": 1414166558
+                                    }
+                                },
+                                "childwarning": false
+                            }
+                        },
+                        {
+                            "id": "Preparation_materials",
+                            "title": "Preparation materials",
+                            "exist": true,
+                            "facts": {
+                                "type": "low",
+                                "expertise": [
+                                    "unknown"
+                                ],
+                                "start": 1411228958,
+                                "target": 1412956958,
+                                "progress": "unknown",
+                                "owner": "Hilary Dugan",
+                                "participants": [
+                                    "Gopal Bhatt",
+                                    "Jordan Read",
+                                    "Craig Snortheim"
+                                ],
+                                "metaprogress": 80,
+                                "missingparam": true,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "Implement_the_catchment_model_for_North_Temperate_Lakes",
+            "title": "Implement the catchment model for North Temperate Lakes",
+            "exist": true,
+            "facts": {
+                "type": "unknown",
+                "expertise": [
+                    "unknown"
+                ],
+                "start": "unknown",
+                "target": "unknown",
+                "progress": "unknown",
+                "owner": "Chris Duffy",
+                "participants": [
+                    "unknown"
+                ],
+                "metaprogress": 20,
+                "missingparam": true,
+                "warnings": [],
+                "childwarning": false
+            },
+            "children": [
+                {
+                    "id": "Set_up_the_PIHM_catchment_model_for_North_Temperate_Lakes",
+                    "title": "Set up the PIHM catchment model for North Temperate Lakes",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "Chris Duffy",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 20,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Run_the_PIHM_catchment_model_for_North_Temperate_Lakes",
+                    "title": "Run the PIHM catchment model for North Temperate Lakes",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "Chris Duffy",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 20,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Calibrate_the_PIHM_catchment_model_for_North_Temperate_Lakes",
+                    "title": "Calibrate the PIHM catchment model for North Temperate Lakes",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "Chris Duffy",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 20,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Verify_and_validate_the_PIHM_catchment_model_for_North_Temperate_Lakes",
+                    "title": "Verify and validate the PIHM catchment model for North Temperate Lakes",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "Chris Duffy",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 20,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Make_predictions_and_projections_to_test_the_PIHM_catchment_model_for_North_Temperate_Lakes",
+                    "title": "Make predictions and projections to test the PIHM catchment model for North Temperate Lakes",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "Chris Duffy",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 20,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                }
+            ]
+        },
+        {
+            "id": "Implement_the_lake_model_for_North_Temperate_Lakes",
+            "title": "Implement the lake model for North Temperate Lakes",
+            "exist": true,
+            "facts": {
+                "type": "medium",
+                "expertise": [
+                    "hydrodynamic modeling",
+                    "collaboration"
+                ],
+                "start": 1404230558,
+                "target": 1451664158,
+                "progress": 0,
+                "owner": "Paul Hanson",
+                "participants": [
+                    "Jordan Read",
+                    "Craig Snortheim",
+                    "Paul Hanson"
+                ],
+                "metaprogress": 100,
+                "missingparam": false,
+                "overdue": false,
+                "childoverdue": false,
+                "warnings": [],
+                "childwarning": false
+            },
+            "children": [
+                {
+                    "id": "Set_up_the_GLM_lake_model_for_North_Temperate_Lakes",
+                    "title": "Set up the GLM lake model for North Temperate Lakes",
+                    "exist": true,
+                    "facts": {
+                        "type": "medium",
+                        "expertise": [
+                            "hydrodynamic modeling",
+                            "organic carbon modeling"
+                        ],
+                        "start": 1412179358,
+                        "target": 1425225758,
+                        "progress": 0,
+                        "owner": "Paul Hanson",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 100,
+                        "missingparam": false,
+                        "overdue": false,
+                        "childoverdue": false,
+                        "warnings": [],
+                        "childwarning": false
+                    },
+                    "children": [
+                        {
+                            "id": "Gather_bathymetric_and_elevation_data_for_North_Temperate_Lakes",
+                            "title": "Gather bathymetric and elevation data for North Temperate Lakes",
+                            "exist": true,
+                            "facts": {
+                                "type": "medium",
+                                "expertise": [
+                                    "hydrodynamic modeling"
+                                ],
+                                "start": 1412179358,
+                                "target": 1417449758,
+                                "progress": 0,
+                                "owner": "Jordan Read",
+                                "participants": [
+                                    "Jordan Read",
+                                    "Craig Snortheim"
+                                ],
+                                "metaprogress": 100,
+                                "missingparam": false,
+                                "overdue": false,
+                                "childoverdue": false,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        },
+                        {
+                            "id": "Obtain_meteorological_data_for_North_Temperate_Lakes",
+                            "title": "Obtain meteorological data for North Temperate Lakes",
+                            "exist": true,
+                            "facts": {
+                                "type": "medium",
+                                "expertise": [
+                                    "hydrodynamic modeling"
+                                ],
+                                "start": 1412179358,
+                                "target": 1417449758,
+                                "progress": 0,
+                                "owner": "Jordan Read",
+                                "participants": [
+                                    "Paul Hanson",
+                                    "Jordan Read",
+                                    "Craig Snortheim"
+                                ],
+                                "metaprogress": 100,
+                                "missingparam": false,
+                                "overdue": false,
+                                "childoverdue": false,
+                                "warnings": [],
+                                "childwarning": false
+                            },
+                            "children": [
+                                {
+                                    "id": "Format_meteorological_data_for_model_input",
+                                    "title": "Format meteorological data for model input",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling"
+                                        ],
+                                        "start": 1412179358,
+                                        "target": 1417449758,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "QAQC_meteorological_data",
+                                    "title": "QAQC meteorological data",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling"
+                                        ],
+                                        "start": 1412179358,
+                                        "target": 1417449758,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Collect_Downwelling_longwave_radiation_data_for_North_Temperate_lakes",
+                                    "title": "Collect Downwelling longwave radiation data for North Temperate lakes",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling"
+                                        ],
+                                        "start": 1412179357,
+                                        "target": 1417449757,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Collect_air_temperature_data_for_North_Temperate_lakes",
+                                    "title": "Collect air temperature data for North Temperate lakes",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling"
+                                        ],
+                                        "start": 1412179357,
+                                        "target": 1417449757,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Collect_relative_humidity_data_for_North_Temperate_lakes",
+                                    "title": "Collect relative humidity data for North Temperate lakes",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling"
+                                        ],
+                                        "start": 1412179357,
+                                        "target": 1417449757,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Collect_wind_speed_data_for_North_Temperate_lakes",
+                                    "title": "Collect wind speed data for North Temperate lakes",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling"
+                                        ],
+                                        "start": 1412179357,
+                                        "target": 1417449757,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Collect_rainfall_data_for_North_Temperate_lakes",
+                                    "title": "Collect rainfall data for North Temperate lakes",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling"
+                                        ],
+                                        "start": 1412179357,
+                                        "target": 1417449757,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Collect_snowfall_data_for_North_Temperate_lakes",
+                                    "title": "Collect snowfall data for North Temperate lakes",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling"
+                                        ],
+                                        "start": 1412179357,
+                                        "target": 1417449757,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Collect_Downwelling_shortwave_radiation_data_for_North_Temperate_lakes",
+                                    "title": "Collect Downwelling shortwave radiation data for North Temperate lakes",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling"
+                                        ],
+                                        "start": 1412179357,
+                                        "target": 1417449757,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "id": "Obtain_initial_conditions_data_for_North_Temperate_lakes",
+                            "title": "Obtain initial conditions data for North Temperate lakes",
+                            "exist": true,
+                            "facts": {
+                                "type": "medium",
+                                "expertise": [
+                                    "hydrodynamic modeling",
+                                    "organic carbon modeling"
+                                ],
+                                "start": 1412179358,
+                                "target": 1417449758,
+                                "progress": 0,
+                                "owner": "Paul Hanson",
+                                "participants": [
+                                    "Paul Hanson",
+                                    "Jordan Read",
+                                    "Craig Snortheim"
+                                ],
+                                "metaprogress": 100,
+                                "missingparam": false,
+                                "overdue": false,
+                                "childoverdue": false,
+                                "warnings": [],
+                                "childwarning": false
+                            },
+                            "children": [
+                                {
+                                    "id": "Obtain_initial_water_level",
+                                    "title": "Obtain initial water level",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling"
+                                        ],
+                                        "start": 1412179358,
+                                        "target": 1417449758,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Obtain_initial_water_temperature_data",
+                                    "title": "Obtain initial water temperature data",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling"
+                                        ],
+                                        "start": 1412179358,
+                                        "target": 1417449758,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Obtain_initial_nutrient_and_chemical_concentration_data",
+                                    "title": "Obtain initial nutrient and chemical concentration data",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling"
+                                        ],
+                                        "start": 1412179358,
+                                        "target": 1417449758,
+                                        "progress": 0,
+                                        "owner": "Paul Hanson",
+                                        "participants": [
+                                            "Paul Hanson",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Obtain_initial_phytoplankton/zooplankton_data",
+                                    "title": "Obtain initial phytoplankton/zooplankton data",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling"
+                                        ],
+                                        "start": 1412179358,
+                                        "target": 1417449758,
+                                        "progress": 0,
+                                        "owner": "Paul Hanson",
+                                        "participants": [
+                                            "Paul Hanson",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "id": "Gather_stream_flow_data_for_North_Temperate_lakes",
+                            "title": "Gather stream flow data for North Temperate lakes",
+                            "exist": true,
+                            "facts": {
+                                "type": "medium",
+                                "expertise": [
+                                    "hydrodynamic modeling",
+                                    "hydrology"
+                                ],
+                                "start": 1412179358,
+                                "target": 1417449758,
+                                "progress": 0,
+                                "owner": "Jordan Read",
+                                "participants": [
+                                    "Jordan Read",
+                                    "Craig Snortheim"
+                                ],
+                                "metaprogress": 100,
+                                "missingparam": false,
+                                "overdue": false,
+                                "childoverdue": false,
+                                "warnings": [],
+                                "childwarning": false
+                            },
+                            "children": [
+                                {
+                                    "id": "Collect_daily_volumetric_flow_data_for_each_major_inflow",
+                                    "title": "Collect daily volumetric flow data for each major inflow",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling",
+                                            "hydrology"
+                                        ],
+                                        "start": 1412179357,
+                                        "target": 1417449757,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Obtain_water_temperature_data_for_each_major_inflow",
+                                    "title": "Obtain water temperature data for each major inflow",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling",
+                                            "hydrology"
+                                        ],
+                                        "start": 1412179358,
+                                        "target": 1417449758,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Obtain_or_estimate_nutrient_and_carbon_concentration_data_for_each_major_inflow",
+                                    "title": "Obtain or estimate nutrient and carbon concentration data for each major inflow",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling",
+                                            "hydrology",
+                                            "organic carbon modeling"
+                                        ],
+                                        "start": 1412179358,
+                                        "target": 1417449758,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim",
+                                            "Paul Hanson"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "Run_the_GLM_lake_model_for_North_Temperate_Lakes",
+                    "title": "Run the GLM lake model for North Temperate Lakes",
+                    "exist": true,
+                    "facts": {
+                        "type": "medium",
+                        "expertise": [
+                            "hydrodynamic modeling"
+                        ],
+                        "start": 1417449758,
+                        "target": 1425225758,
+                        "progress": 0,
+                        "owner": "Paul Hanson",
+                        "participants": [
+                            "Paul Hanson",
+                            "Jordan Read",
+                            "Craig Snortheim"
+                        ],
+                        "metaprogress": 100,
+                        "missingparam": false,
+                        "overdue": false,
+                        "childoverdue": false,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Calibrate_the_GLM_lake_model_for_North_Temperate_Lakes",
+                    "title": "Calibrate the GLM lake model for North Temperate Lakes",
+                    "exist": true,
+                    "facts": {
+                        "type": "medium",
+                        "expertise": [
+                            "hydrodynamic modeling"
+                        ],
+                        "start": 1417449757,
+                        "target": 1435766557,
+                        "progress": 0,
+                        "owner": "Jordan Read",
+                        "participants": [
+                            "Jordan Read",
+                            "Paul Hanson",
+                            "Craig Snortheim"
+                        ],
+                        "metaprogress": 100,
+                        "missingparam": false,
+                        "overdue": false,
+                        "childoverdue": false,
+                        "warnings": [],
+                        "childwarning": false
+                    },
+                    "children": [
+                        {
+                            "id": "QAQC_calibration_data_observed",
+                            "title": "QAQC calibration data observed",
+                            "exist": true,
+                            "facts": {
+                                "type": "medium",
+                                "expertise": [
+                                    "hydrodynamic modeling"
+                                ],
+                                "start": 1420128158,
+                                "target": 1425225758,
+                                "progress": 0,
+                                "owner": "Jordan Read",
+                                "participants": [
+                                    "Jordan Read",
+                                    "Paul Hanson",
+                                    "Craig Snortheim"
+                                ],
+                                "metaprogress": 100,
+                                "missingparam": false,
+                                "overdue": false,
+                                "childoverdue": false,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        },
+                        {
+                            "id": "Perform_model_calibration",
+                            "title": "Perform model calibration",
+                            "exist": true,
+                            "facts": {
+                                "type": "medium",
+                                "expertise": [
+                                    "hydrodynamic modeling",
+                                    "hydrology",
+                                    "ecosystem modeling",
+                                    "organic carbon modeling"
+                                ],
+                                "start": 1425225758,
+                                "target": 1435766558,
+                                "progress": 0,
+                                "owner": "Jordan Read",
+                                "participants": [
+                                    "Jordan Read",
+                                    "Paul Hanson",
+                                    "Craig Snortheim"
+                                ],
+                                "metaprogress": 100,
+                                "missingparam": false,
+                                "overdue": false,
+                                "childoverdue": false,
+                                "warnings": [],
+                                "childwarning": false
+                            },
+                            "children": [
+                                {
+                                    "id": "Calibrate_water_level",
+                                    "title": "Calibrate water level",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling",
+                                            "hydrology"
+                                        ],
+                                        "start": 1425225757,
+                                        "target": 1435766557,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Calibrate_water_temperature",
+                                    "title": "Calibrate water temperature",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling",
+                                            "calibration"
+                                        ],
+                                        "start": 1425225757,
+                                        "target": 1435766557,
+                                        "progress": 0,
+                                        "owner": "Jordan Read",
+                                        "participants": [
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                },
+                                {
+                                    "id": "Calibrate_dissolved_oxygen",
+                                    "title": "Calibrate dissolved oxygen",
+                                    "exist": true,
+                                    "facts": {
+                                        "type": "medium",
+                                        "expertise": [
+                                            "hydrodynamic modeling",
+                                            "ecosystem modeling",
+                                            "calibration"
+                                        ],
+                                        "start": 1425225757,
+                                        "target": 1435766557,
+                                        "progress": 0,
+                                        "owner": "Paul Hanson",
+                                        "participants": [
+                                            "Paul Hanson",
+                                            "Jordan Read",
+                                            "Craig Snortheim"
+                                        ],
+                                        "metaprogress": 100,
+                                        "missingparam": false,
+                                        "overdue": false,
+                                        "childoverdue": false,
+                                        "warnings": [],
+                                        "childwarning": false
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "id": "Define_goodness_of_fit_metrics",
+                            "title": "Define goodness of fit metrics",
+                            "exist": true,
+                            "facts": {
+                                "type": "medium",
+                                "expertise": [
+                                    "calibration"
+                                ],
+                                "start": 1420128157,
+                                "target": 1425225757,
+                                "progress": 0,
+                                "owner": "Jordan Read",
+                                "participants": [
+                                    "Jordan Read",
+                                    "Paul Hanson"
+                                ],
+                                "metaprogress": 100,
+                                "missingparam": false,
+                                "overdue": false,
+                                "childoverdue": false,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        },
+                        {
+                            "id": "Perform_model_input_sensitivity_analysis",
+                            "title": "Perform model input sensitivity analysis",
+                            "exist": true,
+                            "facts": {
+                                "type": "medium",
+                                "expertise": [
+                                    "hydrodynamic modeling"
+                                ],
+                                "start": 1422806558,
+                                "target": 1427904158,
+                                "progress": 0,
+                                "owner": "Jordan Read",
+                                "participants": [
+                                    "Jordan Read",
+                                    "Craig Snortheim"
+                                ],
+                                "metaprogress": 100,
+                                "missingparam": false,
+                                "overdue": false,
+                                "childoverdue": false,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        },
+                        {
+                            "id": "Perform_model_parameter_sensitivity_analysis",
+                            "title": "Perform model parameter sensitivity analysis",
+                            "exist": true,
+                            "facts": {
+                                "type": "medium",
+                                "expertise": [
+                                    "hydrodynamic modeling"
+                                ],
+                                "start": 1422806558,
+                                "target": 1427904158,
+                                "progress": 0,
+                                "owner": "Jordan Read",
+                                "participants": [
+                                    "Jordan Read",
+                                    "Craig Snortheim"
+                                ],
+                                "metaprogress": 100,
+                                "missingparam": false,
+                                "overdue": false,
+                                "childoverdue": false,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        },
+                        {
+                            "id": "Collect_observed/calibration_data_for_lake",
+                            "title": "Collect observed/calibration data for lake",
+                            "exist": true,
+                            "facts": {
+                                "type": "medium",
+                                "expertise": [
+                                    "hydrodynamic modeling"
+                                ],
+                                "start": 1417449757,
+                                "target": 1422806557,
+                                "progress": 0,
+                                "owner": "Jordan Read",
+                                "participants": [
+                                    "Jordan Read",
+                                    "Craig Snortheim"
+                                ],
+                                "metaprogress": 100,
+                                "missingparam": false,
+                                "overdue": false,
+                                "childoverdue": false,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        },
+                        {
+                            "id": "Estimate_starting_parameter_values_from_literature",
+                            "title": "Estimate starting parameter values from literature",
+                            "exist": true,
+                            "facts": {
+                                "type": "medium",
+                                "expertise": [
+                                    "hydrodynamic modeling",
+                                    "ecosystem modeling"
+                                ],
+                                "start": 1420128158,
+                                "target": 1425225758,
+                                "progress": 0,
+                                "owner": "Paul Hanson",
+                                "participants": [
+                                    "Paul Hanson",
+                                    "Jordan Read",
+                                    "Craig Snortheim"
+                                ],
+                                "metaprogress": 100,
+                                "missingparam": false,
+                                "overdue": false,
+                                "childoverdue": false,
+                                "warnings": [],
+                                "childwarning": false
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "Verify_and_validate_the_GLM_lake_model_for_North_Temperate_Lakes",
+                    "title": "Verify and validate the GLM lake model for North Temperate Lakes",
+                    "exist": true,
+                    "facts": {
+                        "type": "medium",
+                        "expertise": [
+                            "hydrodynamic modeling",
+                            "ecosystem modeling",
+                            "validation"
+                        ],
+                        "start": 1435766559,
+                        "target": 1443715359,
+                        "progress": 0,
+                        "owner": "Paul Hanson",
+                        "participants": [
+                            "Paul Hanson",
+                            "Jordan Read"
+                        ],
+                        "metaprogress": 100,
+                        "missingparam": false,
+                        "overdue": false,
+                        "childoverdue": false,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Make_predictions_and_projections_to_test_the_GLM_lake_model_for_North_Temperate_Lakes",
+                    "title": "Make predictions and projections to test the GLM lake model for North Temperate Lakes",
+                    "exist": true,
+                    "facts": {
+                        "type": "medium",
+                        "expertise": [
+                            "hydrodynamic modeling",
+                            "ecosystem modeling",
+                            "organic carbon modeling"
+                        ],
+                        "start": 1443715358,
+                        "target": 1451664158,
+                        "progress": 0,
+                        "owner": "Paul Hanson",
+                        "participants": [
+                            "Paul Hanson",
+                            "Jordan Read"
+                        ],
+                        "metaprogress": 100,
+                        "missingparam": false,
+                        "overdue": false,
+                        "childoverdue": false,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Document_the_GLM_Lake_Model",
+                    "title": "Document the GLM Lake Model",
+                    "exist": true,
+                    "facts": {
+                        "type": "medium",
+                        "expertise": [
+                            "hydrodynamic modeling",
+                            "ecosystem modeling"
+                        ],
+                        "start": 1405440158,
+                        "target": 1420128158,
+                        "progress": 0,
+                        "owner": "Paul Hanson",
+                        "participants": [
+                            "Paul Hanson"
+                        ],
+                        "metaprogress": 100,
+                        "missingparam": false,
+                        "overdue": false,
+                        "childoverdue": false,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                }
+            ]
+        },
+        {
+            "id": "Include_data",
+            "title": "Include data",
+            "exist": true,
+            "facts": {
+                "type": "unknown",
+                "expertise": [
+                    "unknown"
+                ],
+                "start": "unknown",
+                "target": "unknown",
+                "progress": "unknown",
+                "owner": "unknown",
+                "participants": [
+                    "unknown"
+                ],
+                "metaprogress": 0,
+                "missingparam": true,
+                "warnings": [],
+                "childwarning": false
+            },
+            "children": [
+                {
+                    "id": "Include_raw_data",
+                    "title": "Include raw data",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "unknown",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 0,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Include_processed_data",
+                    "title": "Include processed data",
+                    "exist": true,
+                    "facts": {
+                        "type": "unknown",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": "unknown",
+                        "target": "unknown",
+                        "progress": "unknown",
+                        "owner": "unknown",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 0,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                }
+            ]
+        },
+        {
+            "id": "Select_core_lake_and_catchment_models",
+            "title": "Select core lake and catchment models",
+            "exist": true,
+            "facts": {
+                "type": "high",
+                "expertise": [
+                    "unknown"
+                ],
+                "start": 1386345758,
+                "target": 1396281758,
+                "progress": 100,
+                "owner": "Chris Duffy",
+                "participants": [
+                    "Paul Hanson",
+                    "Jordan Read"
+                ],
+                "metaprogress": 100,
+                "missingparam": false,
+                "overdue": false,
+                "childoverdue": false,
+                "warnings": [],
+                "childwarning": false
+            },
+            "children": [
+                {
+                    "id": "Select_lake_model",
+                    "title": "Select lake model",
+                    "exist": true,
+                    "facts": {
+                        "type": "low",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": 1389542558,
+                        "target": 1392134558,
+                        "progress": "unknown",
+                        "owner": "Jordan Read",
+                        "participants": [
+                            "unknown"
+                        ],
+                        "metaprogress": 80,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                },
+                {
+                    "id": "Select_catchment_model",
+                    "title": "Select catchment model",
+                    "exist": true,
+                    "facts": {
+                        "type": "low",
+                        "expertise": [
+                            "unknown"
+                        ],
+                        "start": 1390924958,
+                        "target": 1393603358,
+                        "progress": "unknown",
+                        "owner": "Chris Duffy",
+                        "participants": [
+                            "Gopal Bhatt",
+                            "Xuan Yu"
+                        ],
+                        "metaprogress": 80,
+                        "missingparam": true,
+                        "warnings": [],
+                        "childwarning": false
+                    }
+                }
+            ]
+        },
+        {
+            "id": "Workshop:_Modeling_the_Age_of_Water",
+            "title": "Workshop: Modeling the Age of Water",
+            "exist": true,
+            "facts": {
+                "type": "unknown",
+                "expertise": [
+                    "unknown"
+                ],
+                "start": "unknown",
+                "target": "unknown",
+                "progress": "unknown",
+                "owner": "unknown",
+                "participants": [
+                    "unknown"
+                ],
+                "metaprogress": 0,
+                "missingparam": true,
+                "warnings": [],
+                "childwarning": false
+            }
+        },
+        {
+            "id": "Workshop:_Modeling_the_Age_of_Water_-_The_first_steps_toward_the_age_of_carbon",
+            "title": "Workshop: Modeling the Age of Water - The first steps toward the age of carbon",
+            "exist": true,
+            "facts": {
+                "type": "unknown",
+                "expertise": [
+                    "unknown"
+                ],
+                "start": "unknown",
+                "target": "unknown",
+                "progress": "unknown",
+                "owner": "unknown",
+                "participants": [
+                    "unknown"
+                ],
+                "metaprogress": 0,
+                "missingparam": true,
+                "warnings": [],
+                "childwarning": false
+            }
+        }
+    ],
+    "selectedId": "Main_Page",
+    "user": {
+        "id": "undefined",
+        "name": "notloggedin",
+        "isLoggedIn": false,
+        "persons": [
+            "Chris Duffy",
+            "Craig Snortheim",
+            "David da Motta Marques",
+            "Felix Michel",
+            "Gil",
+            "Gopal Bhatt",
+            "Hilary Dugan",
+            "Jordan Read",
+            "Lorne Leonard",
+            "Matheus Hauder",
+            "Matt Hipsey",
+            "Michael Pace",
+            "Patricia Soranno",
+            "Paul Hanson",
+            "Steve Jepsen",
+            "Tom Harmon",
+            "Varun Ratnakar",
+            "Xuan Yu",
+            "Yolanda Gil"
+        ],
+        "expertise": [
+            "hydrology",
+            "hydrodynamic modeling",
+            "collaboration",
+            "computer science",
+            "software engineering",
+            "physical limnology",
+            "ecosystem modeling",
+            "landscape limnology",
+            "carbon cycling",
+            "workflows",
+            "ai planning and collaborative problem solving",
+            "semantic web",
+            "semantic wikis",
+            "social computing"
+        ]
+    }
+}

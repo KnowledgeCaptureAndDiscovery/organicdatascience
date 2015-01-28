@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documentation>
+	<page title="Organic Data Science Framework Documentation">
+		<content>
+			This page documents how to use the organic data science framework in an effective manner. The documentation is split into the following parts:<br />
+			<table>
+				<tr>
+					<td>[[File:Docu_Participant.png|50px]]</td>
+					<td style="vertical-align:middle">
+						'''[[Contribute as Participant]]''' <br/>
+						Here you can learn to browse tasks in different ways and to contribute to existing tasks.
+					</td>
+				</tr>
+				<tr>
+					<td>[[File:Docu_Owner.png|50px]]</td>
+					<td style="vertical-align:middle">
+						'''[[Contribute as Owner]]''' <br/>
+						Here you can learn to create new tasks and organize them over time.	
+					</td>
+				</tr>				
+			</table>						
+		</content>
+		<subpages>
+			<page title="Contribute as Participant">	
+				<content>
+					This page documents how you can use the wiki as participant. The documentation is constitutive split into the following sub-pages:
+					<table>
+						<tr>
+							<td>[[File:Docu_Exploring.png|50px]]</td>
+							<td style="vertical-align:middle">
+								'''[[Exploring Tasks]]'''  <br/>
+								Here you can learn to navigate and search for tasks.
+							</td>
+						</tr>
+						<tr>
+							<td>[[File:Docu_Participating.png|50px]]</td>
+							<td style="vertical-align:middle">
+								'''[[Participating on Tasks]]'''  <br/>
+								Here you can learn to add yourself as participant to tasks and to contribute to them.	
+							</td>
+						</tr>	
+						<tr>
+							<td>[[File:Docu_PersonPage.png|50px]]</td>
+							<td style="vertical-align:middle">
+								'''[[Person Page]]''' <br/>
+								Here you can learn to find relevant information on contributors. This includes the tasks they are involved with and their expertise.
+							</td>
+						</tr>	
+						<tr>
+							<td>[[File:Docu_States.png|50px]]</td>
+							<td style="vertical-align:middle">
+								'''[[Basic Task States]]''' <br/>
+								Here you can learn the basics of how to manage task states.
+							</td>
+						</tr>	
+					</table>					
+				</content>
+				<subpages>
+					<page title="Exploring Tasks">
+						<content>
+						The Organic Data Science wiki framework enables scientists to collaborate in new ways doing what we call “task-oriented collaboration”.  
+						The wiki poses some broad overarching science questions that cut across disciplines and institutions.  Answering those questions requires 
+						contributors to formulate and collaborate in a variety of tasks through the ODS framework, such as decomposing the high level questions 
+						into smaller tasks, sharing datasets, describing data characteristics, preparing them, and running models.  Therefore, a major aspect of 
+						the framework is to understand how tasks work.  Several top-level tasks are formulated to capture the driving science questions, each with 
+						subtasks which have other subtasks in turn<br/><br/>	
+						
+						Tasks of the organic data science framework can be browsed in many different ways. 
+						Depending on your purpose you can choose between the '''[[#Task Explorer|task explorer]]''', the '''[[#Subtask Explorer|subtask explorer]]''' 
+						and the '''[[#Timeline Explorer|timeline explorer]]'''. The best choice to browse within all tasks is the '''[[#Task Explorer|task explorer]]''', which appears on the left side of the screen. 
+						In case you want to browse subtasks of a certain task you should use the '''[[#Subtask Explorer|subtask explorer]]'''. 
+						Alternatively you can use the '''[[#Timeline Explorer|timeline explorer]]''' to browse subtasks and see their time dependencies. 
+						The following figure illustrates these three different task browsing options. <br/><br/>						
+						[[File:Docu_Exploring_Overview.png|600px|Exploring Tasks Overview]]
+						
+						==Task Explorer==
+					The Task Explorer appears on the left of the screen.  It shows all tasks in the wiki organized in a tree hierarchy, with subtasks indented. This Task Explorer works comparable with the file browser in a desktop. 
+						By default all top level task are visible. Every task with a 
+						small triangle has at least one subtask, and can be expanded with a left mouse click on the triangle. 
+						The wiki page for any task can be opened with a single left mouse click on the task name. 
+						
+						===All Tasks Tab===
+						This tab of the Task Explorer shows all existing tasks in the wiki. You can use this to explore tasks within the wiki.<br/><br/>
+						[[File:Docu_Exploring_AllTaskTab.png|200px]]
+						
+						===My Tasks Tab===
+						This tab of the Task Explorer shows all tasks that you own. All other tasks are invisible or greyed out. Parent tasks which are needed to 
+						represent the task hierarchy are greyed out. A red counter behind the tab label indicates how many tasks you have currently assigned to you as owner. 
+						The [[#My Tasks Tab|My Tasks tab]] is only visible for users who are logged in. <br/><br/>
+						[[File:Docu_Exploring_MyTaskTab.png|200px]]
+						
+						===Task Name Search===
+						The Task Name Search allows you to search the task names. You can apply this search either 
+						to the [[#All Tasks Tab|All Tasks tab]] or the [[#My Tasks Tab| My Tasks tab]]. All matching results are shown in the Task Explorer. 
+						Parent tasks of matching tasks are shown but faded, just to provide context. <br/><br/>					
+						[[File:Docu_Exploring_TextSearch.png|200px]]
+						
+						===Expertise Filter===
+						The Expertise Filter works similar to the [[#Task Name Search|Task Name Search]], but it searches for tasks that are marked with the expertise indicated. 
+						It offers a pull-down menu with the kinds of expertise already defined in the wiki.  
+						The pull-down menu shows in brackets a number that indicates how many tasks have that expertise. After 
+						selecting a certain expertise, the matching tasks are shown. The [[#Task Name Search| Task Name Search]] and the 
+						[[#Expertise Filter|Expertise Filter]] can be combined. If both are applied, all results shown will match both criteria. <br/><br/>
+						[[File:Docu_Exploring_ExpertiseFilter.png|200px]]
+						
+						===Hierarchical View and List View===
+						The Task Explorer can show two different views of the tasks: the '''hierarchical view''' 
+						and the '''list view'''. The hierarchical view shows the task-subtask hierarchy, and is the default view. 
+						Furthermore the amount of tasks is smaller due to the nested task structure. 
+						The list view does not show a parent or subtask hierarchy. The list view is more convenient when the hierarchy view shows a lot of faded tasks.<br/><br/>	 
+						[[File:Docu_Exploring_View.png|420px]]
+						
+						===Resizing===
+						Some task names are only partially shown because they are simply too long. Therefore you can resize the width of the Task Explorer. 
+						Hover the mouse over the blue rectangle with the white arrows to the left and right. After that, '''left click''', then 
+						'''hold''' and then '''move to the left''' or '''move to the right'''.<br/><br/>				
+						[[File:Docu_Exploring_Resizing.png|250px]]
+						
+						==Subtask Explorer==
+						The [[#Subtask Explorer| Subtask Explorer]] is basically to browse subtasks of the task currently opened in the wiki page. 
+						The name of the current task shown in the wiki page is larger and the task icon is more detailed 
+						with a number that indicates the percentage of the task that is completed (this will be explained later).  
+						Above the current task name, the '''parent task''' is shown if there is one.
+						Below it, all its '''subtasks''' are listed and can be expanded.<br/><br/>
+						[[File:Docu_Exploring_SubtaskExplorer.png|550px]]
+						
+						==Timeline Explorer==
+						The [[#Timeline Explorer|timeline explorer]] can be opened with a click on the blue '''Timeline''' tab on the top right. 
+						Similar to the [[#Subtask Explorer| subtask explorer]], all subtasks of the current task are shown. The Timeline Explorer
+						shows all subtasks in a time context comparable to a Gantt chart. The x-axis represents the time, and each bar shows a subtask. A number within 
+						a bar represents the progress of that subtask. Today's date is marked with a vertical red line. Every task can be 
+						opened with a simple click.	<br/><br/>
+						[[File:Docu_Exploring_TimelineExplorer.png|550px]]
+						</content>
+					</page>
+					<page title="Participating on Tasks">
+						<content>
+						This page documents how you can be a participant in any task with only few simple steps. Once you '''[[#Add yourself as participant|add yourself as a task participant]]''',
+						you can start '''[[#Add Content|to add content]]'''. After you have added content you can '''[[#Set Progress|set the progress]]''' on the task so far. 
+						
+						==Add yourself as participant==
+						It is important to add yourself as participant before you start working on a task. This helps everyone see who is involved and contributing. 
+						Open the task of your choice. Every task page has a '''task attributes''' section. This section contains an attribute named '''participants'''. 
+						Click on this row to open the edit mode. Type your '''<code>&#60;firstname lastname&#62;</code>''' and press enter to confirm your participation. 
+						If you want to remove yourself click on the red delete button next to the name.<br/><br/>
+						[[File:Docu_Participating_Overview.png|450px]]
+						[[File:Docu_Participating_Edit.png|375px]]
+						
+						==Add Content==
+						After you have added yourself as participant you can start adding content to the task page. Click on '''edit''' on the top of the page.
+						The page editor opens and shows the current page content. Note that even task pages that appear empty already have content generated by the system. 
+						This is shown on the example below.
+						'''<span style="color:red;">It is important that all system generated content remains untouched</span>'''. You can add your content between the '''<code>[ [Category:Task] ]</code>''' line and before 
+						'''<code>{{#set ... }}</code>'''.<br/><br/>
+						[[File:Docu_Participating_EditContent.png|375px]]
+						
+						==Set Progress==
+						After you have added content to the task page, you can adjust the progress on the task to reflect how much of it has been completed.  
+						Go to the line that has the '''progress''' attribute and edit the percentage shown.						<br/><br/>		
+						[[File:Docu_Participating_SetProgress.png|375px]]<br/><br/>
+						'''Hint:''' A lock next to the progress attribute indicates that the system adjusts the progress automatically.
+						</content>
+					</page>
+					<page title="Person Page">
+						<content>
+						A person page contains all relevant information regarding a contributor to the wiki. Every person page has a person icon before the '''person's name'''. 
+						The next section lists the '''[[#Person Expertise|person's expertise]]'''. After that, all '''[[#Person Tasks|tasks where the person is owner or participant]]''' are listed. <br/><br/>  
+						[[File:Docu_Person_PageCutted.png|450px]]
+						
+						==Person Expertise==
+						The Person Expertise section shows expertise keywords for the person. Each expertise keyword is shown with a grey rectangle. 
+						Every expertise has a number which indicates how many of the person's tasks have this expertise.
+						
+						===Highlight Related Tasks===
+						Each expertise can be hovered to see which tasks shown in the person page have this expertise. All tasks which have the selected 
+						expertise remain, while all others are faded out.<br/><br/>						
+						[[File:Docu_Person_ExpertiseHover.png|300px]]				
+						
+						===Edit Expertise===
+						Additional expertise keywords can be specified within the edit mode. By clicking on any expertise you can open the edit mode. 
+						Type the new expertise and press enter to confirm. By clicking on the red cross you can delete an expertise keyword.<br/><br/>	
+						[[File:Docu_Person_ExpertiseEdit.png|400px]]	
+						
+						==Person Tasks==
+						The person task section lists all person tasks grouped in three categories. First all '''current tasks''' are listed, then 
+						all '''future tasks''', and then all '''completed tasks'''. Every task has an icon which shows the 
+						current '''task state'''. The task name is highlighted in bold. Next to the task name is a small icon with one or several persons 
+						to indicate whether you are the '''owner''' or a '''participant''' respectively. Below the name the most salient status information is shown. <br/><br/>
+						[[File:Docu_Person_Task.png|300px]]
+						
+						===Highlight Related Expertise===
+						Most tasks are associated with a set of expertise keywords. Move the mouse over a task to see which expertise keywords are associated with that task.<br/>
+						[[File:Docu_Person_TaskHover.png|300px]]
+						</content>
+					</page>
+					<page title="Basic Task States">
+						<content>
+						This page explains representation of the most common task states. More advanced task states are explained in the section 
+						'''[[Extended Task States| extended task states]]'''. Tasks can be '''[[#Underspecified Tasks|underspecified tasks]]''' 
+						or '''[[#Fully specified Tasks| fully specified tasks]]'''.  At the end of this page we include a diagram to illustrate how the task state changes over time.
+						<!--Every task state have a '''active''' and '''passive''' representation.
+						Active representations are explained here. Passive representations visualized as fade out active representation.--><br/><br/>
+												
+						==Underspecified Tasks==
+						Tasks are underspecified when important information is missing, such as the start date or the owner (these are '''mandatory attributes'''). 
+						All underspecified tasks are shown
+						with rings. The green portion of the ring represents the progress in adding the mandatory task attributes. Mandatory attributes 
+						are the task '''Type''', '''Progress''', '''Start date''', '''Target date''' and the '''Owner'''. 
+						Tasks missing other attributes such as '''Participants''' and '''Expertise''' are not considered underspecified, so they do not affect the ring symbol. 
+						
+						===Task created===
+						<table>
+							<tr>
+								<td>[[File:Docu_StateNormalCreated.png|30px]]</td>
+								<td style="vertical-align:middle">
+									<p style="margin:0px;">
+									This is the first task state after creation. A wiki page with the task name exists, but no mandatory attributes have been specified.
+									</p>
+								</td>
+							</tr>			
+						</table>
+						===Task Specification in Progress===
+						<table>
+							<tr>
+								<td>[[File:Docu_StateNormalMetaDataInProgress.png|30px]]</td>
+								<td style="vertical-align:middle">
+									<p style="margin:0px;">
+										A task has some attributes specified. The proportion of attributes specified is visualized in 
+										this state.
+									</p>
+								</td>
+							</tr>			
+						</table>						
+						
+						==Fully specified Tasks==
+						Tasks are fully specified when all mandatory attributes have been set. This state is shown with a pie chart. 
+						The grey part shows work left to be done as a percentage, and the green shows the work that has already been done. The colors can differ depending on 
+						the task state as we explain next.
+						
+						===Task in Progress===
+						<table>
+							<tr>
+								<td>[[File:Docu_StateNormalMetaDataComplete.png|30px]]</td>
+								<td style="vertical-align:middle">
+									<p style="margin:0px;">
+										 Tasks not yet completed but that have all mandatory attributes. 									
+									</p>
+								</td>							
+							</tr>
+							<tr>
+								<td>[[File:Docu_StateNormalInProgress.png|30px]]</td>
+								<td style="vertical-align:middle">
+									<p style="margin:0px;">
+										Certain progress has been made on the task.
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<td>[[File:Docu_StateNormalInProgressWithChildOverdue.png|30px]]</td>
+								<td style="vertical-align:middle">
+									<p style="margin:0px;">
+										[[#Task Overdue|Overdue]] subtasks are indicated with a orange point on the bottom right. 
+									</p>
+								</td>
+							</tr>
+						</table>						
+						
+						===Task Overdue===
+						<table>
+							<tr>
+								<td>[[File:Docu_StateNormalOverdue.png|30px]]</td>
+								<td style="vertical-align:middle">
+									<p style="margin:0px;">
+										The task is not yet completed, but the target date is passed. It can also indicate that a subtask is not finished 
+										and the task target date is already passed.
+									</p>
+								</td>
+							</tr>			
+						</table>							
+						
+						===Task Completed===
+						<table>
+							<tr>
+								<td>[[File:Docu_StateNormalCompleted.png|30px]]</td>
+								<td style="vertical-align:middle">
+									<p style="margin:0px;">
+										The task is completed and its progress is set to 100 percent. The progress calculation depends on the task type.
+									</p>
+								</td>
+							</tr>			
+						</table>	
+						
+						==Typical state progression of tasks==
+						[[File:Docu_StateSimpleProcess.png|450px]]
+						</content>
+					</page>
+				</subpages>
+			</page>
+			<page title="Contribute as Owner">
+				<content>		
+					This page documents how to contribute to tasks as their owner. You can select one 
+					of the following topics to learn how to contribute as a task owner.
+					<table>
+						<tr>
+							<td>[[File:Docu_Create.png|50px]]</td>
+							<td style="vertical-align:middle">
+								'''[[Create Task]]''' <br/>
+								Here you can learn about creating new tasks.
+							</td>
+						</tr>
+						<tr>
+							<td>[[File:Docu_Alert.png|50px]]</td>
+							<td style="vertical-align:middle">
+								'''[[Task Alert]]''' <br/>
+								Here you can learn about using the task alert.	
+							</td>
+						</tr>	
+						<tr>
+							<td>[[File:Docu_Organize.png|50px]]</td>
+							<td style="vertical-align:middle">
+								'''[[Organize Tasks]]''' <br/>
+								Here you can learn about organizing existing tasks. This includes renaming tasks, moving tasks, and deleting tasks.
+							</td>
+						</tr>	
+						<tr>
+							<td>[[File:Docu_States.png|50px]]</td>
+							<td style="vertical-align:middle">
+								'''[[Extended Task States]]''' <br/>
+								Here you can learn everything about how task states change over time.
+							</td>
+						</tr>	
+					</table>								
+				</content>
+				<subpages>
+					<page title="Create Task">
+						<content>
+						This page explains how to '''[[#Create Plain Task|create new tasks]]''' and how to 
+						'''[[#Add Task Attributes|add task attributes]]'''. It also explains how to '''[[#Add Additional Properties|add additional properties]]''' 
+						and how to '''[[#Add Content| add new content]]'''. Remember to login before creating an new task.
+						
+						==Create Plain Task==
+						A new '''root task''' can be created via the '''[[Exploring Tasks#Task Explorer|Task Explorer]]''' and '''new subtasks''' via the 
+						'''[[Exploring Tasks#Subtask Explorer|Subtask Explorer]]'''. Start by clicking on the plus button, an input 
+						field appears. Type the name of the new task and press enter to confirm. If you have an expertise keyword selected when you create a new 
+						root task, then the system will automatically add that expertise keyword to the task.  If the My Tasks tab is selected when you add a new task, the system will set you up as its owner.<br/>
+						[[File:Docu_Create_CreateTask1.png|550px]]<br/><br/>
+						[[File:Docu_Create_CreateTask2.png|200px]]<br/>
+						[[File:Docu_Create_CreateTask3.png|450px]]<br/>
+						
+						==Add Task Attributes==						
+						Task '''attributes''' are useful to describe tasks. Attributes marked with '''M''' are '''mandatory''', because they are 
+						used by the wiki to organize tasks. 
+						'''Attributes''' can be added after a task is created. Click on a attribute row to enable editing. 
+						The following sub sections explain all task attributes in more detail. Different [[#Attributes States| attribute states]] are explained in the last section. <br/><br/>
+						[[File:Docu_Create_AddAttributes.png|450px]]						
+						
+						===Task Types===
+						Task types are used by the system to estimate '''[[#Progress|progress]]''' of tasks in different ways. The framework provides three 
+						different task types that imply a hierarchical order.  We use a different shade of green in the task state icon for every task type.
+						 
+						'''Different task types:'''
+						<table style="font-size:smaller;">
+							<tr>
+								<td><span style="color:#b7db7b; font-size:17px;">�</span><b>High</b></td>
+								<td>
+									High abstraction level &#8594; High uncertainty in the estimation of task completion.<br/>
+									<span style="font-style:italic;">Tasks at a high level for a project may have uncertain duration and end date.</span>
+								</td>
+							</tr>
+							<tr>
+								<td><span style="color:#76b531; font-size:17px;">�</span><b>Medium</b></td>
+								<td>
+									Medium abstraction level &#8594; Medium uncertainty in the estimation of task completion.<br/>
+									<span style="font-style:italic;">Tasks representing an activity within a project may be split into several subtasks.</span>
+								</td>
+							</tr>
+							<tr>
+								<td><span style="color:#448200; font-size:17px;">�</span><b>Low</b></td>
+								<td>
+									Low abstraction level &#8594; Low uncertainty in the estimation of task completion.<br/>
+									<span style="font-style:italic;">Small, well-defined tasks that can be accomplished in a short time period.</span>
+								</td>
+							</tr>
+						</table>	
+						<br/>
+						'''Task hierarchy examples:'''<br/>
+						[[File:Docu_Create_AddAttribute_Type_HierachySample.png|550px]]<br/><br/>
+						'''Rules for assigning a task type:'''<br/>
+						<b>							 
+							<span style="font-size:smaller;">
+								<span style="color:#b7db7b; font-size:17px;">�</span>High &#8804;
+								<span style="color:#76b531; font-size:17px;">�</span>Medium &#8804;
+								<span style="color:#448200; font-size:17px;">�</span>Low
+							</span>
+						</b><br/><br/>
+						[[File:Docu_Create_AddAttribute_Type_SelectType.png|400px]]<br/><br/>
+						
+						===Progress===
+						The progress of a task indicates how much work has been done as a percentage. The system automatically estimates 
+						progress depending on the '''[[#Task Type|task type]]'''.
+						The level of progress of high-level tasks is estimated based on the start date, today's date and
+						the target date. For medium-level tasks, the progress is estimated by aggregating the progress of their subtasks as an average. The progress of low-level
+						task is always set by the user. <br/><br/>
+						[[File:Docu_Create_AddAttribute_ProgressCalculation.png|350px]]<br/><br/>
+						'''Hint:''' Medium-level tasks will hardly ever get done unless you decompose them into clear smaller low-level subtasks.<br/>
+						
+						===Time Interval===
+						This section summarizes the meta data attributes '''start date''' and '''target date'''. The time intervals for a task and its subtasks  
+						follow a strictly hierarchical approach. Therefore, the start and target dates of any task must be within the time interval of
+						the parent task. This leads to a time funnel illustrated on the figure below. If any inconsistency occurs 
+						it will be highlighted in yellow in the Task Status and the Timeline View.<br/><br/>
+						[[File:Docu_Create_AddAttribute_TimeFunnel.png|300px]]
+						
+						===Owner===
+						A task '''owner''' is responsible for coordinating the activities for a task and overseeing its completion. 
+						Therefore the system expects exactly one owner. All task which are assigned to you as owner are shown in your My Task 
+						tab and on your [[Person Page|person page]].  Persons who have a wiki account are shown in blue and linked to their wiki page.
+						Persons who do not have an account are shown in red. See [[#Participant|participant]] example.  <br/><br/>
+						[[File:Docu_Create_AddAttribute_Owner.png|100px]]
+						
+						===Participant===
+						Every task can have many participants. These persons may represent a team or just a working group for the task. Participants
+						who have a wiki account are shown in blue and linked to their [[Person Page|person page]].
+						Persons who do not have an account are shown in red. <br/><br/>
+						[[File:Docu_Create_AddAttribute_Participants.png|200px]]
+						
+						===Expertise===
+						Expertise keywords are used to indicate the knowledge you might need to accomplish a task. Several expertise keywords can be assigned to a given task. You can easily recognize 
+						expertise keywords in any page by the grey rectangle around them. The [[Exploring Tasks#Task Explorer|task explorer]] allows to search for tasks with certain expertise keywords.<br/><br/>
+						[[File:Docu_Create_AddAttribute_Expertise.png|140px]]
+						
+						===Attributes States===
+						The task attribute state is represented with different colors for the attribute icons.
+						<table style="font-size:smaller;">
+							<tr>
+								<td><span style="color:#cccccc; font-size:17px;">�</span><b>Not defined</b></td>
+								<td>
+									No value for this attribute set.<br/>
+									<span style="font-style:italic;">You can set this attribute value.</span>
+								</td>
+							</tr>
+							<tr>
+								<td><span style="color:#b7db7a; font-size:17px;">�</span><b>Valid</b></td>
+								<td>
+									A valid value for this attribute is set.<br/>
+									<span style="font-style:italic;">You can modify the value.</span>
+								</td>
+							</tr>
+							<tr>
+								<td><span style="color:#fed800; font-size:17px;">�</span><b>Inconsistent</b></td>
+								<td>
+									A value that is inconsistent with the parent task is set.<br/>
+									<span style="font-style:italic;">You can change this value or value of the parent task. Hover over icon to get more instructions.</span>
+								</td>
+							</tr>
+						</table>	
+						
+						==Add Additional Attributes==
+						Adding additional custom attributes allow to structure any page content with '''key value''' pairs. These additional attributes help to make page content searchable by
+						custom properties. You can add a new property by clicking on the add button. Click on the cross to remove a certain property.<br/><br/>
+						[[File:Docu_Create_AddProperty.png|550px]]<br/>
+						'''Hint:''' You can add more attributes with the same name and a different value. E.g. this content could be led by two persons.<br/>
+						
+						==Add Content==
+						After you have added some attributes, you can start adding content to the task page. Click on '''edit''' in the top navigation.
+						The page editor opens and shows the current page content. Note that even empty pages may already have content generated by the system. This is shown on the example below.
+						'''<span style="color:red;">It is important that all system-generated content remains untouched</span>'''. You can add your content between the '''<code>[ [Category:Task] ]</code>''' line and before 
+						'''<code>{{#set ... }}</code>'''.<br/><br/>
+						[[File:Docu_Create_EditContent.png|550px]]
+						</content>
+					</page>
+					<page title="Task Alert">
+						<content>
+						The '''Task Alert'''  shows all tasks which are overdue. A task is overdue when the target date is past by and the progress is not 100 percent. 
+						On the top of the wiki, a '''red alert bell''' indicates that you have at least one overdue task. Hover or click on it and all overdue tasks are listed. With one more 
+						click you can open the task page. 
+						You can modify the [[Create Task#Time Interval|target date]] if you need more time.
+						As you do more work, change the [[Create Task#Progress|progress]] until the task is 100 percent completed. <br/><br/>
+						[[File:Docu_TaskAlert.png|550px]]<br/><br/>
+						'''Hint:''' The alert bell is only visible for users who are logged in. 
+						</content>
+					</page>
+					<page title="Organize Tasks">
+						<content>
+						This page documents how to reorganize tasks in the wiki. All reorganizing actions can be done within the 
+						[[Exploring Tasks#Task Explorer|Task Explorer]] and the [[Exploring Tasks#Subtask Explorer|Subtask Explorer]].
+						You can [[#Rename Task|rename tasks]], [[#Move Task|move tasks]] or [[#Delete Task|delete tasks]]. All possible
+						actions for a task are visible with a right click on a selected task.<br/>
+						<br/>								
+						'''Important:''' <i>Use only operations to create, rename, move and delete tasks which are described here. 
+						The usage of default media wiki operations like delete or move task pages will lead to an inconsistent state.</i>
+						
+						==Rename Task==
+						You can '''rename''' a task with a right click on any selected task. Select rename from the pull-down menu, change the name and press enter to confirm the change. <br/><br/>
+						[[File:Docu_Rename.png|550px]]<br/><br/>
+						'''Hint:''' With a click on any other task you can abort the action.
+						
+						==Move Task==
+						Moving task works similar to the file explorer in the desktop. First you need to ''cut'' a task by doing a right click to open the menu and selecting cut. 
+						In the next step you need to define the destination. Do a right click on the new parent task and select ''paste''. With this
+						step the move action is complete.<br/><br/>
+						[[File:Docu_MoveCutPaste.png|450px]]<br/><br/>
+						'''Hint:''' The following steps are optional.<br/><br/>
+						Tasks are hierarchically organized, therefore subtasks should follow the restrictions of their parent tasks. 
+						This means a task target date should be not later than the parent [[Create Task#Time Interval|task target date]]. 
+						Similar restrictions exist for the [[Create Task#Task Types|task type]]. 
+						If any inconsistency occurs task are highlighted in yellow. The following steps explain how to make tasks consistent.  <br/><br/>
+						[[File:Docu_MoveProblem.png|650px]]<br/><br/>
+						The following figure illustrates the inconsistency problem of target dates on a conceptual level. After moving the task, the target date is 
+						inconsistent and it is shown in yellow. There are two approaches to solve this problem. You can postpone the target date of the current task or
+						you postpone the target date of the parent task. <br/>
+						[[File:Docu_MoveSolutions.png|550px]]<br/><br/>
+						This figure illustrates changing the tasks target date.<br/>
+						[[File:Docu_MoveSolutiona.png|550px]]<br/><br/>
+						The figure below illustrates changing the parent task's target date.<br/>
+						[[File:Docu_MoveSolutionb.png|550px]]<br/><br/>
+						
+						'''Hint:''' The task warnings automatically disappear when the tasks are consistent again.<br/><br/>
+						
+						==Move Task to Toplevel==
+						Tasks cannot be [[#Move Task|moved]] by cut and paste to top-level.  Instead, 
+						select a task by right clicking and select '''ToToplevel''' in the pull-down menu. <br/><br/>
+						[[File:Docu_MoveToToplevel.png|450px]]<br/><br/>
+						
+						==Delete Task==
+						Every task can be deleted with a right click and selecting delete from the pull-down menu. Deleting a task means also deleting all of its 
+						subtasks. The system will as you to confirm that you want to delete all these tasks.
+						[[File:Docu_Delete.png|550px]]<br/><br/>
+						
+						'''Hint:''' This action can not be undone easily.
+						</content>
+					</page>
+					<page title="Extended Task States">
+						<content>
+						This page extends the '''[[#Basic Task States|basic task state]]''' documentation. Organizing tasks, especially moving tasks, can cause 
+						inconsistent states. The basic task states are extended with warnings to visualize the inconsistency. We have two different warnings. 
+						'''Warnings''' regarding the task itself are indicated by '''yellow colored''' status icons.
+						'''Subtask warnings''' indicate that at least one subtasks has an inconsistent state. 
+						This is represented with an small additional '''yellow triangle''' on the bottom. left of the task icon.
+						<br/><br/>
+						Possible task states and their successors:<br/>
+						[[File:Docu_ExtendedState_Process.png|550px|Extended Task States]]
+						
+						
+												 <!-- Task '''meta data''' is necessary to process the task by the framework.All task status icons are created
+						based on this meta data. The following figure illustrates this more detailed. Basically we differ tasks on 
+						'''[[Simple Task States|meta level]]''' and tasks on '''[[Simple Task States|content level]]'''. The '''progress on the meta level'''
+						depends on the '''percentage of completed meta data'''. The green cycle part represents the completed meta data and 
+						the grey part represents the left meta data part. On '''content level''' the progress depends on the '''tasks content'''. 
+						All content level states are represented by a pie chart. The green part indicated the completed part in percentage.
+						For the following subsections its important to know that the whole framework is designed as top-down approach. This means
+						decision are made on the top level and break down on lower level decisions.<br/><br/>
+						[[File:TaskMetaDataProgress.png|400px]]-->
+						</content>
+					</page>
+				</subpages>
+			</page>
+		</subpages>
+	</page>
+</documentation>

@@ -1,0 +1,21 @@
+body{
+	font-family: monospace;
+}
+
+#table{
+	display: table-cell;
+	font-size:smaller;
+}
+#table div{
+	display: table-row;
+	padding:2px 4px;
+}
+#table div.head {
+	background-color:#cccccc;
+}
+#table div:hover{
+	background-color:#cccccc;
+}
+#table div div{
+	display: table-cell;
+}

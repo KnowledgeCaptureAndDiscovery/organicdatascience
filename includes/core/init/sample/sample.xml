@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sample>
+	<person title="Felix Wilson" expertise="computer science|software engineering|collaboration" userid="Felix"></person>
+	<person title="John Smith" expertise="testing"></person>
+	<task title="Write abstract" type="low" progress="100" start="-3" target="-2" owner="John Smith" participants="Felix Wilson|Austin Brown" expertise="software engineering|testing|verification">
+		<content></content>
+	</task>
+	<task title="Write introduction" type="low" progress="100" start="-2" target="-1" owner="John Smith" expertise="software engineering|testing|validation">
+		<content></content>
+	</task>
+	<task title="Describe related work" type="high" start="-1" target="3" owner="John Smith" expertise="software engineering|testing|verification" participants="Felix Wilson|Austin Brown">
+		<content></content>
+		<subtasks>
+			<task title="Group related papers" type="medium" start="-1" target="1" owner="Felix Wilson" participants="John Smith|Austin Brown" expertise="software engineering|testing|verification">
+				<content></content>
+				<subtasks>
+					<task title="Describe related approach X" type="low" progress="65" start="-1" target="0" owner="Felix Wilson" expertise="software engineering">
+						<content></content>
+					</task>			
+					<task title="Describe related approach Y" type="low" progress="10" start="0" target="1" owner="Felix Wilson" participants="Austin Brown" expertise="testing" >
+						<content></content>
+					</task>
+					<task title="Describe related approach Z" type="low" progress="5" start="0" target="1" owner="John Smith" participants="Austin Brown" expertise="verification">
+						<content></content>
+					</task>				
+				</subtasks>
+			</task>			
+			<task title="Summarize and cite papers" type="low" progress="30" start="1" target="3" owner="Felix Wilson" participants="John Smith|Austin Brown" expertise="software engineering">
+				<content></content>
+			</task>		
+		</subtasks>
+	</task>
+	<task title="Write evaluation section" type="high" start="3" target="9" owner="Felix Wilson">
+		<content></content>
+		<subtasks>
+			<task title="Describe data used" type="low" progress="0.1" start="3" target="5" owner="Felix Wilson">
+				<content></content>
+			</task>			
+			<task title="Describe evaluation methodology" type="low" progress="0.1" start="4" target="7" owner="Felix Wilson">
+				<content></content>
+			</task>
+			<task title="Describe results" type="low" progress="0.1" start="7" owner="Felix Wilson">
+				<content></content>
+			</task>				
+		</subtasks>
+	</task>
+	<task title="Write conclusion" type="low" progress="0.1" start="9" target="10" owner="Felix Wilson">
+		<content></content>
+	</task>
+	<task title="Review draft version" type="low" progress="0.1" owner="Felix Wilson">
+		<content></content>
+	</task>
+	<task title="Submit paper" type="low" progress="0.1" target="13" owner="Felix Wilson">
+		<content></content>
+	</task>
+</sample>
