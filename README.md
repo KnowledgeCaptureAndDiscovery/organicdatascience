@@ -1,5 +1,5 @@
-WorkflowTasks
-=============
-This is a MediaWiki extension that provides different UIs for some pre-defined categories. The specific UI is used to help the user enter in structured information in an easier fashion.
+Organic Data Science
+====================
+Organic Data Science is a framework for scientific collaboration.  This is a MediaWiki extension that uses Semantic MediaWiki for organizing information.
 
--- More later --
+For more information, visit http://www.organicdatascience.org
