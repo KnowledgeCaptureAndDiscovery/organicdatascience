@@ -16,7 +16,7 @@ WTPersonTasks.prototype.display = function( item ) {
 WTPersonTasks.prototype.displayTasks = function(tasks, category ) {
 	var me = this;	
 	$cat = $('<div class="category"></div>');	
-	$label = $('<div class="label"></div>')
+	$label = $('<div class="wt-label"></div>')
 	$text = $('<span></span>').text(me.label(category));
 	$counter = $('<span class="counter"></span>');
 	$counter.text(Object.keys(tasks).length);	

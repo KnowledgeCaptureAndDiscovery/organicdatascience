@@ -42,8 +42,8 @@ $wgAutoloadClasses['WTDocumentation'] 		= $wgAbsDir . '/includes/core/init/docu/
 $wgAutoloadClasses['WTTraining'] 			= $wgAbsDir . '/includes/core/init/training/WTTraining.inc';
 $wgAutoloadClasses['WTSample'] 				= $wgAbsDir . '/includes/core/init/sample/WTSample.inc';
 
-$wgAutoloadClasses['WTDocu'] 				= $wgAbsDir . '/includes/page/category/specail/WTDocu.inc';
-$wgAutoloadClasses['WTAdmin'] 				= $wgAbsDir . '/includes/page/category/specail/WTAdmin.inc';
+$wgAutoloadClasses['WTDocu'] 				= $wgAbsDir . '/includes/page/category/special/WTDocu.inc';
+$wgAutoloadClasses['WTAdmin'] 				= $wgAbsDir . '/includes/page/category/special/WTAdmin.inc';
 $wgAutoloadClasses['WTBatchTasks'] 			= $wgAbsDir . '/includes/page/category/special/WTBatchTasks.inc';
 
 $wgExtensionMessagesFiles['WorkflowTasks'] 	= $wgAbsDir . '/languages/WT_Messages.php';

@@ -1023,7 +1023,7 @@ a.todo:hover {
 }
 #main-persontasks .category .wt-label .counter{
 	display: inline-block;
-	vertical-align: bottom;
+	vertical-align: middle;
 	margin-left: 4px;
 	margin-bottom:3px;
 	padding: 0 5px;
