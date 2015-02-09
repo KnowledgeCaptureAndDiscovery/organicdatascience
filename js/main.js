@@ -154,7 +154,7 @@ $(function() {
 		var wtperson = new WTPerson(wgPageName, allwtdetails, wtutil, wtapi);
 		var persondiv = $("#main-person");
 		wtperson.display(persondiv);
-		if(!usesimpletasks) {
+		if(!__use_simple_tasks) {
 			var wtpctx = new WTPersonContext(wgScriptPath);
 			wtpctx.display($('#firstHeading'));	
 				
