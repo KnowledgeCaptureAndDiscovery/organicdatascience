@@ -45,7 +45,7 @@ WTAPI.prototype.removeSubTask = function( task, subtask, callbackfunction ) {
 };
 
 WTAPI.prototype.setTaskMetaFact = function( title, property, value, callbackfunction ) {
-	$j.post(this.apiuri, {
+	$.post(this.apiuri, {
 		"action"   	: "wttasks",
 		"operation"	: "setmeta",
 		"title"	   	: title,
@@ -56,7 +56,7 @@ WTAPI.prototype.setTaskMetaFact = function( title, property, value, callbackfunc
 };
 
 WTAPI.prototype.addTaskMetaFact = function( title, property, value, callbackfunction ) {
-	$j.post(this.apiuri, {
+	$.post(this.apiuri, {
 		"action"   	: "wttasks",
 		"operation"	: "addmeta",
 		"title"	   	: title,
@@ -67,7 +67,7 @@ WTAPI.prototype.addTaskMetaFact = function( title, property, value, callbackfunc
 };
 
 WTAPI.prototype.delTaskMetaFact = function( title, property, value, callbackfunction ) {
-	$j.post(this.apiuri, {
+	$.post(this.apiuri, {
 		"action"   	: "wttasks",
 		"operation"	: "delmeta",
 		"title"	   	: title,
@@ -78,7 +78,7 @@ WTAPI.prototype.delTaskMetaFact = function( title, property, value, callbackfunc
 };
 
 WTAPI.prototype.addTask = function( title, subtitle, isRoot, owner, expertise, callbackfunction ) {
-	$j.post(this.apiuri, {
+	$.post(this.apiuri, {
 		"action"   : "wttasks",
 		"operation": "add",
 		"title"	   : title,
@@ -91,7 +91,7 @@ WTAPI.prototype.addTask = function( title, subtitle, isRoot, owner, expertise, c
 };
 
 WTAPI.prototype.moveTask = function( souceTask, targetTask, selectedTaskId, callbackfunction ) {
-	$j.post(this.apiuri, {
+	$.post(this.apiuri, {
 		"action"   	: "wttasks",
 		"operation"	: "move",
 		"title"		: selectedTaskId,
@@ -102,7 +102,7 @@ WTAPI.prototype.moveTask = function( souceTask, targetTask, selectedTaskId, call
 };
 
 WTAPI.prototype.moveTaskToRoot = function( souceTask, selectedTaskId, callbackfunction ) {
-	$j.post(this.apiuri, {
+	$.post(this.apiuri, {
 		"action"   	: "wttasks",
 		"operation"	: "toroot",
 		"title"		: selectedTaskId,
@@ -112,7 +112,7 @@ WTAPI.prototype.moveTaskToRoot = function( souceTask, selectedTaskId, callbackfu
 };
 
 WTAPI.prototype.renameTask = function( oldtitle, newtitle, selectedTaskId, callbackfunction ) {
-	$j.post(this.apiuri, {
+	$.post(this.apiuri, {
 		"action"   	: "wttasks",
 		"operation"	: "rename",
 		"title"		: selectedTaskId,
@@ -123,7 +123,7 @@ WTAPI.prototype.renameTask = function( oldtitle, newtitle, selectedTaskId, callb
 };
 
 WTAPI.prototype.deleteTask = function( task, selectedTaskId, callbackfunction ) {
-	$j.post(this.apiuri, {
+	$.post(this.apiuri, {
 		"action"   	: "wttasks",
 		"operation"	: "del",
 		"title"		: selectedTaskId,
@@ -133,7 +133,7 @@ WTAPI.prototype.deleteTask = function( task, selectedTaskId, callbackfunction ) 
 };
 
 WTAPI.prototype.updateExplorer = function( title, callbackfunction, callbackObj) {
-	$j.post(this.apiuri, {
+	$.post(this.apiuri, {
 		"action"   : "wttasks",
 		"operation": "getExplorer",
 		"title"    : title,
@@ -233,7 +233,7 @@ WTAPI.prototype.createPageWithCategory = function( title, category, callbackfunc
 
 //<<<<<<< HEAD:js/core/api/WTAPI.js
 //WTAPI.prototype.updateSubobjects = function( title, subobjectsjson, callbackfunction, callbackObj, self) {
-//	$j.post(this.apiuri, {
+//	$.post(this.apiuri, {
 //=======
 WTAPI.prototype.updateSubobjects = function( title, subobjectsjson, callbackfunction ) {
 	$.post(this.apiuri, {
@@ -355,7 +355,7 @@ WTAPI.prototype.getSuggestions = function( search, type, callbackfunction ) {
 };
 
 WTAPI.prototype.updateDocu = function(callbackfunction) {
-	$j.post(this.apiuri, {
+	$.post(this.apiuri, {
 		"action"   : "wtadmin",
 		"operation": "updatedocu",
 		"format"   : "json"
@@ -363,7 +363,7 @@ WTAPI.prototype.updateDocu = function(callbackfunction) {
 };
 
 WTAPI.prototype.addTraining = function(fullname, username, callbackfunction) {
-	$j.post(this.apiuri, {
+	$.post(this.apiuri, {
 		"action"   : "wtadmin",
 		"operation": "addtraining",
 		"fullname" : fullname,

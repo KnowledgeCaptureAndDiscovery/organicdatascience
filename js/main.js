@@ -67,12 +67,12 @@ $(function() {
 		}			
 	
 		if(wtcategories["Task"]) {			
-			var metadiv = $j("#main-taskmetadata");
+			var metadiv = $("#main-taskmetadata");
 			WTTracker.trackHover(metadiv, WTTracker.c.metadata);
 			var wtmd = new WTTaskMetaData(wgPageName, wtexpapi, wtapi, wgScriptPath, metadiv);		
 			wtmd.display();
 
-			var treediv = $j("#main-tree");
+			var treediv = $("#main-tree");
 			WTTracker.trackHover(treediv, WTTracker.c.subtasks);
 			var wtsubs = new WTSubTasks(wgPageName, wtexpapi, wtutil, wtapi, wgScriptPath, treediv, wtmenu);
 			wtsubs.display();
@@ -80,7 +80,7 @@ $(function() {
 			WTTracker.trackHover($('#main-facts'), WTTracker.c.facts);
 					
 			var wtanswers = new WTAnswers(wgPageName, allwtdetails, wtutil, wtapi);
-			var answersdiv = $j("#main-answers");
+			var answersdiv = $("#main-answers");
 			WTTracker.trackHover(answersdiv, WTTracker.c.answers);
 			wtanswers.display(answersdiv);
 		
@@ -173,11 +173,11 @@ $(function() {
 	}
 	else if(wtcategories["Docu"]) {
 		var wtdocu = new WTDocu(wgScriptPath);
-		wtdocu.display($('#firstHeading'), $j("#main-docu"));
+		wtdocu.display($('#firstHeading'), $("#main-docu"));
 	}
 	else if(wtcategories["Admin"]) {
 		var wtadmin = new WTAdmin(wtapi, wgScriptPath, wtexpapi);
-		wtadmin.display($('#firstHeading'), $j("#main-admin"));
+		wtadmin.display($('#firstHeading'), $("#main-admin"));
 	}
 
 	var stdpropsdiv = $("#main-std-props");

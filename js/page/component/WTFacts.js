@@ -104,7 +104,7 @@ WTFacts.prototype.getfactrow = function( fact, item, data ) {
 	var propcls = fact.property.exists ? 'lodlink' : 'lodlink new';
 	var propuri = wgScriptPath + '/index.php/Property:' + fact.property.name;
 	var target = fact.property.name == 'Documentation' ? 'target="_blank"' : '';
-	var propentity = $j('<a href="' + propuri + '" class="'+propcls+'" '+target+'>' + lprop + '</a>');
+	var propentity = $('<a href="' + propuri + '" class="'+propcls+'" '+target+'>' + lprop + '</a>');
 	propentity.click(function(e) { e.stopPropagation(); });
 
 	var valentity = me.generateContent(fact);
