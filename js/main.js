@@ -49,7 +49,7 @@ $(function() {
 			var wtside = new WTSidebar(wgPageName, $sidebar, wtexpapi, wtapi, wgScriptPath, wtmenu)
 			wtside.display();	
 			if($pnav.css('display')) {
-				$('#p-navigation').append($sidebar.detach());
+				$pnav.prepend($sidebar.detach());
 				new WTSidebarResizer(wtside).display();	
 			}
 			else {
@@ -215,7 +215,7 @@ $(function() {
 		var wtcatchooser = new WTCategoryChooser(wgPageName, wtutil, wtapi);
 		wtcatchooser.display(catchooserdiv);
 	}
-	else if(!wtpagenotfound) {
+	else if(!wtpagenotfound && wtuid) {
 		wtcatchooser.css('display', 'none');
 	}
 });

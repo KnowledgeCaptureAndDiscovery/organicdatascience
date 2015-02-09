@@ -228,14 +228,13 @@ class WTBase {
 
 	function addSidebarDiv($out) {
 		$out->addHTML("<div id='main-tree-sidebar'></div>");
-		global $wgUseSimpleTasks;
-		if(!$wgUseSimpleTasks) {
+		global $wgUseSimpleTasks, $wgDefaultSkin;
+		if(!$wgUseSimpleTasks && $wgDefaultSkin=="vector") {
 			/** HACK! Overriding styles for sidebar adjustment*/
 			$style = '<style id="main-tree-sidebar-style">';
-			//$style .= '#content-resize-btn{ margin-left: 230px !important;}';
-			//$style .= '#content-resize-btn{ margin-left: 230px !important;}';
-			//$style .= '#content, #footer, #left-navigation{ margin-left:270px !important; }';
-			//$style .= '#p-navigation{ width: 251px !important; }';
+			$style .= '#content-resize-btn{ margin-left: 230px !important;}';
+			$style .= '#content, #footer, #left-navigation{ margin-left:270px !important; }';
+			$style .= '#p-navigation{ width: 251px !important; }';
 			$style .= '</style>';
 			$out->addHTML($style);
 		}
