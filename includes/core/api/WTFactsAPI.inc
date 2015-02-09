@@ -190,8 +190,8 @@ class WTFactsAPI extends ApiBase {
 	}
 
 	public static function getFacts($title, $data=null) {
+		global $wgUseSimpleTasks;
 		$blacklist = array(
-				"Type", "Progress", "Owner", "Participants", "Expertise", "StartDate", "TargetDate",
 				"Answer", "SubTask", "Answered", "Workflow", 
 				"WorkflowDataVariable", "WorkflowParamVariable", "WorkflowProcessVariable",
 				"WorkflowContributor", "WorkflowDataArtifact", "WorkflowInputDataArtifact", 
@@ -200,6 +200,11 @@ class WTFactsAPI extends ApiBase {
 				"WorkflowTemplate", "WorkflowWingsTemplate", "WorkflowWingsExecution",
 				"WorkflowUser", "WorkflowRunImage", "WorkflowTemplateImage", "DataHasLocation",
 				"DataHasPubbyLink", "DataHasType", "DataUsedForVariable");
+
+		if(!$wgUseSimpleTasks)
+				$blacklist = array_merge($blacklist, 
+					array("Type", "Progress", "Owner", "Participants", "Expertise", "StartDate", "TargetDate"));
+
 		if(!$data) {
 			$titObj = Title::newFromText($title);
 			$subject = SMWDIWikiPage::newFromTitle( $titObj );

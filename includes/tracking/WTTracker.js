@@ -55,6 +55,11 @@ WTTracker.t = {
 
 
 WTTracker.track = function( data ) {
+	if(__disable_tracking) {
+		if(data.callback)
+			data.callback();
+		return;
+	}
 	var me = this;
 	var requestd = {
 		component: data.component,
@@ -82,6 +87,8 @@ WTTracker.track = function( data ) {
 };
 
 WTTracker.trackHover = function($obj, component) {
+	if(__disable_tracking)
+		return;
 	$obj.mouseenter(function(){
 		if(WTTracker.hoverlog.indexOf(component) == -1) {
 			WTTracker.track({

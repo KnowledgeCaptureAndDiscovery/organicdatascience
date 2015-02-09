@@ -45,7 +45,7 @@ WTStdProperties.prototype.generateTable = function() {
 		}
 	}
 
-	me.$table =  $('<div class="table"></div>');
+	me.$table =  $('<div class="wt-table"></div>');
 	me.appendHeadingRow();
 	me.$item.append(me.$table);
 	for(var pname in this.stdprops) {
@@ -61,7 +61,7 @@ WTStdProperties.prototype.appendPropertyRows = function(property, pname, lvl) {
 		return;
 	$row = this.appendRow(property, pname)
 	if(property.level) {
-		$label = $row.find('.label');
+		$label = $row.find('.wt-label');
 		var pad = '';
 		for(var i=0; i<(property.level-1)*5; i++) 
 			pad += '&nbsp;';
@@ -78,7 +78,7 @@ WTStdProperties.prototype.appendPropertyRows = function(property, pname, lvl) {
 
 WTStdProperties.prototype.appendRow = function(property, pname) {
 	var me = this;
-	var $row = $('<div class="row"></div>');
+	var $row = $('<div class="wt-row"></div>');
 	$row.attr('property', pname);
 	me.$table.append($row);
 	$row.click(function(e){	
@@ -86,7 +86,7 @@ WTStdProperties.prototype.appendRow = function(property, pname) {
 		if(!$t.hasClass('edit') && wtuid){
 			me.closeAllEdits();
 			$t.addClass('edit');
-			$c = $t.find('.content');
+			$c = $t.find('.wt-content');
 			$c.html('');
 			var index = 0;
 			var valobj = me.propValue(pname, index);
@@ -148,13 +148,13 @@ WTStdProperties.prototype.appendNotesRow = function() {
 
 WTStdProperties.prototype.closeAllEdits = function() {
 	var me = this;
-	me.$table.find('.row').each(function(k, row){		
+	me.$table.find('.wt-row').each(function(k, row){		
 		$row = $(row);
 		$row.removeClass('edit');
 		var pname = $row.attr('property');
 		var index = 0;
-		$c = $row.find('.content');
-		$a = $row.find('.author');
+		$c = $row.find('.wt-content');
+		$a = $row.find('.wt-author');
 		$c.html(''); $a.html('');
 		$content = me.generateContent(pname, index);
 		while($content) {
@@ -166,7 +166,7 @@ WTStdProperties.prototype.closeAllEdits = function() {
 };
 
 WTStdProperties.prototype.appendIconCell = function($row, pname, property) {
-	$cell = $('<div class="cell wt-icon"></div>');
+	$cell = $('<div class="wt-cell wt-icon"></div>');
 	var icon = property.icon ? property.icon : 'fa-tag';
 	var iconhtml = '<i class="fa '+icon+' fa-lg"></i> ';
 	$cell.html(iconhtml);
@@ -174,7 +174,7 @@ WTStdProperties.prototype.appendIconCell = function($row, pname, property) {
 };
 
 WTStdProperties.prototype.appendLabelCell = function($row, pname, property) {
-	$cell = $('<div class="cell label"></div>');
+	$cell = $('<div class="wt-cell wt-label"></div>');
     var lprop = property.label;
     var propcls = property.exists ? 'lodlink' : 'lodlink new';
     var propuri = wgScriptPath + '/index.php/Property:' + property.label;
@@ -186,7 +186,7 @@ WTStdProperties.prototype.appendLabelCell = function($row, pname, property) {
 }
 
 WTStdProperties.prototype.appendContentCell = function($row, pname) {	
-	$cell = $('<div class="cell content"></div>');
+	$cell = $('<div class="wt-cell wt-content"></div>');
 	//$cell.append(this.generateContent(pname));	
 	var index = 0;
 	$content = this.generateContent(pname, index);
@@ -198,7 +198,7 @@ WTStdProperties.prototype.appendContentCell = function($row, pname) {
 };
 
 WTStdProperties.prototype.appendAuthorCell = function($row, pname) {	
-    $cell = $('<div class="cell author"></div>');
+    $cell = $('<div class="wt-cell wt-author"></div>');
 	//$cell.html(this.getAuthorCredit(pname));
 	var index = 0;
 	$auth = this.getAuthorCredit(pname, index);
@@ -353,15 +353,15 @@ WTStdProperties.prototype.lock = function(message) {
 
 WTStdProperties.prototype.updateIcons = function(){
 	var me = this;
-	me.$table.find('.row').each(function(){
+	me.$table.find('.wt-row').each(function(){
 		$t = $(this);		
 		var pname = $t.attr('property');
 		var valobj = me.propValue(pname);
 		var fade = !valobj;
 		if(fade)
-			$t.addClass('fade');
+			$t.addClass('wt-fade');
 		else
-			$t.removeClass('fade');
+			$t.removeClass('wt-fade');
 	});	
 };
 

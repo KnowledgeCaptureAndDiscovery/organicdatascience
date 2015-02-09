@@ -224,7 +224,7 @@ WTExecutedWorkflow.prototype.display = function( item ) {
 	wrapper.append(list);
 	item.append(wrapper);
 
-	if(me.details.Workflow) {
+	if(me.details.Workflow && wtuid) {
 		me.addwflow_link.css('display', 'none');
 	}
 	me.convertGroupLists();

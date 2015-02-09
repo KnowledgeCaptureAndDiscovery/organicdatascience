@@ -20,7 +20,7 @@ WTTaskMetaData.prototype.notify = function() {
 
 WTTaskMetaData.prototype.generateTable = function() {
 	var me = this;
-	me.$table =  $('<div class="table"></div>');
+	me.$table =  $('<div class="wt-table"></div>');
 	me.$item.append(me.$table);
 	$.each(this.meta, function(ptype, property){
 		me.appendRow(property, ptype)
@@ -31,7 +31,7 @@ WTTaskMetaData.prototype.generateTable = function() {
 
 WTTaskMetaData.prototype.appendRow = function(property, ptype) {
 	var me = this;
-	var $row = $('<div class="row"></div>');
+	var $row = $('<div class="wt-row"></div>');
 	$row.attr('property', ptype);
 	me.$table.append($row);
 	$row.click(function(){	
@@ -39,7 +39,7 @@ WTTaskMetaData.prototype.appendRow = function(property, ptype) {
 		if(!$t.hasClass('edit') && me.expapi.isLoggedIn()){
 			me.closeAllEdits();
 			$t.addClass('edit');			
-			$c = $t.find('.content');
+			$c = $t.find('.wt-content');
 			me.generateEdit(ptype, $c);
 		}				
 	});	
@@ -63,16 +63,16 @@ WTTaskMetaData.prototype.appendNotesRow = function() {
 
 WTTaskMetaData.prototype.closeAllEdits = function() {
 	var me = this;
-	me.$table.find('.row').each(function(k, row){		
+	me.$table.find('.wt-row').each(function(k, row){		
 		$row = $(row);
 		$row.removeClass('edit');
 		var ptype = $row.attr('property');
-		$row.find('.content').html(me.generateContent(ptype));
+		$row.find('.wt-content').html(me.generateContent(ptype));
 	});
 };
 
 WTTaskMetaData.prototype.appendIconCell = function($row, ptype, property) {
-	$cell = $('<div class="cell icon"></div>');
+	$cell = $('<div class="wt-cell wt-icon"></div>');
 	$cell.html(this.typeToLabel(ptype));
 	if(property.warning.exist){		
 		$msg = $('<div id="wt-metadata-warning"></div>');
@@ -109,7 +109,7 @@ WTTaskMetaData.prototype.generateWarnMsg = function(ptype, property) {
 };
 
 WTTaskMetaData.prototype.appendContentCell = function($row, ptype) {	
-	$cell = $('<div class="cell content"></div>');
+	$cell = $('<div class="wt-cell wt-content"></div>');
 	$cell.append(this.generateContent(ptype));	
 	$row.append($cell)
 };
@@ -453,17 +453,17 @@ WTTaskMetaData.prototype.setLocal = function(type, value){
 
 WTTaskMetaData.prototype.updateIcons = function(){
 	var me = this;
-	me.$table.find('.row').each(function(){
+	me.$table.find('.wt-row').each(function(){
 		$t = $(this);		
 		ptype = $t.attr('property');
 		property = me.meta[ptype];
 		var t = me.meta.type;
 		var fade = !property.exist || ptype == 'progress' && t.exist && (t.value == 'medium' || t.value == 'high');
 		if(fade)
-			$t.addClass('fade');
+			$t.addClass('wt-fade');
 		else
-			$t.removeClass('fade');
-		$t.find('.cell.icon').css('background-image', 'url('+me.generateIconPath(ptype, fade, property.warning.exist)+')');
+			$t.removeClass('wt-fade');
+		$t.find('.wt-cell.wt-icon').css('background-image', 'url('+me.generateIconPath(ptype, fade, property.warning.exist)+')');
 	});	
 }
 

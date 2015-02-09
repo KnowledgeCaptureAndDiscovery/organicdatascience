@@ -23,10 +23,9 @@ $(function() {
 	var wtutil = new WTUtil(wgPageName, wtapi);
 
 //<<<<<<< HEAD
-	if(!usesimpletasks) {
+	if(!__use_simple_tasks) {
 		var wtexpapi = new WTExplorerAPI(allwtexplorer, wgScriptPath, wtapi);	
 		new WTTracker(wtexpapi.userid(), wgScriptPath, wtutil);
-
 		var wtcats = []
 		for(var cat in wtcategories)
 			wtcats.push(cat);
@@ -46,10 +45,25 @@ $(function() {
 		var $sidebar = $('#main-tree-sidebar');
 		WTTracker.trackHover($sidebar, WTTracker.c.explorer);
 		if($sidebar) {
-			$('#p-navigation').prepend($sidebar.detach());				
+			var $pnav = $('#p-navigation');
 			var wtside = new WTSidebar(wgPageName, $sidebar, wtexpapi, wtapi, wgScriptPath, wtmenu)
 			wtside.display();	
-			new WTSidebarResizer(wtside).display();	
+			if($pnav.css('display')) {
+				$('#p-navigation').append($sidebar.detach());
+				new WTSidebarResizer(wtside).display();	
+			}
+			else {
+				$sidebar.css('display', 'none');
+				var $btna = $('<a href="#" title="Toggle Task Tree" accesskey="t">Task tree</a>');
+				$btna.on('click', function() {
+					var curdisp = $sidebar.css('display');
+					$sidebar.css('display', (curdisp=='none' ? '': 'none'));
+				});
+				var $li = $('<li id="n-task-toggle"></li>').append($btna);
+				var $btn = $('<ul class="nav navbar-nav"></ul>').append($li);
+				$('#mw-navigation-collapse').append($btn);
+				$('#mw-navigation').append($sidebar.detach());				
+			}
 		}			
 	
 		if(wtcategories["Task"]) {			
@@ -82,7 +96,7 @@ $(function() {
 		}
 	}
 
-	if(wtcategories["Task"] && usesimpletasks) {
+	if(wtcategories["Task"] && __use_simple_tasks) {
 		var wtanswers = new WTAnswers(wgPageName, allwtdetails, wtutil, wtapi);
 		var answersdiv = $("#main-answers");
 		wtanswers.display(answersdiv);

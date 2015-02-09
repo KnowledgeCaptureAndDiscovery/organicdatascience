@@ -27,18 +27,18 @@ WTTaskContext.prototype.initContextDiv = function($headline) {
 };
 
 WTTaskContext.prototype.initTemplate = function() {
-	var html = '<div class="table parent">';
-		html +='	<div class="row">';
-		html +='		<div class="cell icon"></div>';
-		html +='		<div class="cell title"><a></a></div>';
+	var html = '<div class="wt-table parent">';
+		html +='	<div class="wt-row">';
+		html +='		<div class="wt-cell wt-icon"></div>';
+		html +='		<div class="wt-cell title"><a></a></div>';
 		html +='	</div>';		
 		html +='</div>';
-		html +='<div class="table headline">';
-		html +='	<div class="row">';
-		html +='		<div class="cell dots"></div>';
-		html +='		<div class="cell icon"></div>';
-		html +='		<div class="cell title"></div>';
-		html +='		<div class="cell tabs"></div>';
+		html +='<div class="wt-table headline">';
+		html +='	<div class="wt-row">';
+		html +='		<div class="wt-cell dots"></div>';
+		html +='		<div class="wt-cell wt-icon"></div>';
+		html +='		<div class="wt-cell title"></div>';
+		html +='		<div class="wt-cell tabs"></div>';
 		html +='	</div>';
 		html +='</div>';	
 	this.$ctx.html(html);	
@@ -47,7 +47,7 @@ WTTaskContext.prototype.initTemplate = function() {
 WTTaskContext.prototype.initParent = function() {
 	var me = this;
 	if(me.ctx.parent){
-		var $icon = me.$ctx.find('.parent .icon');
+		var $icon = me.$ctx.find('.parent .wt-icon');
 		$icon.css('background-image','url('+me.ctx.parent.icon+')');
 		var $title = me.$ctx.find('.parent .title a');
 		$title.html(me.ctx.parent.title);
@@ -72,7 +72,7 @@ WTTaskContext.prototype.initParent = function() {
 
 WTTaskContext.prototype.initHeadline = function() {
 	var me = this;
-	var $icon = me.$ctx.find('.headline .icon');
+	var $icon = me.$ctx.find('.headline .wt-icon');
 	$icon.css('background-image','url('+me.ctx.selected.icon+')');
 	var $title = me.$ctx.find('.headline .title');
 	$title.html(me.ctx.selected.title);

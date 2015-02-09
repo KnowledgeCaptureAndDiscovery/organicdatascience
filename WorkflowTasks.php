@@ -14,7 +14,8 @@ global $wgScriptPath;
 $wgAbsDir = dirname(__File__);
 $wgDir = $wgScriptPath."/extensions/WorkflowTasks";
 
-global $wgUseSimpleTasks;
+# Global variables that can be defined in LocalSettings.php
+global $wgUseSimpleTasks, $wgDisableTracking;
 
 $wgAutoloadClasses['WTBase'] 				= $wgAbsDir . '/includes/page/WTBase.inc';
 $wgAutoloadClasses['WTMainPage'] 			= $wgAbsDir . '/includes/page/category/main/WTMainPage.inc';

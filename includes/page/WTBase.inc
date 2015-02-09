@@ -153,7 +153,7 @@ class WTBase {
 		$out->addHTML("var wtpagenotfound = ".($this->title->exists() ? 'false' : 'true').";\n");
 		$out->addHTML("var wtallcategories = ['SampleCollection','Procedure','Workflow', 'ExecutedWorkflow', 'Task', 'Answer', 'AutomaticallyProvidedData', 'UserProvidedData', 'UserDescribedData', 'Component', 'Model', 'Person', 'Object', 'DataType', 'Thing'];\n");
 		//$out->addHTML("var wtallcategories = ['UserProvidedData', 'UserDescribedData', 'Person', 'DataType', 'Thing'];\n");
-		global $wgUseSimpleTasks;
+		global $wgUseSimpleTasks, $wgDisableTracking;
 		if(!$wgUseSimpleTasks) {
 			$explorer = new WTTaskExplorer($this->title);
 			$out->addHTML("var allwtexplorer = ".json_encode($explorer->getExplorer()).";\n");
@@ -174,7 +174,8 @@ class WTBase {
  			$uid = $wgUser->getName(); 
  			$out->addHTML("wtuid = '".$uid."';\n"); 
  		}  		
-		$out->addHTML("var usesimpletasks = ".($wgUseSimpleTasks ? 'true' : 'false').";\n");
+		$out->addHTML("var __use_simple_tasks = ".($wgUseSimpleTasks ? 'true' : 'false').";\n");
+		$out->addHTML("var __disable_tracking = ".($wgDisableTracking ? 'true' : 'false').";\n");
 		$out->addHTML("</script>\n"); 
 	}
 
@@ -217,7 +218,7 @@ class WTBase {
 	}
 
 	function addTaskMetaDataDiv($out) {
-		$out->addHTML("<div id='main-taskmetadata' class='props-table'></div>");
+		$out->addHTML("<div id='main-taskmetadata'></div>");
 	}
 	
 	function addFactsDiv($out) {
@@ -231,9 +232,10 @@ class WTBase {
 		if(!$wgUseSimpleTasks) {
 			/** HACK! Overriding styles for sidebar adjustment*/
 			$style = '<style id="main-tree-sidebar-style">';
-			$style .= '#content-resize-btn{ margin-left: 230px !important;}';
-			$style .= '#content, #footer, #left-navigation{ margin-left:270px !important; }';
-			$style .= '#p-navigation{ width: 251px !important; }';
+			//$style .= '#content-resize-btn{ margin-left: 230px !important;}';
+			//$style .= '#content-resize-btn{ margin-left: 230px !important;}';
+			//$style .= '#content, #footer, #left-navigation{ margin-left:270px !important; }';
+			//$style .= '#p-navigation{ width: 251px !important; }';
 			$style .= '</style>';
 			$out->addHTML($style);
 		}

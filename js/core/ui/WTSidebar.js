@@ -30,10 +30,10 @@ WTSidebar.prototype.initNavigationTabs = function() {
 	var me = this;
 	var $navTabs = $('<div class="filtertabs"></div>');
 	me.$sidebar.append($navTabs);
-	var $navTabsRow = $('<div class="row"></div>');
+	var $navTabsRow = $('<div class="wt-row"></div>');
 	$navTabs.append($navTabsRow);
 	
-	var $allTasks = $('<div class="cell all first selected">All Tasks</div>');	
+	var $allTasks = $('<div class="wt-cell all first selected">All Tasks</div>');	
 	$navTabsRow.append($allTasks);
 	$allTasks.click(function(){
 		me.switchTab($allTasks, $myTasks);
@@ -49,7 +49,7 @@ WTSidebar.prototype.initNavigationTabs = function() {
 	
 	if(me.expapi.isLoggedIn()){
 		var count = me.expapi.myTaskCount();
-		var $myTasks = $('<div class="cell my unselected">My Tasks <span class="counter">'+count+'</span></div>');	
+		var $myTasks = $('<div class="wt-cell my unselected">My Tasks <span class="counter">'+count+'</span></div>');	
 		$navTabsRow.append($myTasks);
 		$myTasks.click(function(){
 			me.switchTab($myTasks, $allTasks);
@@ -67,9 +67,9 @@ WTSidebar.prototype.initNavigationTabs = function() {
 	var $space = $('<div class="space">&nbsp;</div>');	
 	$navTabsRow.append($space);
 	
-	var $hirachView = $('<div class="cellsmall"></div>');
+	var $hirachView = $('<div class="wt-cellsmall"></div>');
 	$navTabsRow.append($hirachView);
-	var $hirachViewIcon = $('<div class="icon first selected"><div class="hierarchy">&nbsp;</div></div>');
+	var $hirachViewIcon = $('<div class="wt-icon first selected"><div class="hierarchy">&nbsp;</div></div>');
 	$hirachView.append($hirachViewIcon);
 	$hirachViewIcon.click(function(){
 		me.switchTab($hirachViewIcon, $listViewIcon);
@@ -83,9 +83,9 @@ WTSidebar.prototype.initNavigationTabs = function() {
 		});	
 	});
 	
-	var $listView = $('<div class="cellsmall"></div>');
+	var $listView = $('<div class="wt-cellsmall"></div>');
 	$navTabsRow.append($listView);
-	var $listViewIcon = $('<div class="icon unselected"><div class="list">&nbsp;</div></div>');
+	var $listViewIcon = $('<div class="wt-icon unselected"><div class="list">&nbsp;</div></div>');
 	$listView.append($listViewIcon);
 	$listViewIcon.click(function(){
 		me.switchTab($listViewIcon, $hirachViewIcon);
@@ -166,7 +166,7 @@ WTSidebar.prototype.initFilters = function() {
 	});
 	$filters.append($text);
 	me.$search = $text;
-	me.resize(me.taskWidth);
+	//me.resize(me.taskWidth);
 };
 
 WTSidebar.prototype.initMessage = function() {	

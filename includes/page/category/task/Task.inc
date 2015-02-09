@@ -13,6 +13,7 @@ class Task extends WTBase {
 	function modifyWikiPage($out) {
 		$old = $out->getHTML();
 		$out->clearHTML();		
+		$out->addHTML("<style>.contentHeader{margin-bottom:0px;}</style>");
 
 		# Tree Div
 		$this->addTreeDiv( $out, "Task" );

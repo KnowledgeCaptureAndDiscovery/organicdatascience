@@ -8,12 +8,12 @@ var WTFacts = function(title, wtfacts, stdprops, util, api ) {
 
 WTFacts.prototype.closeAllEdits = function() {
 	var me = this;
-	me.$table.find('.row').each(function(k, row){		
+	me.$table.find('.wt-row').each(function(k, row){		
 		$row = $(row);
 		$row.removeClass('edit');
 		var fact = $row.data('fact');
 		if(fact)
-			$row.find('.content').html(me.generateContent(fact));
+			$row.find('.wt-content').html(me.generateContent(fact));
 	});
 };
 
@@ -43,7 +43,7 @@ WTFacts.prototype.generateContent = function(fact) {
 WTFacts.prototype.getfactrow = function( fact, item, data ) {
 	var me = this;
 
-	var tr = $('<div class="row"></div>');
+	var tr = $('<div class="wt-row"></div>');
 	tr.data('fact', fact);
 	tr.click(function(e){
 		$t = $(this);
@@ -51,7 +51,7 @@ WTFacts.prototype.getfactrow = function( fact, item, data ) {
 			me.closeAllEdits();
 			$t.addClass('edit');
 			var pname = fact.property.name;
-			$content = $t.find('.content');
+			$content = $t.find('.wt-content');
 			$in = $('<input type="text"/>');
 			var valobj = fact.value;
 			if(valobj)
@@ -66,7 +66,7 @@ WTFacts.prototype.getfactrow = function( fact, item, data ) {
 						if(!response || !response.wtfacts || !response.wtfacts.facts) return; 
 						if(response.wtfacts.result == 'Success') {
 							me.wtfacts = response.wtfacts.facts;
-							item.children('.table').remove();
+							item.children('.wt-table').remove();
 							item.append(me.getfactstable(item, response.wtfacts.facts));
 						}
         			});
@@ -89,7 +89,7 @@ WTFacts.prototype.getfactrow = function( fact, item, data ) {
 				item.unmask();
 				if(!resp || !resp.wtfacts || !resp.wtfacts.facts) return;
 				if(resp.wtfacts.result == 'Success') {
-					item.children('.table').remove();
+					item.children('.wt-table').remove();
 					item.append(me.getfactstable(item, resp.wtfacts.facts));
 					//me.util.showFacts([{p:fact.property, o:fact.value}]);
 				}
@@ -109,10 +109,10 @@ WTFacts.prototype.getfactrow = function( fact, item, data ) {
 
 	var valentity = me.generateContent(fact);
 	var authtext = "(By "+fact.value.author+")";
-	tr.append($('<div class="cell wt-icon"></div>').append(delhref));
-	tr.append($('<div class="cell label"></div>').append(propentity));
-	tr.append($('<div class="cell content"></div>').append(valentity));
-	tr.append($('<div class="cell author"></div>').html(authtext));
+	tr.append($('<div class="wt-cell wt-icon"></div>').append(delhref));
+	tr.append($('<div class="wt-cell wt-label"></div>').append(propentity));
+	tr.append($('<div class="wt-cell wt-content"></div>').append(valentity));
+	tr.append($('<div class="wt-cell wt-author"></div>').html(authtext));
 
 	return tr;
 };
@@ -120,18 +120,18 @@ WTFacts.prototype.getfactrow = function( fact, item, data ) {
 WTFacts.prototype.blacklist = ['SubTask', 'Answer', 'Answered', 'Workflow', 'DataLocation', 'DataWikiLocation', 'DataExtractedFrom', 'Columns'];
 
 WTFacts.prototype.getfactstable = function( item, data ) {
-	var table = $('<div class="table"></div>');
+	var table = $('<div class="wt-table"></div>');
 
 	var iprop = $('<input style="width:97%" type="text"/>');
 	var ival = $('<input style="width:99%" type="text" />');
 	var igo = $('<a class="lodbutton">' + lpMsg('Go') + '</a>');
 	var icancel = $('<a class="lodbutton">' + lpMsg('Cancel') + '</a>');
 
-	var addfact_tr = $('<div class="row"></div>');
-	addfact_tr.append($('<div class="cell wt-icon"></div>'));
-	addfact_tr.append($('<div class="cell label"></div>').append(iprop));
-	addfact_tr.append($('<div class="cell content"></div>').append(ival));
-	addfact_tr.append($('<div class="cell"></div>').append(igo).append(icancel)).hide();
+	var addfact_tr = $('<div class="wt-row"></div>');
+	addfact_tr.append($('<div class="wt-cell wt-icon"></div>'));
+	addfact_tr.append($('<div class="wt-cell wt-label"></div>').append(iprop));
+	addfact_tr.append($('<div class="wt-cell wt-content"></div>').append(ival));
+	addfact_tr.append($('<div class="wt-cell"></div>').append(igo).append(icancel)).hide();
 	table.append(addfact_tr);
 
 	var me = this;
@@ -190,7 +190,7 @@ WTFacts.prototype.getfactstable = function( item, data ) {
 			if(!response || !response.wtfacts || !response.wtfacts.facts) return; 
 			if(response.wtfacts.result == 'Success') {
 				me.wtfacts = response.wtfacts.facts;
-				item.children('.table').remove();
+				item.children('.wt-table').remove();
 				item.append(me.getfactstable(item, response.wtfacts.facts));
 			}
 		});
@@ -212,7 +212,7 @@ WTFacts.prototype.display = function( item ) {
 		addfact_link = $('<a class="lodlink"><i class="fa fa-plus-circle fa-lg"></i></a>');
 		addfact_link.click(function( e ) {
 			var table = item.data('table');
-			table.find('div.row:first').css('display', '');
+			table.find('div.wt-row:first').css('display', '');
 		});
 	}
 
