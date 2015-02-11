@@ -30,7 +30,7 @@ class WTSample{
 				WTFactsAPI::addFact($name, 'Expertise', $e);	
    		}
    		if($userId = $attr->userid)
-   			WTFactsAPI::setFact($name, 'Has User ID', $userId);
+   			WTFactsAPI::setPropertyValue($name, 'Has User ID', $userId);
    	}
 	
 	private function create($parentTitle, $task){
@@ -58,15 +58,15 @@ class WTSample{
 			if($parentTitle)
 				WTFactsAPI::addFact($parentTitle, 'SubTask', $subtitle, null, true, null);				
 			if($type)
-				WTFactsAPI::setFact($subtitle, 'Type', $type);		
+				WTFactsAPI::setPropertyValue($subtitle, 'Type', $type);		
 			if($type == 'low' && $progress)
-				WTFactsAPI::setFact($subtitle, 'Progress', $progress);	
+				WTFactsAPI::setPropertyValue($subtitle, 'Progress', $progress);	
 			if($start)
-				WTFactsAPI::setFact($subtitle, 'StartDate', $start);	
+				WTFactsAPI::setPropertyValue($subtitle, 'StartDate', $start);	
 			if($target)
-				WTFactsAPI::setFact($subtitle, 'TargetDate', $target);
+				WTFactsAPI::setPropertyValue($subtitle, 'TargetDate', $target);
 			if($owner)
-				WTFactsAPI::setFact($subtitle, 'Owner', $owner);	
+				WTFactsAPI::setPropertyValue($subtitle, 'Owner', $owner);	
 			foreach($participants as $k => $p)
 				WTFactsAPI::addFact($subtitle, 'Participants', $p);		
 			foreach($expertise as $k => $e)

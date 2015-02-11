@@ -69,9 +69,9 @@ class WTTaskAPI extends ApiBase {
 				$owner = $this->getParam('owner');
 				$expertise = $this->getParam('expertise');
 				if($owner != WTTaskFacts::$unknown)
-					WTFactsAPI::setFact($subtitle, 'Owner', $owner);			
+					WTFactsAPI::setPropertyValue($subtitle, 'Owner', $owner);			
 				if($expertise != WTTaskFacts::$unknown)
-					WTFactsAPI::setFact($subtitle, 'Expertise', $expertise);	
+					WTFactsAPI::setPropertyValue($subtitle, 'Expertise', $expertise);	
 			}else
 				WTFactsAPI::addFact($title, 'SubTask', $subtitle, null, true, null);			
 			$exist = false;

@@ -43,7 +43,7 @@ class WTTraining{
    	private function createPersonPage(){   		
    		if(!WTTaskUtil::pageExist($this->fullname)){
    			WTFactsAPI::createPageWithCategory($this->fullname, 'Person');	
-   			WTFactsAPI::setFact($this->fullname, 'Has User ID', $this->username);
+   			WTFactsAPI::setPropertyValue($this->fullname, 'Has User ID', $this->username);
    		}
    	}
 	
