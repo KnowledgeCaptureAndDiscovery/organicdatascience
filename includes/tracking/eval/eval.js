@@ -8,7 +8,7 @@ var Eval = function() {
 
 Eval.prototype.eval = function() {
 	var me = this;
-	$.getJSON( "explorer.json", function( data ) {
+	$.getJSON( "explorer2.json", function( data ) {
 		$.each(data.explorer, function(k, task) {
 			me.recinit(task, false, 0);
 		});		 
@@ -17,9 +17,9 @@ Eval.prototype.eval = function() {
 //		console.log(JSON.stringify(me.createPersonPairs(['A','B','C','D','E'])));
 //		me.createPersonPairs(['A','B','C','D','E']);
 //		console.log('--person network---------');
-//		me.personNetwork();
+		me.personNetwork();
 //		console.log(JSON.stringify(me.personPairs));
-//		me.personNetworkToCSV();
+		me.personNetworkToCSV();
 //		me.nestingFactor();
 		me.taskChildrenSplit();
 	});		

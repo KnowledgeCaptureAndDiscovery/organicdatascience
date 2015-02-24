@@ -45,6 +45,9 @@ $wgAutoloadClasses['WTSample'] 				= $wgAbsDir . '/includes/core/init/sample/WTS
 $wgAutoloadClasses['WTDocu'] 				= $wgAbsDir . '/includes/page/category/special/WTDocu.inc';
 $wgAutoloadClasses['WTAdmin'] 				= $wgAbsDir . '/includes/page/category/special/WTAdmin.inc';
 $wgAutoloadClasses['WTBatchTasks'] 			= $wgAbsDir . '/includes/page/category/special/WTBatchTasks.inc';
+$wgAutoloadClasses['WTDashboard'] 			= $wgAbsDir . '/includes/page/category/special/dashboard/WTDashboard.inc';
+$wgAutoloadClasses['WTDashboardAnalyze'] 	= $wgAbsDir . '/includes/page/category/special/dashboard/WTDashboardAnalyze.inc';
+$wgAutoloadClasses['WTCollaborationGraph'] 	= $wgAbsDir . '/includes/page/category/special/dashboard/WTCollaborationGraph.inc';
 
 $wgExtensionMessagesFiles['WorkflowTasks'] 	= $wgAbsDir . '/languages/WT_Messages.php';
 
@@ -56,6 +59,7 @@ $wgAPIModules['wtadmin'] = 'WTAdminAPI';
 $wgAPIModules['wtsuggest'] = 'WTSuggestAPI';
 
 $wgSpecialPages['WTBatchTasks']  = 'WTBatchTasks';
+$wgSpecialPages['WTDashboard']  = 'WTDashboard';
 
 
 $wgHooks['BeforePageDisplay'][] = 'WTRender';
