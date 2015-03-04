@@ -3,11 +3,8 @@
 class WTDashboard extends SpecialPage {
 	
 	public function __construct() {
-		parent::__construct( 'WTDashboard' );
-		
+		parent::__construct( 'WTDashboard' );		
 	}
-
-	
 	
 	function execute( $par ) {		
 		$request = $this->getRequest();
@@ -15,15 +12,13 @@ class WTDashboard extends SpecialPage {
 		$this->setHeaders();
 		$this->includeJSHeaders($out);
 		$this->setJavascriptVariables($out);
-
-		$html =  '<div id="dashboard"></div>Collaboration Graph';		
-		$out->addHtml($html);		
-	}
+		$out->addHtml('<div id="dashboard"></div>');		
+	}	
 	
-	
-	/*TODO remove Hack!!!*/
+	/*TODO remove Hack for SpecialPage!!!*/
 	function includeJSHeaders($out) {
 		global $wgDir;
+		$out->addScriptFile('https://www.google.com/jsapi' );
 		$out->addScriptFile( $wgDir . '/js/lib/sigma/sigma.min.js' );
 		$out->addScriptFile( $wgDir . '/js/lib/sigma/plugins/sigma.parsers.json.min.js' );		
 		$out->addScriptFile( $wgDir . '/js/lib/arbor/arbor.graphics.js' );
@@ -32,7 +27,7 @@ class WTDashboard extends SpecialPage {
 		$out->addScriptFile( $wgDir . '/js/page/category/special/WTDashboard.js' );
 	}
 	
-	/*TODO remove Hack!!!*/
+	/*TODO remove Hack for SpecialPage!!!*/
 	function setJavascriptVariables($out) {
 		$da = new WTDashboardAnalyze();
 		$da->analyis();		

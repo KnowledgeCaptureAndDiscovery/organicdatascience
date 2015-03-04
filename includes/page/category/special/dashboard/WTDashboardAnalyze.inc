@@ -15,7 +15,7 @@ class WTDashboardAnalyze{
 	
 	private function recinit($task, $parentId, $level){
 		$t = $task;
-		unset($t['children']);
+//		unset($t['children']);
 		$t['level'] = $level;		
 		$this->tasks[] = $t;
 		if(array_key_exists('children', $task) && sizeof($task['children']) >0)
@@ -55,12 +55,27 @@ class WTDashboardAnalyze{
 		return $ps;
 	}
 	
+	public static function isOnMetalevel($task){
+		 if(array_key_exists('facts', $task))
+		 	if(array_key_exists('missingparam', $task['facts']))
+		 		return $task['facts']['missingparam'] == true;
+		 return true;
+	}
+	
 	
 	public function toJson(){
 		$graph = new WTCollaborationGraph();
-		$graph->calculateEdges($this->tasks);		
-//		var_dump(json_encode($graph->toJson()));
-		return array('collaborationgraph' => $graph->toJson());
+		$graph->calculateEdges($this->tasks);
+		$ad = new WTAncestorDigram();
+		$ad->calculateAncestors($this->tasks);	
+		$cd = new WTChildrenDigram();
+		$cd->calculateChildren($this->tasks);	
+		$s = new WTSummary();
+		$s->calculateSummary($this->tasks);
+		return array(
+			'summary' => $s->toJson(),
+			'collaborationgraph' => $graph->toJson(),
+			'taskhierachydata' => array('ancestors' => $ad->toJson(), 'children' => $cd->toJson()));
 	}
 	
 	

@@ -48,6 +48,9 @@ $wgAutoloadClasses['WTBatchTasks'] 			= $wgAbsDir . '/includes/page/category/spe
 $wgAutoloadClasses['WTDashboard'] 			= $wgAbsDir . '/includes/page/category/special/dashboard/WTDashboard.inc';
 $wgAutoloadClasses['WTDashboardAnalyze'] 	= $wgAbsDir . '/includes/page/category/special/dashboard/WTDashboardAnalyze.inc';
 $wgAutoloadClasses['WTCollaborationGraph'] 	= $wgAbsDir . '/includes/page/category/special/dashboard/WTCollaborationGraph.inc';
+$wgAutoloadClasses['WTAncestorDigram'] 		= $wgAbsDir . '/includes/page/category/special/dashboard/WTAncestorDigram.inc';
+$wgAutoloadClasses['WTChildrenDigram'] 		= $wgAbsDir . '/includes/page/category/special/dashboard/WTChildrenDigram.inc';
+$wgAutoloadClasses['WTSummary'] 			= $wgAbsDir . '/includes/page/category/special/dashboard/WTSummary.inc';
 
 $wgExtensionMessagesFiles['WorkflowTasks'] 	= $wgAbsDir . '/languages/WT_Messages.php';
 
