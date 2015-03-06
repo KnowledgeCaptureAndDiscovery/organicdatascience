@@ -66,6 +66,10 @@ class WTSummary{
 	private $meta_progressSum = 0;
 	private $content_progressSum = 0;
 	
+	private $total_nrOfOverdue = 0;
+	private $meta_nrOfOverdue = 0;
+	private $content_nrOfOverdue = 0;
+	
 	public function calculateSummary(&$tasks) {
 				
 		foreach($tasks as $k => $task){
@@ -78,6 +82,7 @@ class WTSummary{
 			$this->total_nrOfOwners += self::nrOfOwners($task);			
 			$this->total_nrOfProgress += self::nrOfProgress($task);
 			$this->total_progressSum += self::progress($task);
+			$this->total_nrOfOverdue += self::overdue($task);
 			$this->total_nrOfStart += self::nrOfStart($task);
 			$this->total_nrOfTarget += self::nrOfTarget($task);
 			$this->total_nrOfStartAndTarget += self::nrOfStartAndTarget($task);
@@ -97,6 +102,7 @@ class WTSummary{
 				$this->meta_nrOfOwners += self::nrOfOwners($task);			
 				$this->meta_nrOfProgress += self::nrOfProgress($task);
 				$this->meta_progressSum += self::progress($task);
+				$this->meta_nrOfOverdue += self::overdue($task);
 				$this->meta_nrOfStart += self::nrOfStart($task);
 				$this->meta_nrOfTarget += self::nrOfTarget($task);
 				$this->meta_nrOfStartAndTarget += self::nrOfStartAndTarget($task);
@@ -114,6 +120,7 @@ class WTSummary{
 				$this->content_nrOfOwners += self::nrOfOwners($task);			
 				$this->content_nrOfProgress += self::nrOfProgress($task);
 				$this->content_progressSum += self::progress($task);
+				$this->content_nrOfOverdue += self::overdue($task);
 				$this->content_nrOfStart += self::nrOfStart($task);
 				$this->content_nrOfTarget += self::nrOfTarget($task);
 				$this->content_nrOfStartAndTarget += self::nrOfStartAndTarget($task);
@@ -222,12 +229,19 @@ class WTSummary{
 			return $task['facts']['progress'];
 		return 0;
 	}
+	
+	private static function overdue($task) {
+		if(array_key_exists('overdue', $task['facts'])) 
+			if($task['facts']['overdue'] == true)
+				return 1;
+		return 0;
+	}
 
 		
 	public function toJson() {
 		return array(
 			'total' => array(
-								'nrOfTasks' => $this->total_nrOfTasks,
+				'nrOfTasks' => $this->total_nrOfTasks,
 				'percentageOfType' => 
 					$this->total_nrOfTasks == 0 ? 0:
 						$this->total_nrOfType/$this->total_nrOfTasks,	
@@ -246,6 +260,9 @@ class WTSummary{
 				'avgProgress' => 
 					$this->total_nrOfProgress == 0 ? 0:
 						$this->total_progressSum/$this->total_nrOfProgress,
+				'percentageOfOverdue' => 
+					$this->total_nrOfProgress == 0 ? 0:
+						$this->total_nrOfOverdue/$this->total_nrOfProgress,
 				'percentageOfStart' => 
 					$this->total_nrOfTasks == 0 ? 0:
 						$this->total_nrOfStart/$this->total_nrOfTasks,
@@ -294,6 +311,9 @@ class WTSummary{
 				'avgProgress' => 
 					$this->meta_nrOfProgress == 0 ? 0:
 						$this->meta_progressSum/$this->meta_nrOfProgress,
+				'percentageOfOverdue' => 
+					$this->meta_nrOfProgress == 0 ? 0:
+						$this->meta_nrOfOverdue/$this->meta_nrOfProgress,
 				'percentageOfStart' => 
 					$this->meta_nrOfTasks == 0 ? 0:
 						$this->meta_nrOfStart/$this->meta_nrOfTasks,
@@ -342,6 +362,9 @@ class WTSummary{
 				'avgProgress' => 
 					$this->content_nrOfProgress == 0 ? 0:
 						$this->content_progressSum/$this->content_nrOfProgress,
+				'percentageOfOverdue' => 
+					$this->content_nrOfProgress == 0 ? 0:
+						$this->content_nrOfOverdue/$this->content_nrOfProgress,
 				'percentageOfStart' => 
 					$this->content_nrOfTasks == 0 ? 0:
 						$this->content_nrOfStart/$this->content_nrOfTasks,

@@ -30,6 +30,7 @@ class WTChildrenDigram{
 
 	public function toJson() {
 		$children = array();
+		ksort($this->childrenPerTask);
 		foreach($this->childrenPerTask as $nrOfchilds => $data)
 			$children[] = array('nrofchilds'=> $nrOfchilds, 'metalevel'=> $data['metalevel'], 'contentlevel'=>$data['contentlevel']);
 		return array( 'avg' => $this->avgNrOfChilds, 'childdata' => $children);		
