@@ -9,6 +9,7 @@ WTPersonTasks.prototype.display = function( item ) {
 	var me = this;
 	me.$item = item;
 	me.displayTasks(me.tasks.incurrent, 'incurrent');
+	me.displayTasks(me.tasks.overdue, 'overdue');
 	me.displayTasks(me.tasks.infuture, 'infuture');	
 	me.displayTasks(me.tasks.inpast, 'inpast');
 };
@@ -57,6 +58,7 @@ WTPersonTasks.prototype.label = function( category ) {
 		case('infuture'): 	return 'Future Tasks';
 		case('incurrent'): 	return 'Current Tasks';
 		case('inpast'): 	return 'Completed Tasks';
+		case('overdue'): 	return 'Overdue Tasks';
 	}
 };
 

@@ -136,7 +136,7 @@ WTExplorerAPI.prototype.findMatchingTasks = function(f){
 			nrOfMatches++;	
 		if('incurrent' in f && t.facts.start < uxtoday && uxtoday < t.facts.target)
 			nrOfMatches++;	
-		if('inpast' in f && t.facts.target < uxtoday)
+		if('inpast' in f && t.facts.target < uxtoday && !t.facts.overdue)
 			nrOfMatches++;	
 		if(nrOfFilters == nrOfMatches)
 			matchingTasks[id]=true;
@@ -567,7 +567,8 @@ WTExplorerAPI.prototype.personsTasks = function(username) {
 	return {
 		infuture: me.personsTasksData(username, {infuture:true}, {infuture:true}, {target:true}),
 		incurrent: me.personsTasksData(username, {incurrent:true}, {incurrent:true}, {start:true}),
-		inpast: me.personsTasksData(username, {inpast:true}, {inpast:true}, {target:true})
+		inpast: me.personsTasksData(username, {inpast:true}, {inpast:true}, {target:true}),
+		overdue: me.personsTasksData(username, {overdue:true}, {overdue:true}, {target:true})
 	};
 };
 
