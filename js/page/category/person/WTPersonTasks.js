@@ -77,6 +77,10 @@ WTPersonTasks.prototype.description = function( category, task) {
 			if(task.facts.target == u)
 				return 'Target not defined yet!';
 			return 'Completed '+moment.unix(task.facts.target).fromNow();
+		case('overdue'): 	
+			if(task.facts.target == u)
+				return 'Target not defined yet!';
+			return 'Overdue '+moment.unix(task.facts.target).fromNow();
 	}
 };
 
