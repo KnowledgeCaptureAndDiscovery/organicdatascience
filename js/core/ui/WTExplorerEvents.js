@@ -27,7 +27,7 @@ WTExplorerEvents.attachAddTaskEvent = function($tree, expapi, api, title, baseur
 		e.preventDefault();
 		e.stopPropagation();
 	});
-	$input.keyup(function(e){
+	$input.keypress(function(e){
 	    if(e.keyCode == 13){
 	    	var val = $input.val();	
 	    	if(val=='')return;

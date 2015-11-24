@@ -590,7 +590,7 @@ a.todo:hover {
     padding-right: 23px;    
 	font-size: 12px;
     background-position: 100px 4px;
-    background-image: url('../../../skins/vector/images/search-ltr.png?303');
+    /*background-image: url('../../../skins/Vector/images/search-ltr.png?303');*/
     background-repeat: no-repeat;
 	margin-bottom:2px;
 }

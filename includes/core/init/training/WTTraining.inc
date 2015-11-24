@@ -15,7 +15,8 @@ class WTTraining{
     } 
  
     public function __construct2($fullname, $username) {   		
-        $url = $wgCanonicalServer.$wgScriptPath.'/extensions/WorkflowTasks/includes/training/training.xml';
+		  global $wgScriptPath, $wgCanonicalServer;
+        $url = $wgCanonicalServer.$wgScriptPath.'/extensions/WorkflowTasks/includes/core/init/training/training.xml';
         $this->loadXMLSchema($url);
         set_time_limit (60*60);
         $this->fullname = $fullname;

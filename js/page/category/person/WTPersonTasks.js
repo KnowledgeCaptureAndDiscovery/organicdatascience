@@ -120,6 +120,9 @@ WTPersonTasks.prototype.taskById = function(taskId){
 		return me.tasks.incurrent[taskId];
 	if(taskId in me.tasks.inpast)
 		return me.tasks.inpast[taskId];
+	if(taskId in me.tasks.overdue)
+		return me.tasks.overdue[taskId];
+	return null;
 	return null;
 };
 

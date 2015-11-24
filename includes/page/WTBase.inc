@@ -129,7 +129,7 @@ class WTBase {
 	}
 
 	function includeCSSHeaders($out, $wgDir) {
-		$out->addExtensionStyle( '//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' ); 
+		$out->addExtensionStyle( '//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' ); 
 		$out->addExtensionStyle( $wgDir . '/css/jquery/jquery.loadmask.css' );			
 		$out->addExtensionStyle( '//code.jquery.com/ui/1.11.2/themes/flick/jquery-ui.css'); 
 		$out->addExtensionStyle( $wgDir . '/css/jquery/jquery.autocomplete.css' );
@@ -229,7 +229,7 @@ class WTBase {
 	function addSidebarDiv($out) {
 		$out->addHTML("<div id='main-tree-sidebar'></div>");
 		global $wgUseSimpleTasks, $wgDefaultSkin;
-		if(!$wgUseSimpleTasks && $wgDefaultSkin=="vector") {
+		if(!$wgUseSimpleTasks && strtolower($wgDefaultSkin)=="vector") {
 			/** HACK! Overriding styles for sidebar adjustment*/
 			$style = '<style id="main-tree-sidebar-style">';
 			$style .= '#content-resize-btn{ margin-left: 230px !important;}';
@@ -286,9 +286,10 @@ class WTBase {
 	
 	function addYandexMetrica($out) {
 		global $wgUseSimpleTasks;
+		global $wgDisableTracking;
 		global $wgCanonicalServer;
 		global $wgExtensionAssetsPath;		
-		if(!$wgUseSimpleTasks) {
+		if(!$wgUseSimpleTasks && !$wgDisableTracking) {
 			$url = $wgCanonicalServer.$wgExtensionAssetsPath.'/WorkflowTasks/includes/tracking/YandexMetrica.html';
 			$out->addHTML(file_get_contents($url));
 		}

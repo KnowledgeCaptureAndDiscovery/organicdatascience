@@ -70,8 +70,8 @@ class WTAdminAPI extends ApiBase {
 
 	protected function getParamDescription() {
 		return array (
-			'operation' => 'Operation to be performed. One of show, add, del, newpage, updatesubobjects',
-			'username' => 'Username is similar with the user id)',
+			'operation' => 'Operation to be performed. One of addtraining, updatedocu',
+			'username' => 'Username is similar with the user id',
 			'fullname' => 'The users full name - "Firstname Lastname"'
 		);
 	}

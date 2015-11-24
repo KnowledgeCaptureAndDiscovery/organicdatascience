@@ -179,8 +179,8 @@ WTTaskMetaData.prototype.generateEdit = function(ptype, $content) {
 		case('start'):
 			$e = $('<input type="text" placeholder="Start" style="width:80px;"/>');	
 			$content.append($e);
-			initDateVal(p, $e);						
-			setDateLimit(me.meta.target, $e, true);
+			this.initDateVal(p, $e);						
+			this.setDateLimit(me.meta.target, $e, true);
 			$e.change(function(){
 				var v = $e.val()
 				m = moment(v, "YYYY-MM-DD");
@@ -203,8 +203,8 @@ WTTaskMetaData.prototype.generateEdit = function(ptype, $content) {
 		case('target'):
 			$e = $('<input type="text" placeholder="Target" style="width:80px;"/>');
 			$content.append($e);
-			initDateVal(p, $e);
-			setDateLimit(me.meta.start, $e, false);
+			this.initDateVal(p, $e);
+			this.setDateLimit(me.meta.start, $e, false);
 			$e.change(function(){
 				var v = $e.val()
 				m = moment(v, "YYYY-MM-DD");
@@ -223,31 +223,6 @@ WTTaskMetaData.prototype.generateEdit = function(ptype, $content) {
 					value: v
 				});	
 			});
-			
-			function initDateVal(property, $input){
-				var v = property.value;
-				if(!property.exist)
-					v = new Date().getTime()/1000;
-				$e.val(moment.unix(v).format('YYYY-MM-DD'));
-				$e.pickadate({format: 'yyyy-mm-dd'});	
-			}
-			
-			function setDateLimit(property, $input, isStart){				
-				if(isStart)
-					var c = me.expapi.calcStartConstraint(property.value, property.exist);
-				else
-					var c = me.expapi.calcTargetConstraint(property.value, property.exist);
-				setLimit('max', c.upper, $input);
-				setLimit('min', c.lower, $input);
-			}
-			
-			function setLimit(type, unixt, $input){
-				p = $input.pickadate('picker');
-				d = moment.unix(unixt).format('YYYY-MM-DD');
-				date = d.split("-");
-				date[1]--;
-				p.set(type, date);
-			}
 			break;
 		case('progress'):
 			var t = me.meta.type;
@@ -289,7 +264,7 @@ WTTaskMetaData.prototype.generateEdit = function(ptype, $content) {
 		case('participants'):
 			$edit = $('<div></div>');
 			$.each(p.value, function(k,v){
-				$edit.append(appendParticipant(v));
+				$edit.append(me.appendParticipant(v));
 			});			
 			$in = $('<input type="text" placeholder="Participant" style="width:100px;"/>');
 			$in.autocomplete2({lookup: me.expapi.personSuggestion()});			
@@ -299,7 +274,7 @@ WTTaskMetaData.prototype.generateEdit = function(ptype, $content) {
 					if(v != '' && me.meta.participants.value.indexOf(v) == -1){
 						$in.val('');
 						me.addLocal(ptype, v);
-						$in.before(appendParticipant(v));
+						$in.before(me.appendParticipant(v));
 						me.expapi.lockAll('Add Task Participant...', me);
 						me.wtapi.addParticipant(me.title, v, function(data){
 			        		me.expapi.notifyAll(data.wttasks.update, me);
@@ -321,41 +296,11 @@ WTTaskMetaData.prototype.generateEdit = function(ptype, $content) {
 			$content.append($edit);
 			$in.focus();
 
-			function appendParticipant(participant){
-				$a = $('<a class="plink">'+participant+'</a>');
-				if(!me.expapi.personExist(participant))
-					$a.addClass('new');					
-				$item = $('<div class="participant"></div>').append($a);
-				$del = $('<div class="del">&nbsp;</div>');
-				$del.click(function(){
-					$participant = $(this).closest('.participant');
-					var v = $participant.find('.plink').text();
-					me.expapi.lockAll('Remove Task Participant...', me);
-					me.wtapi.removeParticipant(me.title, participant, function(data){
-		        		me.expapi.notifyAll(data.wttasks.update, me);
-		        	});
-					me.removeLocal(ptype, v);
-					$participant.remove();
-					WTTracker.track({
-						component: WTTracker.c.metadata,
-						subcomponent: WTTracker.s.participants,
-						actiontype: WTTracker.t.del,
-						action: 'del participant',
-						taskId: me.title,
-						value: v
-					});	
-				});
-				$item.append($del)
-				$item.append(',')
-				return $item;
-			}	
-			
-			
 			break;
 		case('expertise'):
 			$edit = $('<div></div>');
 			$.each(p.value, function(k,v){
-				$edit.append(appendExpertise(v));
+				$edit.append(me.appendExpertise(v));
 			});			
 			$in = $('<input type="text" placeholder="Expertise" style="width:100px;"/>');
 			$in.autocomplete2({lookup: me.expapi.expertiseSuggestion()});
@@ -365,7 +310,7 @@ WTTaskMetaData.prototype.generateEdit = function(ptype, $content) {
 					if(v != '' && me.meta.expertise.value.indexOf(v) == -1){
 						$in.val('');	
 						me.addLocal(ptype, v);
-						$in.before(appendExpertise(v));	
+						$in.before(me.appendExpertise(v));	
 						me.expapi.lockAll('Add Task Expertise...', me);
 						me.wtapi.addExpertise(me.title, v, function(data){
 			        		me.expapi.notifyAll(data.wttasks.update, me);
@@ -387,30 +332,6 @@ WTTaskMetaData.prototype.generateEdit = function(ptype, $content) {
 			$content.append($edit);	
 			$in.focus();
 
-			function appendExpertise(expertise){
-				$item = $('<div class="expertise"><span>'+expertise+'</span></div>');
-				$del = $('<div class="del">&nbsp;</div>');
-				$del.click(function(){
-					$expertise = $(this).closest('.expertise');
-					v = $expertise.find('span').text();
-					me.expapi.lockAll('Remove Task Expertise...', me);
-					me.wtapi.removeExpertise(me.title, expertise, function(data){
-		        		me.expapi.notifyAll(data.wttasks.update, me);
-		        	});
-					me.removeLocal(ptype, v);
-					$expertise.remove();
-					WTTracker.track({
-						component: WTTracker.c.metadata,
-						subcomponent: WTTracker.s.expertise,
-						actiontype: WTTracker.t.del,
-						action: 'del expertise',
-						taskId: me.title,
-						value: v
-					});		
-				});
-				$item.append($del)
-				return $item;
-			}					
 			break;
 	}	
 
@@ -559,4 +480,85 @@ WTTaskMetaData.prototype.lock = function(message) {
 	this.$item.mask(lpMsg(message));
 };
 
+
+WTTaskMetaData.prototype.initDateVal = function(property, $input){
+	var v = property.value;
+	if(!property.exist)
+		v = new Date().getTime()/1000;
+	$input.val(moment.unix(v).format('YYYY-MM-DD'));
+	$input.pickadate({format: 'yyyy-mm-dd'});	
+};
+			
+WTTaskMetaData.prototype.setDateLimit = function(property, $input, isStart){
+	if(isStart)
+		var c = this.expapi.calcStartConstraint(property.value, property.exist);
+	else
+		var c = this.expapi.calcTargetConstraint(property.value, property.exist);
+	this.setLimit('max', c.upper, $input);
+	this.setLimit('min', c.lower, $input);
+};
+			
+WTTaskMetaData.prototype.setLimit = function(type, unixt, $input){
+	p = $input.pickadate('picker');
+	d = moment.unix(unixt).format('YYYY-MM-DD');
+	date = d.split("-");
+	date[1]--;
+	p.set(type, date);
+};
+
+WTTaskMetaData.prototype.appendParticipant = function(participant){
+	var me = this;
+	$a = $('<a class="plink">'+participant+'</a>');
+	if(!me.expapi.personExist(participant))
+		$a.addClass('new');					
+	$item = $('<div class="participant"></div>').append($a);
+	$del = $('<div class="del">&nbsp;</div>');
+	$del.click(function(){
+		$participant = $(this).closest('.participant');
+		var v = $participant.find('.plink').text();
+		me.expapi.lockAll('Remove Task Participant...', me);
+		me.wtapi.removeParticipant(me.title, participant, function(data){
+			me.expapi.notifyAll(data.wttasks.update, me);
+		});
+		me.removeLocal(ptype, v);
+		$participant.remove();
+		WTTracker.track({
+			component: WTTracker.c.metadata,
+			subcomponent: WTTracker.s.participants,
+			actiontype: WTTracker.t.del,
+			action: 'del participant',
+			taskId: me.title,
+			value: v
+		});	
+	});
+	$item.append($del)
+	$item.append(',')
+	return $item;
+};	
+			
+WTTaskMetaData.prototype.appendExpertise = function(expertise){
+	var me = this;
+	$item = $('<div class="expertise"><span>'+expertise+'</span></div>');
+	$del = $('<div class="del">&nbsp;</div>');
+	$del.click(function(){
+		$expertise = $(this).closest('.expertise');
+		v = $expertise.find('span').text();
+		me.expapi.lockAll('Remove Task Expertise...', me);
+		me.wtapi.removeExpertise(me.title, expertise, function(data){
+			me.expapi.notifyAll(data.wttasks.update, me);
+		});
+		me.removeLocal(ptype, v);
+		$expertise.remove();
+		WTTracker.track({
+			component: WTTracker.c.metadata,
+			subcomponent: WTTracker.s.expertise,
+			actiontype: WTTracker.t.del,
+			action: 'del expertise',
+			taskId: me.title,
+			value: v
+		});		
+	});
+	$item.append($del)
+	return $item;
+};					
 
