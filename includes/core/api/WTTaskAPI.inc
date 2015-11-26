@@ -30,7 +30,7 @@ class WTTaskAPI extends ApiBase {
 			
 		$exp = new WTTaskExplorer($this->title);
 		$this->result['update'] = $exp->getExplorer();
-		$this->result[ApiResult::META_BC_BOOLS] = array("success", "exist", "forward");
+		$this->result["_BC_bools"] = array("success", "exist", "forward");
 		$this->getResult()->addValue(null, 'wttasks', $this->result);
 	}
 	

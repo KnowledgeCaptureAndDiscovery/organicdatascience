@@ -122,7 +122,7 @@ class WTFactsAPI extends ApiBase {
 		$type = str_replace("SMWDI","", $type);
 		$key = ($type=="WikiPage") ? WTFactsAPI::getDIPage($di) : "";
 		$exists = ($type=="WikiPage") ? $di->getTitle()->exists() : "";
-		return array("val"=>$val, "text"=>$text, "type"=>$type, "key"=>$key, "exists"=>$exists, ApiResult::META_BC_BOOLS=>array("exists"));
+		return array("val"=>$val, "text"=>$text, "type"=>$type, "key"=>$key, "exists"=>$exists, "_BC_bools"=>array("exists"));
 	}
 
 	public static function setFactAuthors($title, $facts, $data) {
@@ -172,7 +172,7 @@ class WTFactsAPI extends ApiBase {
 				$newvals[] = $valobj;
 			}
 			$newfacts[$prop] = array("exists"=>$pd["exists"], "values"=>$newvals);
-			$newfacts[$prop][ApiResult::META_BC_BOOLS] = array("exists");
+			$newfacts[$prop]["_BC_bools"] = array("exists");
 		}
 
 		return $newfacts;
@@ -228,7 +228,7 @@ class WTFactsAPI extends ApiBase {
 					$vals[] = WTFactsAPI::getDVDetails($dv, $di);
 				}
 				$facts[$prop->getLabel()] = array("exists"=>$propexists, "values"=>$vals);
-				$facts[$prop->getLabel()][ApiResult::META_BC_BOOLS] = array("exists");
+				$facts[$prop->getLabel()]["_BC_bools"] = array("exists");
 			}
 		}
 		$facts = WTFactsAPI::setFactAuthors($title, $facts, $data);
@@ -285,7 +285,7 @@ class WTFactsAPI extends ApiBase {
 		foreach ( $parentobjs as $di ) {
 			$pdetails['parent'] = $di->getDbKey();
 		}
-		$pdetails[ApiResult::META_BC_BOOLS] = array("exists", "multivalues");
+		$pdetails["_BC_bools"] = array("exists", "multivalues");
 		return $pdetails;
 	}
 
@@ -387,7 +387,7 @@ class WTFactsAPI extends ApiBase {
 					WTFactsAPI::createPageWithCategory($value, "Answer");
 				$item = array("text"=>$antitle->getText(), 
 							"exists"=>$antitle->exists(), 
-							ApiResult::META_BC_BOOLS=>array("exists"),
+							"_BC_bools"=>array("exists"),
 							"key"=>$antitle->getDbKey());
 				$ret[] = array("item"=>$item);
 			}

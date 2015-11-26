@@ -104,7 +104,7 @@ class WTTaskUtil{
 					$details['title'] = $maintask->getText();
 					$details['exist'] = true;
 					$details['facts'] = WTTaskFacts::getExistingTaskFacts($res);
-            		$details[ApiResult::META_BC_BOOLS] = array("exist");
+            		$details["_BC_bools"] = array("exist");
 					$tasks[$maintask->getDbKey()] = $details;
 					if(sizeof($subtasks)>0)
 						$hasChild[$maintask->getDbKey()] = $subtasks;

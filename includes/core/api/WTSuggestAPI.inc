@@ -59,9 +59,9 @@ class WTSuggestAPI extends ApiBase {
 		foreach($result->getResults() as $page) {
 			$plabel = str_replace('_', ' ', $page->getDBKey());
 			if(preg_match("/^$search/i", $plabel))
-				$main_suggestions[] = array("exists"=>true, "label"=>$plabel, ApiResult::META_BC_BOOLS=>array("exists"));
+				$main_suggestions[] = array("exists"=>true, "label"=>$plabel, "_BC_bools"=>array("exists"));
 			else if(preg_match("/$search/i", $plabel))
-				$extra_suggestions[] = array("exists"=>true, "label"=>$plabel, ApiResult::META_BC_BOOLS=>array("exists"));
+				$extra_suggestions[] = array("exists"=>true, "label"=>$plabel, "_BC_bools"=>array("exists"));
 		}
 		$suggestions = array_merge($main_suggestions, $extra_suggestions);
 		return array( "Success", $suggestions, "$category Pages matching $search");
@@ -75,7 +75,13 @@ class WTSuggestAPI extends ApiBase {
 
 		$prophash = array();
 		$opts = new SMWRequestOptions();
-		$propcounts = $store->getPropertiesSpecial($opts)->fetchList();
+		$list = $store->getPropertiesSpecial($opts);
+		$propcounts = array();
+		if(method_exists($list, "fetchList"))
+			$propcounts = $list->fetchList();
+		else if(method_exists($list, "getResults"))
+			$propcounts = $list->getResults();
+
 		foreach($propcounts as $pcount) {
 			$prop = $pcount[0];
 			$count = $pcount[1];
@@ -90,15 +96,21 @@ class WTSuggestAPI extends ApiBase {
 			$prophash[$plabel] = true;
 			if($plabel && !preg_match('/^(SubTask|Answer|Workflow)$/', $plabel)) {
 				if(!$search) 
-					$main_suggestions[] = array("exists"=>$propexists, "label"=>$plabel, ApiResult::META_BC_BOOLS=>array("exists"));
+					$main_suggestions[] = array("exists"=>$propexists, "label"=>$plabel, "_BC_bools"=>array("exists"));
 				else if(preg_match("/^$search/i", $plabel))
-					$main_suggestions[] = array("exists"=>$propexists, "label"=>$plabel, ApiResult::META_BC_BOOLS=>array("exists"));
+					$main_suggestions[] = array("exists"=>$propexists, "label"=>$plabel, "_BC_bools"=>array("exists"));
 				else if(preg_match("/$search/i", $plabel))
-					$extra_suggestions[] = array("exists"=>$propexists, "label"=>$plabel, ApiResult::META_BC_BOOLS=>array("exists"));
+					$extra_suggestions[] = array("exists"=>$propexists, "label"=>$plabel, "_BC_bools"=>array("exists"));
 			}
 		}
 
-		$unusedprops = $store->getUnusedPropertiesSpecial($opts)->fetchList();
+		$list = $store->getUnusedPropertiesSpecial($opts);
+		$unusedprops = array();
+		if(method_exists($list, "fetchList"))
+			$unusedprops = $list->fetchList();
+		else if(method_exists($list, "getResults"))
+			$unusedprops = $list->getResults();
+
 		foreach($unusedprops as $prop) {
 			$plabel = $prop->getLabel();
 			if($prophash[$plabel]) continue;
@@ -106,7 +118,7 @@ class WTSuggestAPI extends ApiBase {
 			if($plabel &&
 					!preg_match('/^(SubTask|Answer|Workflow)$/', $plabel) && 
 					preg_match("/$search/i", $plabel))
-				$extra_suggestions[] = array("exists"=>true, "label"=>$plabel, ApiResult::META_BC_BOOLS=>array("exists"));
+				$extra_suggestions[] = array("exists"=>true, "label"=>$plabel, "_BC_bools"=>array("exists"));
 		}
 
 		$suggestions = array_merge($main_suggestions, $extra_suggestions);

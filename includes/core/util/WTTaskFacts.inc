@@ -19,7 +19,7 @@ class WTTaskFacts{
 		$f['participants'][] = self::$unknown;	
 		$f['metaprogress'] = 0;
 		$f['missingparam'] = true;		
-		$f[ApiResult::META_BC_BOOLS] = array("overdue", "childoverdue", "missingparam", "childwarning");
+		$f["_BC_bools"] = array("overdue", "childoverdue", "missingparam", "childwarning");
 		return $f;
 	}	
 	
@@ -34,7 +34,7 @@ class WTTaskFacts{
 		$f['participants'] = self::participantsFromFacts($res[8]);				
 		$f['metaprogress'] = self::metaProgress($f);	
 		$f['missingparam'] = $f['metaprogress'] < 100;		
-		$f[ApiResult::META_BC_BOOLS] = array("overdue", "childoverdue", "missingparam", "childwarning");
+		$f["_BC_bools"] = array("overdue", "childoverdue", "missingparam", "childwarning");
 		return $f;
 	}
 	
