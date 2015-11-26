@@ -2,6 +2,24 @@ var WTCategoryChooser = function(title, util, api ) {
 	this.title = title;
 	this.util = util;
 	this.api = api;
+	this.fetchCategories();
+};
+
+WTCategoryChooser.prototype.fetchCategories = function() {
+	var catmap = new Array();
+	for(var i=0; i<wtallcategories.length; i++)
+		catmap[wtallcategories[i]] = true;
+
+	this.api.getAllCategories( function (cats) {
+		for(var i=0; i<cats.length; i++) {
+			var cat = cats[i];
+			if(!catmap[cat]) {
+				catmap[cat] = true;
+				wtallcategories.push(cat);
+			}
+		}
+		wtallcategories.sort();
+	});	
 };
 
 WTCategoryChooser.prototype.display = function( item ) {

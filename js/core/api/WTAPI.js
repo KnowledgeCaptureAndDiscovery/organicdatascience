@@ -231,13 +231,8 @@ WTAPI.prototype.createPageWithCategory = function( title, category, callbackfunc
 	}, callbackfunction, "json");
 };
 
-//<<<<<<< HEAD:js/core/api/WTAPI.js
-//WTAPI.prototype.updateSubobjects = function( title, subobjectsjson, callbackfunction, callbackObj, self) {
-//	$.post(this.apiuri, {
-//=======
 WTAPI.prototype.updateSubobjects = function( title, subobjectsjson, callbackfunction ) {
 	$.post(this.apiuri, {
-//>>>>>>> origin/master:js/WTAPI.js
 		"action"          : "wtfacts",
 		"operation"       : "updatesubobjects",
 		"title"           : title,
@@ -372,6 +367,21 @@ WTAPI.prototype.addTraining = function(fullname, username, callbackfunction) {
 	}, callbackfunction, "json");
 };
 
+WTAPI.prototype.getAllCategories = function(callbackfunction) {
+	var me = this;
+	$.getJSON(this.apiuri, {
+		"action"   : "query",
+		"list"     : "allcategories",
+		"format"   : "json"
+	}, function(result) {
+		var categories = new Array();
+		for(var i=0; i<result.query.allcategories.length; i++) 
+			categories.push(result.query.allcategories[i]["*"]);
+
+		callbackfunction(categories);
+	});
+};
+
 WTAPI.prototype.setToken = function() {
 	var me = this;
 	$.getJSON(this.apiuri, {
@@ -385,3 +395,4 @@ WTAPI.prototype.setToken = function() {
 			me.editToken =  result.query.pages[i].edittoken;
 	});
 };
+

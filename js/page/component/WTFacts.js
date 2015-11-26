@@ -100,6 +100,8 @@ WTFacts.prototype.getfactrow = function( fact, item, data ) {
 		delhref = $('<i class="fa fa-tag fa-lg" style="color:#667"></i>');
 	}
 
+    var wgScriptPath = mw.config.get('wgScriptPath');
+
 	var lprop = fact.property.name;
 	var propcls = fact.property.exists ? 'lodlink' : 'lodlink new';
 	var propuri = wgScriptPath + '/index.php/Property:' + fact.property.name;

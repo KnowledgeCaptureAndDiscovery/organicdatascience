@@ -38,6 +38,7 @@ class WTTaskExplorer{
 		$e['user']['isLoggedIn'] = $wgUser->isLoggedIn();	
 		$e['user']['persons'] = $persons;	
 		$e['user']['expertise'] = $expertise;		
+		$e['user'][ApiResult::META_BC_BOOLS] = array("isLoggedIn");
 		return $e;
 	}
 	
@@ -66,6 +67,7 @@ class WTTaskExplorer{
 					$task['title'] = str_replace('_', ' ', $childId);
 					$task['exist'] = false;				
 					$task['facts'] = WTTaskFacts::getInitialTaskFacts();	
+					$task[ApiResult::META_BC_BOOLS] = array("exist");
 					$this->tasks[$childId] = $task;
 				}
 	}
