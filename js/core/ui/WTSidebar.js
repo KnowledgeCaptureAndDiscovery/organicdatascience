@@ -249,7 +249,7 @@ WTSidebar.prototype.initExplorer = function() {
 			action: 'open task',
 			taskId: taskId,
 			callback: function(){
-				console.log(taskId);
+				//console.log(taskId);
 				document.location.href = baseurl+'/index.php/'+taskId;
 			}
 		});	

@@ -403,6 +403,10 @@ class WTFactsAPI extends ApiBase {
 				$valtitle = Title::newFromText($value);
 				if(!$valtitle->exists())
 					WTFactsAPI::createPageWithCategory($value, "DataType");
+				$ret[] = null;
+			}
+			else {
+				$ret[] = null;
 			}
 		}
 		return $ret;
@@ -1028,11 +1032,6 @@ class WTFactsAPI extends ApiBase {
 	}
 
 	public static function createPageWithCategory($title, $category) {
-//<<<<<<< HEAD:includes/core/api/WTFactsAPI.inc
-//		$text = "[[Category:$category]]\n";
-//		$summary = "Creating new page with Category: $category";
-//		return WTFactsAPI::createWikiPage($title, $text, $summary);
-//=======
 		$subTitle = Title::newFromText($title);
 		$cat = "";
 		if($subTitle->exists()) {
@@ -1048,7 +1047,6 @@ class WTFactsAPI extends ApiBase {
 		} else {
 			return array( "Success", "Already exists" );
 		}
-//>>>>>>> origin/master:includes/WTFactsAPI.inc
 	}
 
 	public static function createWikiPage($title, $text, $summary) {

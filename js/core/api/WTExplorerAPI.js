@@ -614,7 +614,7 @@ WTExplorerAPI.prototype.subscribe = function(subscriber) {
 	this.subscribers.push(subscriber);
 };
 WTExplorerAPI.prototype.notifyAll = function(data, notnotify) {
-	console.log('notify all');
+	//console.log('notify all');
 	this.initData(data);
 	$.each(this.subscribers, function(k,subscriber){
 		if(subscriber != notnotify)
