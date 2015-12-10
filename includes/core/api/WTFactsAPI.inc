@@ -721,12 +721,13 @@ class WTFactsAPI extends ApiBase {
 		return $data;
 	}
 
+	// Create a page for the value it should belong to a category
 	private static function createValuePage($propDI, $valDI) {
 		$details = WTFactsAPI::getPropertyDetails($propDI->getLabel());
-		if($details["type"] == "_wpg") {
+		$cat = array_key_exists("category", $details) ? $details["category"] : null;
+		if($details["type"] == "_wpg" && $cat) {
 			$title = Title::newFromText($valDI->getDbKey());
 			if(!$title->exists()) {
-				$cat = array_key_exists("category", $details) ? $details["category"] : null;
 				$text = $cat ? "[[Category:$cat]]\n" : "";
 				$summary = "Creating new page";
 				WTFactsAPI::createWikiPage($valDI->getDbKey(), $text, $summary);
