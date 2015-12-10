@@ -112,6 +112,8 @@ class WTSuggestAPI extends ApiBase {
 			$unusedprops = $list->getResults();
 
 		foreach($unusedprops as $prop) {
+			$pkey = $prop->getKey();
+			if($pkey[0] == "_") continue;
 			$plabel = $prop->getLabel();
 			if($prophash[$plabel]) continue;
 			$prophash[$plabel] = true;

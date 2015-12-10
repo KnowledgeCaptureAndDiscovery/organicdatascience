@@ -45,6 +45,9 @@ $wgAutoloadClasses['WTSample'] 				= $wgAbsDir . '/includes/core/init/sample/WTS
 $wgAutoloadClasses['WTDocu'] 				= $wgAbsDir . '/includes/page/category/special/WTDocu.inc';
 $wgAutoloadClasses['WTAdmin'] 				= $wgAbsDir . '/includes/page/category/special/WTAdmin.inc';
 $wgAutoloadClasses['WTBatchTasks'] 			= $wgAbsDir . '/includes/page/category/special/WTBatchTasks.inc';
+
+$wgAutoloadClasses['WTLiPD'] 				= $wgAbsDir . '/includes/page/category/special/lipd/WTLiPD.inc';
+
 $wgAutoloadClasses['WTDashboard'] 			= $wgAbsDir . '/includes/page/category/special/dashboard/WTDashboard.inc';
 $wgAutoloadClasses['WTDashboardAnalyze'] 	= $wgAbsDir . '/includes/page/category/special/dashboard/WTDashboardAnalyze.inc';
 $wgAutoloadClasses['WTCollaborationGraph'] 	= $wgAbsDir . '/includes/page/category/special/dashboard/WTCollaborationGraph.inc';
@@ -63,7 +66,10 @@ $wgAPIModules['wtsuggest'] = 'WTSuggestAPI';
 
 $wgSpecialPages['WTBatchTasks']  = 'WTBatchTasks';
 $wgSpecialPages['WTDashboard']  = 'WTDashboard';
-
+$wgSpecialPages['WTLiPD']  = 'WTLiPD';
+$wgSpecialPageGroups['WTBatchTasks']  = 'ODSGroup';
+$wgSpecialPageGroups['WTDashboard']  = 'ODSGroup';
+$wgSpecialPageGroups['WTLiPD']  = 'ODSGroup';
 
 $wgHooks['BeforePageDisplay'][] = 'WTRender';
 function WTRender (&$out, &$skin) {
@@ -146,3 +152,12 @@ function WTRender (&$out, &$skin) {
 
 	return true;
 }
+
+
+/*$wgHooks['SidebarBeforeOutput'][] = 'WTSidebar';
+function WTSidebar ($skin, &$sidebar) {
+	$main = new WTMainPage("Main_Page");
+	$main->modifySidebar($sidebar);
+	return true;
+}*/
+

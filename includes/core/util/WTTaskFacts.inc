@@ -60,8 +60,9 @@ class WTTaskFacts{
 	private static function startFromFacts(&$res){
 		$start = self::$unknown;
 		if($s = $res->getNextObject()){
-			if(preg_match('/^[2][0-9]{3}[-][0-1][0-9][-][0-3][0-9]/', $s->getText())){
-				$date = DateTime::createFromFormat('Y-m-d', $s->getText(), new DateTimeZone('UTC'));
+			$stext = method_exists($s, "getISO8601Date") ? $s->getISO8601Date() : $s->getText();
+			if(preg_match('/^[2][0-9]{3}[-][0-1][0-9][-][0-3][0-9]/', $stext)){
+				$date = DateTime::createFromFormat('Y-m-d', $stext, new DateTimeZone('UTC'));
 				$start = $date->getTimestamp();			
 			}
 		}
@@ -71,8 +72,9 @@ class WTTaskFacts{
 	private static function targetFromFacts(&$res){
 		$target = self::$unknown;
 		if($t = $res->getNextObject()){
-			if(preg_match('/^[2][0-9]{3}[-][0-1][0-9][-][0-3][0-9]/', $t->getText())){ 
-				$date = DateTime::createFromFormat('Y-m-d', $t->getText(), new DateTimeZone('UTC')); 
+			$ttext = method_exists($t, "getISO8601Date") ? $t->getISO8601Date() : $t->getText();
+			if(preg_match('/^[2][0-9]{3}[-][0-1][0-9][-][0-3][0-9]/', $ttext)){ 
+				$date = DateTime::createFromFormat('Y-m-d', $ttext, new DateTimeZone('UTC')); 
 				$target = $date->getTimestamp();			
 			}
 		}

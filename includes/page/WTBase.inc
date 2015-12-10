@@ -72,6 +72,9 @@ class WTBase {
 	function includeJSHeaders($out, $wgDir) {
 		$out->includeJQuery();
 		$out->addScriptFile( '//code.jquery.com/ui/1.11.2/jquery-ui.js' ); 
+		$out->addScriptFile( '//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.3.7/jquery.noty.min.js' ); 
+		$out->addScriptFile( '//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.3.7/layouts/top.min.js' ); 
+		$out->addScriptFile( '//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.3.7/themes/relax.min.js' ); 
 		//$out->addScriptFile( $wgDir . '/js/lib/jquery/jquery.jeditable.js' );
 		$out->addScriptFile( $wgDir . '/js/lib/jquery/jquery.loadmask.min.js' );
 		$out->addScriptFile( $wgDir . '/js/lib/jquery/jquery.autocomplete.js' );

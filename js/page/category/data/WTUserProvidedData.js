@@ -32,7 +32,11 @@ WTUserProvidedData.prototype.getListItem = function( list, data ) {
 	}
 	
 	var wflink = data.location.replace(/\s/g,'_');
-	data_li.append($('<a href="./File:'+wflink+'"></a>').append("<b>"+wflink+"</b>"));
+	var wfname = data.location.replace(/^File:/, '');
+
+    var wgScriptPath = mw.config.get('wgScriptPath');
+    var wfuri = wgScriptPath + '/index.php/' + wflink;
+	data_li.append($('<a href="'+wfuri+'"></a>').append("<b>"+wfname+"</b>"));
 
 	return data_li;
 };

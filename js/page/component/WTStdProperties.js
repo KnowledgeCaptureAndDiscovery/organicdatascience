@@ -311,13 +311,15 @@ WTStdProperties.prototype.generateContent = function(pname, index) {
 	var me = this;
 	var property = this.stdprops[pname];
 	var valobj = me.propValue(pname, index);
+    var wgScriptPath = mw.config.get('wgScriptPath');
 	$content = $('<div></div>');
 	if(valobj) {
     	$valentity = $("<span></span>");
 		$valentity.html(valobj.text);
     	if(valobj.type == 'WikiPage') {
         	var valcls = valobj.exists ? '' : 'new';
-        	$valentity = $("<a href='"+valobj.key+"' class='"+valcls+"'>"+valobj.val.replace(/_/g,' ')+"</a>");
+    		var valuri = wgScriptPath + '/index.php/' + valobj.key;
+        	$valentity = $("<a href='"+valuri+"' class='"+valcls+"'>"+valobj.val.replace(/_/g,' ')+"</a>");
 			$valentity.click(function(e) { e.stopPropagation(); });
     	}
     	else if(valobj.type == 'Uri') {

@@ -17,6 +17,7 @@ class WTMainPage extends WTBase {
 		$old = $out->getHTML();
 		$out->clearHTML();
 
+
 		global $wgUseSimpleTasks;
 		if($wgUseSimpleTasks) {
 			# Recent Changes
@@ -44,49 +45,72 @@ class WTMainPage extends WTBase {
 
 
 	function addRecentChangedPages($out, $limit) {
-		$changedPages = $this->getRecentlyChangedPages($limit);
 		$out->addHTML("<div class='wt-sidebox props-table'>");
 		$out->addHTML("<div class='heading'><b>Recently Changed Pages</b></div>");
 		$out->addHTML("<div style='padding:5px'>");
-		$out->addHTML("<ul>");
-		foreach($changedPages as $page) {
-			$page_text = str_replace("_", " ", $page);
-			$out->addHTML("<li><a href='$page'>$page_text</a></li>");
-		}
-		$out->addHTML("</ul>");
+		$out->addHTML($this->getRecentChangesHTML($limit));
 		$out->addHTML("</div>");
 		$out->addHTML("</div>");
 	}
 
 	function addRecentContributors($out, $limit) {
-		$recentContribs = $this->getRecentContributors($limit);
 		$out->addHTML("<div class='wt-sidebox props-table'>");
 		$out->addHTML("<div class='heading'><b>Recent Contributors</b></div>");
 		$out->addHTML("<div style='padding:5px'>");
-		$out->addHTML("<ul>");
-		foreach($recentContribs as $user) {
-			$user_text = str_replace("_", " ", $user);
-			$out->addHTML("<li><a href='./User:$user'>$user_text</a></li>");
-		}
-		$out->addHTML("</ul>");
+		$out->addHTML($this->getRecentContributorsHTML($limit));
 		$out->addHTML("</div>");
 		$out->addHTML("</div>");
 	}
 
 	function addHighestContributors($out, $limit) {
-		$highestContribs = $this->getHighestContributors($limit);
 		$out->addHTML("<div class='wt-sidebox props-table'>");
 		$out->addHTML("<div class='heading'><b>Highest Contributors</b></div>");
 		$out->addHTML("<div style='padding:5px'>");
-		$out->addHTML("<ul>");
-		foreach($highestContribs as $user) {
-			$user_text = str_replace("_", " ", $user[0]);
-			$out->addHTML("<li><a href='./User:".$user[0]."'>$user_text</a> (".$user[1]." Edits)</li>");
-		}
-		$out->addHTML("</ul>");
+		$out->addHTML($this->getHighestContributorsHTML($limit));
 		$out->addHTML("</div>");
 		$out->addHTML("</div>");
 	}
+
+	function modifySidebar(&$sidebar) {
+		$limit = $this->limit;
+		//$sidebar["Recently Changed Pages"] = $this->getRecentChangesHTML($limit);
+		$sidebar["Highest Contributors"] = $this->getHighestContributorsHTML($limit);
+		$sidebar["Recent Contributors"] = $this->getRecentContributorsHTML($limit);
+	}
+
+	function getRecentContributorsHTML($limit) {
+		$users = $this->getRecentContributors($limit);
+		$html = "<ul>";
+		foreach($users as $user) {
+			$user_text = str_replace("_", " ", $user);
+			$html .= "<li><a href='./User:$user'>$user_text</a></li>";
+		}
+		$html .= "</ul>";
+		return $html;
+	}
+
+	function getHighestContributorsHTML($limit) {
+		$users = $this->getHighestContributors($limit);
+		$html = "<ul>";
+		foreach($users as $user) {
+			$user_text = str_replace("_", " ", $user[0]);
+			$html .= "<li><a href='./User:".$user[0]."'>$user_text</a> (".$user[1]." Edits)</li>";
+		}
+		$html .= "</ul>";
+		return $html;
+	}
+
+	function getRecentChangesHTML($limit) {
+		$pages = $this->getRecentlyChangedPages($limit);
+		$html = "<ul>";
+		foreach($pages as $page) {
+			$page_text = str_replace("_", " ", $page);
+			$html .= "<li><a href='$page'>$page_text</a></li>";
+		}
+		$html .= "</ul>";
+		return $html;
+	}
+
 
 	function getRecentlyChangedPages($limit) {
 		$dbr = wfGetDB( DB_SLAVE );
@@ -141,12 +165,12 @@ class WTMainPage extends WTBase {
 				'LIMIT' => "$limit"
 			)
 		);
-		$recentContribs = array();
+		$highestContribs = array();
 		if( $res && $dbr->numRows( $res ) > 0 ) {
 			while($row = $dbr->fetchObject( $res ))
-				$recentContribs[] = array($row->rev_user_text, $row->total);
+				$highestContribs[] = array($row->rev_user_text, $row->total);
 		}
-		return $recentContribs;
+		return $highestContribs;
 	}
 }
 

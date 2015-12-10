@@ -286,7 +286,12 @@ WTAPI.prototype.addFactRaw = function( subject, predicate, object, subobjectsjso
 		"subobjectsjson"  : subobjectsjson,
 		"format"          : "json",
 		"token"           : this.editToken
-	}, callbackfunction, "json");
+	}, function(data){
+		if(data.wtfacts.result == "Error") {
+			noty({text: data.wtfacts.text, type:'error', theme:'relax'});
+		}
+		callbackfunction(data, self);
+	}, "json");
 };
 
 WTAPI.prototype.removeFactRaw = function( subject, predicate, object, subobjectsjson, callbackfunction ) {

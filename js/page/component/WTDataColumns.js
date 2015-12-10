@@ -14,6 +14,7 @@ WTDataColumns.prototype.appendLinkItem = function( list, link, name ) {
 };
 
 WTDataColumns.prototype.getListItem = function( list, col ) {
+	if(!col) return null;
 	var col_li = $('<li class="column"></li>');
 
 	var me = this;
