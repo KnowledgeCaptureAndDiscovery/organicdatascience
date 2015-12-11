@@ -1,8 +1,5 @@
 <?php
 
-require_once("LiPDJson.inc");
-require_once("LiPDWiki.inc");
-
 class WTLiPD extends SpecialPage {
 	
 	public function __construct() {
@@ -10,12 +7,17 @@ class WTLiPD extends SpecialPage {
 	}
 
 	function execute( $par ) {
-		global $wgDir;
+		global $wgDir, $wgUseLiPD;
 		$request = $this->getRequest();
 		$out = $this->getOutput();
 		$out->addExtensionStyle( $wgDir . '/css/wtree.css' );
 		$this->setHeaders();
- 
+
+		if(!$wgUseLiPD) {
+			$out->addHTML("LiPD extension is not supported on this wiki");
+			return;
+		}
+
 		$this->handleOperation($request, $out);
 		$this->showImportForm($out);
 		$this->showDatasets("LiPD", $out);
@@ -43,6 +45,7 @@ class WTLiPD extends SpecialPage {
 	}
 
 	function importLiPD( $out ) {
+		require_once("LiPDJson.inc");
 		if(array_key_exists("files", $_FILES)) {
 			$files = $_FILES["files"];
 
@@ -64,6 +67,8 @@ class WTLiPD extends SpecialPage {
 	}
 
 	function exportLiPD($dsid, $request, $out) {
+		require_once("LiPDWiki.inc");
+
 		$exporter = new LiPDWiki($dsid);
 		$lipdfile = $exporter->export($out);
 
@@ -81,6 +86,8 @@ class WTLiPD extends SpecialPage {
 	}
 
 	function deleteLiPD($dsid, $out) {
+		require_once("LiPDWiki.inc");
+
 		$deleter = new LiPDWiki($dsid);
 		$deleter->delete($out);
 	}

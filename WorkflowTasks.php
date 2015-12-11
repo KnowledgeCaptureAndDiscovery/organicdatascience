@@ -15,7 +15,7 @@ $wgAbsDir = dirname(__File__);
 $wgDir = $wgScriptPath."/extensions/WorkflowTasks";
 
 # Global variables that can be defined in LocalSettings.php
-global $wgUseSimpleTasks, $wgDisableTracking;
+global $wgUseSimpleTasks, $wgDisableTracking, $wgUseLiPD;
 
 $wgAutoloadClasses['WTBase'] 				= $wgAbsDir . '/includes/page/WTBase.inc';
 $wgAutoloadClasses['WTMainPage'] 			= $wgAbsDir . '/includes/page/category/main/WTMainPage.inc';
@@ -66,9 +66,10 @@ $wgAPIModules['wtsuggest'] = 'WTSuggestAPI';
 
 $wgSpecialPages['WTBatchTasks']  = 'WTBatchTasks';
 $wgSpecialPages['WTDashboard']  = 'WTDashboard';
-$wgSpecialPages['WTLiPD']  = 'WTLiPD';
 $wgSpecialPageGroups['WTBatchTasks']  = 'ODSGroup';
 $wgSpecialPageGroups['WTDashboard']  = 'ODSGroup';
+
+$wgSpecialPages['WTLiPD']  = 'WTLiPD';
 $wgSpecialPageGroups['WTLiPD']  = 'ODSGroup';
 
 $wgHooks['BeforePageDisplay'][] = 'WTRender';
