@@ -38,4 +38,8 @@ class WTBatchTasks extends SpecialPage {
 		$html .= "</form>\n";
 		$out->addHtml($html);
 	}
+
+	function getGroupName() {
+		return "ODSGroup";
+	}
 }

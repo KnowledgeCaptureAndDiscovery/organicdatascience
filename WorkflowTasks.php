@@ -57,6 +57,152 @@ $wgAutoloadClasses['WTSummary'] 			= $wgAbsDir . '/includes/page/category/specia
 
 $wgExtensionMessagesFiles['WorkflowTasks'] 	= $wgAbsDir . '/languages/WT_Messages.php';
 
+$wgResourceModules['WorkflowTasks'] = array(
+	'position' => 'top',
+	'scripts' => array(
+		'includes/tracking/WTTracker.js',
+		'js/core/api/WTAPI.js',
+		'js/core/api/WTExplorerParser.js',
+		'js/core/api/WTExplorerAPI.js',
+		'js/core/util/WTUtil.js',
+		'js/core/ui/WTSidebar.js',
+		'js/core/ui/WTExplorerMenu.js',
+		'js/core/ui/WTExplorerEvents.js',
+		'js/core/ui/WTSidebarResizer.js',
+		'js/core/ui/WTTimeline.js',
+		'js/core/ui/WTTaskAlert.js',
+		'js/core/ui/WTDialog.js',
+		'js/page/component/WTFacts.js',
+		'js/page/component/WTStdProperties.js',
+		'js/page/component/WTCredits.js',
+		'js/page/component/WTCategoryChooser.js',
+		'js/page/component/WTDataColumns.js',
+		'js/page/category/task/WTTasks.js',
+		'js/page/category/task/WTTaskContext.js',
+		'js/page/category/task/WTSubTasks.js',
+		'js/page/category/task/WTSimpleTasks.js',
+		'js/page/category/task/WTTaskMetaData.js',
+		'js/page/category/answer/WTAnswers.js',
+		'js/page/category/data/WTData.js',
+		'js/page/category/data/WTUserProvidedData.js',
+		'js/page/category/data/WTUserDescribedData.js',
+		'js/page/category/workflow/WTComponent.js',
+		'js/page/category/workflow/WTWorkflow.js',
+		'js/page/category/workflow/WTExecutedWorkflow.js',
+		'js/page/category/person/WTPerson.js',
+		'js/page/category/person/WTPersonExpertise.js',
+		'js/page/category/person/WTPersonContext.js',
+		'js/page/category/person/WTPersonTasks.js',
+		'js/page/category/special/WTDocu.js',
+		'js/page/category/special/WTAdmin.js',
+		'js/main.js'
+	),
+	'dependencies' => array(
+		'WorkflowTasks.extra'
+	),
+	'localBasePath' => __DIR__,
+	'remoteExtPath' => 'WorkflowTasks'
+);
+
+$wgResourceModules['WorkflowTasks.extra'] = array(
+	'position' => 'top',
+	'scripts' => array(
+		'js/lib/jquery/noty/jquery.noty.min.js',
+		'js/lib/jquery/noty/top.min.js',
+		'js/lib/jquery/noty/relax.min.js',
+		'js/lib/jquery/jquery.loadmask.min.js',
+		'js/lib/jquery/jquery.autocomplete2.js',
+		'js/lib/jquery/jquery.tooltipster.min.js',
+		'js/lib/jquery/jquery.picker.js',
+		'js/lib/jquery/jquery.picker.date.js',
+		'js/lib/jquery/jquery.lightbox_me.js',
+		'js/lib/moment/moment.min.js',
+		'js/lib/jstree/jstree.js',
+		'js/lib/raphael/raphael-min.js',
+	),
+	'styles' => array(
+		'css/font-awesome/css/font-awesome.min.css',
+		'css/jquery/jquery.loadmask.css',		
+		'css/jquery/jquery.autocomplete.css',
+		'css/jquery/jquery.tooltipster.css',
+		'css/jquery/jquery.tooltipster.custom.css',
+		'css/jquery/jquery.picker.classic.css',
+		'css/jquery/jquery.picker.classic.date.css',
+		'css/jquery/jquery.picker.classic.date.custom.css',
+		'css/jstree/style.css',
+		'css/jstree/style.custom.css'
+	),
+	'dependencies' => array(
+		'jquery.ui.core',
+		'jquery.ui.autocomplete',
+		'jquery.ui.widget',
+	),
+	'localBasePath' => __DIR__,
+	'remoteExtPath' => 'WorkflowTasks'
+);
+
+$wgResourceModules['WorkflowTasks'] = array(
+	'position' => 'top',
+	'scripts' => array(
+		'includes/tracking/WTTracker.js',
+		'js/core/api/WTAPI.js',
+		'js/core/api/WTExplorerParser.js',
+		'js/core/api/WTExplorerAPI.js',
+		'js/core/util/WTUtil.js',
+		'js/core/ui/WTSidebar.js',
+		'js/core/ui/WTExplorerMenu.js',
+		'js/core/ui/WTExplorerEvents.js',
+		'js/core/ui/WTSidebarResizer.js',
+		'js/core/ui/WTTimeline.js',
+		'js/core/ui/WTTaskAlert.js',
+		'js/core/ui/WTDialog.js',
+		'js/page/component/WTFacts.js',
+		'js/page/component/WTStdProperties.js',
+		'js/page/component/WTCredits.js',
+		'js/page/component/WTCategoryChooser.js',
+		'js/page/component/WTDataColumns.js',
+		'js/page/category/task/WTTasks.js',
+		'js/page/category/task/WTTaskContext.js',
+		'js/page/category/task/WTSubTasks.js',
+		'js/page/category/task/WTSimpleTasks.js',
+		'js/page/category/task/WTTaskMetaData.js',
+		'js/page/category/answer/WTAnswers.js',
+		'js/page/category/data/WTData.js',
+		'js/page/category/data/WTUserProvidedData.js',
+		'js/page/category/data/WTUserDescribedData.js',
+		'js/page/category/workflow/WTComponent.js',
+		'js/page/category/workflow/WTWorkflow.js',
+		'js/page/category/workflow/WTExecutedWorkflow.js',
+		'js/page/category/person/WTPerson.js',
+		'js/page/category/person/WTPersonExpertise.js',
+		'js/page/category/person/WTPersonContext.js',
+		'js/page/category/person/WTPersonTasks.js',
+		'js/page/category/special/WTDocu.js',
+		'js/page/category/special/WTAdmin.js',
+		'js/main.js'
+	),
+	'dependencies' => array(
+		'WorkflowTasks.extra'
+	),
+	'localBasePath' => __DIR__,
+	'remoteExtPath' => 'WorkflowTasks'
+);
+
+$wgResourceLoaderDebug = false;
+$wgResourceModules['WorkflowTasks.dashboard'] = array(
+    'position' => 'bottom',
+    'scripts' => array(
+		'js/lib/google/jsapi.js',
+		'js/lib/sigma/sigma.min.js',
+		'js/lib/sigma/plugins/sigma.parsers.json.min.js',
+		'js/lib/arbor/arbor.js',
+		'js/lib/arbor/arbor.graphics.js',
+		'js/lib/arbor/renderer.js',
+		'js/page/category/special/WTDashboard.js'
+	),
+	'localBasePath' => __DIR__,
+	'remoteExtPath' => 'WorkflowTasks'
+);
 
 
 $wgAPIModules['wtfacts'] = 'WTFactsAPI';

@@ -2,7 +2,7 @@
 var WTDashboard = function() {
 	var me = this;	
 	var $dashboard = $('#dashboard');	
-	
+
 	me.displayGraph($dashboard);
 	me.displayTaskHierachy($dashboard, dashboard.taskhierachydata);	
 	me.displaySummary($dashboard, dashboard.summary);	
@@ -57,7 +57,7 @@ WTDashboard.prototype.displayGraph = function($dashboard) {
 	drawGraph(false);
 	
 	
-	$anomyze = $('<a>Anomyze Graph</a>');
+	$anomyze = $('<a>Anonymize Graph</a>');
 	$anomyze.click(function(){
 		drawGraph(true);
 		$anomyze.hide();

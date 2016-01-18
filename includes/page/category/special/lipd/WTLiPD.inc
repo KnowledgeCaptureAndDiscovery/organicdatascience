@@ -135,5 +135,9 @@ class WTLiPD extends SpecialPage {
 		$out->addHTML("</table>\n");
 	}
 
+	function getGroupName() {
+		return "ODSGroup";
+	}
+
 }
 

@@ -17,14 +17,7 @@ class WTDashboard extends SpecialPage {
 	
 	/*TODO remove Hack for SpecialPage!!!*/
 	function includeJSHeaders($out) {
-		global $wgDir;
-		$out->addScriptFile('https://www.google.com/jsapi' );
-		$out->addScriptFile( $wgDir . '/js/lib/sigma/sigma.min.js' );
-		$out->addScriptFile( $wgDir . '/js/lib/sigma/plugins/sigma.parsers.json.min.js' );		
-		$out->addScriptFile( $wgDir . '/js/lib/arbor/arbor.graphics.js' );
-		$out->addScriptFile( $wgDir . '/js/lib/arbor/arbor.js' );
-		$out->addScriptFile( $wgDir . '/js/lib/arbor/renderer.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/special/WTDashboard.js' );
+		$out->addModules('WorkflowTasks.dashboard');
 	}
 	
 	/*TODO remove Hack for SpecialPage!!!*/
@@ -32,5 +25,9 @@ class WTDashboard extends SpecialPage {
 		$da = new WTDashboardAnalyze();
 		$da->analyis();		
 		$out->addHTML("<script>\n var dashboard = ".json_encode($da->toJson())."; \n</script>");
+	}
+
+	function getGroupName() {
+		return "ODSGroup";
 	}
 }

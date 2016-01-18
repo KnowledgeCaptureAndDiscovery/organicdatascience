@@ -70,81 +70,11 @@ class WTBase {
 
 	
 	function includeJSHeaders($out, $wgDir) {
-		$out->includeJQuery();
-		$out->addScriptFile( '//code.jquery.com/ui/1.11.2/jquery-ui.js' ); 
-		$out->addScriptFile( '//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.3.7/jquery.noty.min.js' ); 
-		$out->addScriptFile( '//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.3.7/layouts/top.min.js' ); 
-		$out->addScriptFile( '//cdnjs.cloudflare.com/ajax/libs/jquery-noty/2.3.7/themes/relax.min.js' ); 
-		//$out->addScriptFile( $wgDir . '/js/lib/jquery/jquery.jeditable.js' );
-		$out->addScriptFile( $wgDir . '/js/lib/jquery/jquery.loadmask.min.js' );
-		$out->addScriptFile( $wgDir . '/js/lib/jquery/jquery.autocomplete.js' );
-		$out->addScriptFile( $wgDir . '/js/lib/jquery/jquery.autocomplete2.js' );
-		$out->addScriptFile( $wgDir . '/js/lib/jquery/jquery.tooltipster.min.js' );
-		$out->addScriptFile( $wgDir . '/js/lib/jquery/jquery.picker.js' );
-		$out->addScriptFile( $wgDir . '/js/lib/jquery/jquery.picker.date.js' );
-		$out->addScriptFile( $wgDir . '/js/lib/jquery/jquery.lightbox_me.js' );
-		$out->addScriptFile( $wgDir . '/js/lib/moment/moment.min.js' );
-		//$out->addScriptFile( $wgDir . '/js/lib/jquery/jquery.translate-NCT,core,NCT-adapter,ui,progress.min.js' );
-		//$out->addScriptFile( $wgDir . '/js/lib/jquery/jqModal.js' );
-		$out->addScriptFile( $wgDir . '/js/lib/jstree/jstree.js' );
-		$out->addScriptFile( $wgDir . '/js/lib/raphael/raphael-min.js' );
-		
-		$out->addScriptFile( $wgDir . '/includes/tracking/WTTracker.js' );
-		
-		$out->addScriptFile( $wgDir . '/js/core/api/WTAPI.js' );						
-		$out->addScriptFile( $wgDir . '/js/core/api/WTExplorerParser.js' );
-		$out->addScriptFile( $wgDir . '/js/core/api/WTExplorerAPI.js' );		
-		$out->addScriptFile( $wgDir . '/js/core/util/WTUtil.js' );
-		$out->addScriptFile( $wgDir . '/js/core/ui/WTSidebar.js' );
-		$out->addScriptFile( $wgDir . '/js/core/ui/WTExplorerMenu.js' );
-		$out->addScriptFile( $wgDir . '/js/core/ui/WTExplorerEvents.js' );
-		$out->addScriptFile( $wgDir . '/js/core/ui/WTSidebarResizer.js' );		
-		$out->addScriptFile( $wgDir . '/js/core/ui/WTTimeline.js' );		
-		$out->addScriptFile( $wgDir . '/js/core/ui/WTTaskAlert.js' );
-		$out->addScriptFile( $wgDir . '/js/core/ui/WTDialog.js' );		
-		
-		$out->addScriptFile( $wgDir . '/js/page/component/WTFacts.js' );
-		$out->addScriptFile( $wgDir . '/js/page/component/WTStdProperties.js' ); 
-		$out->addScriptFile( $wgDir . '/js/page/component/WTCredits.js' );
-		$out->addScriptFile( $wgDir . '/js/page/component/WTCategoryChooser.js' );		
-		$out->addScriptFile( $wgDir . '/js/page/component/WTDataColumns.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/task/WTTasks.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/task/WTTaskContext.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/task/WTSubTasks.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/task/WTSimpleTasks.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/task/WTTaskMetaData.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/answer/WTAnswers.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/data/WTData.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/data/WTUserProvidedData.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/data/WTUserDescribedData.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/workflow/WTComponent.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/workflow/WTWorkflow.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/workflow/WTExecutedWorkflow.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/person/WTPerson.js' );		
-		$out->addScriptFile( $wgDir . '/js/page/category/person/WTPersonExpertise.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/person/WTPersonContext.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/person/WTPersonTasks.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/special/WTDocu.js' );
-		$out->addScriptFile( $wgDir . '/js/page/category/special/WTAdmin.js' );
-				
-		$out->addScriptFile( $wgDir . '/js/main.js' );
-		
+		$out->addModules('WorkflowTasks');
 	}
 
 	function includeCSSHeaders($out, $wgDir) {
-		$out->addExtensionStyle( '//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' ); 
-		$out->addExtensionStyle( $wgDir . '/css/jquery/jquery.loadmask.css' );			
-		$out->addExtensionStyle( '//code.jquery.com/ui/1.11.2/themes/flick/jquery-ui.css'); 
-		$out->addExtensionStyle( $wgDir . '/css/jquery/jquery.autocomplete.css' );
-		$out->addExtensionStyle( $wgDir . '/css/jquery/jquery.loadmask.css' );		
-		$out->addExtensionStyle( $wgDir . '/css/jquery/jquery.tooltipster.css');
-		$out->addExtensionStyle( $wgDir . '/css/jquery/jquery.tooltipster.custom.css');
-		$out->addExtensionStyle( $wgDir . '/css/jquery/jquery.picker.classic.css');
-		$out->addExtensionStyle( $wgDir . '/css/jquery/jquery.picker.classic.date.css');
-		$out->addExtensionStyle( $wgDir . '/css/jquery/jquery.picker.classic.date.custom.css');
 		$out->addExtensionStyle( $wgDir . '/css/wtree.css' );
-		$out->addExtensionStyle( $wgDir . '/css/jstree/style.css');
-		$out->addExtensionStyle( $wgDir . '/css/jstree/style.custom.css');
 	}
 
 	function setJavascriptVariables($out) {
