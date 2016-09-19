@@ -28,6 +28,7 @@ $(function() {
 	var wtapi = new WTAPI(conf.wgPageName, conf.wgScriptPath+'/api.php');
 	var wtutil = new WTUtil(conf.wgPageName, wtapi);
 
+	var $sidebar = $('#main-tree-sidebar');
 	if(!__use_simple_tasks) {
 		var wtexpapi = new WTExplorerAPI(allwtexplorer, conf.wgScriptPath, wtapi);	
 		new WTTracker(wtexpapi.userid(), conf.wgScriptPath, wtutil);
@@ -47,7 +48,6 @@ $(function() {
 		var wtta = new WTTaskAlert(wtexpapi, conf.wgScriptPath, $menu).display();	
 		var wtmenu = new WTExplorerMenu(conf.wgPageName, wtapi, wtexpapi, conf.wgScriptPath);
 		
-		var $sidebar = $('#main-tree-sidebar');
 		WTTracker.trackHover($sidebar, WTTracker.c.explorer);
 		if($sidebar) {
 			var $pnav = $('#p-navigation');
@@ -100,6 +100,9 @@ $(function() {
 			wtctx.display();		
 		}
 	}
+	else {
+		$sidebar.css('display', 'none');
+	}
 
 	if(wtcategories["Task"] && __use_simple_tasks) {
 		var wtanswers = new WTAnswers(conf.wgPageName, allwtdetails, wtutil, wtapi);
@@ -150,12 +153,17 @@ $(function() {
 		var wtdatacols = new WTDataColumns(conf.wgPageName, allwtfacts, wtutil, wtapi);
 		wtdatacols.display(datadiv);
 	}
+	else if(wtcategories["DataTable "+wgCore]) {
+		var wtdata = new WTUserProvidedData(conf.wgPageName, allwtdetails, wtutil, wtapi, 'HasFileName '+wgCore);
+		var datadiv = $("#main-data");
+		wtdata.display(datadiv);
+	}
 	else if(wtcategories["Component"]) {
 		var wtcomp = new WTComponent(conf.wgPageName, allwtdetails, wtutil, wtapi);
 		var compdiv = $("#main-comp");
 		wtcomp.display(compdiv);
 	}
-	else if(wtcategories["Person"] || conf.wgNamespaceNumber == 2) {
+	else if(wtcategories["Person"] || wtcategories["Person "+wgCore]) {
 		var wtperson = new WTPerson(conf.wgPageName, allwtdetails, wtutil, wtapi);
 		var persondiv = $("#main-person");
 		wtperson.display(persondiv);
@@ -176,6 +184,11 @@ $(function() {
 			wtptasks.setPersonExpertise(wtpexp);
 		}
 	}
+	else if(conf.wgNamespaceNumber == 2) {
+		var wtnewperson = new WTNewPerson(conf.wgPageName, allwtdetails, wtutil, wtapi);
+		var persondiv = $("#main-person");
+		wtnewperson.display(persondiv);
+	}
 	else if(wtcategories["Docu"]) {
 		var wtdocu = new WTDocu(conf.wgScriptPath);
 		wtdocu.display($('#firstHeading'), $("#main-docu"));
@@ -186,15 +199,25 @@ $(function() {
 	}
 
 	var stdpropsdiv = $("#main-std-props");
+	var inpropsdiv = $("#main-in-props");
 	var factsdiv = $("#main-facts");
 	var creditsdiv = $("#main-credits");
 	if(!wtpagenotfound) {
 		if(Object.keys(stdwtprops).length) {
-			var wtstdprops = new WTStdProperties(conf.wgPageName, allwtfacts, stdwtprops, wtutil, wtapi);
+			var wtstdprops = new WTStdProperties(conf.wgPageName, allwtfacts, stdwtprops, wtutil, wtapi, ['HasFileName '+wgCore]);
 			wtstdprops.display(stdpropsdiv);
 		}
 		else {
 			stdpropsdiv.css('display', 'none');
+			factsdiv.css('margin-top', '15px');
+		}
+
+		if(Object.keys(allinprops).length) {
+			var wtinprops = new WTInProperties(conf.wgPageName, allinprops, wtutil, wtapi);
+			wtinprops.display(inpropsdiv);
+		}
+		else {
+			inpropsdiv.css('display', 'none');
 		}
 
 		var wtfacts = new WTFacts(conf.wgPageName, allwtfacts, stdwtprops, wtutil, wtapi);
@@ -205,6 +228,7 @@ $(function() {
 	}
 	else {
 		stdpropsdiv.css('display', 'none');
+		inpropsdiv.css('display', 'none');
 		factsdiv.css('display', 'none');
 		creditsdiv.css('display', 'none');
 	}
@@ -216,11 +240,11 @@ $(function() {
 		catchooserdiv.html(
 			"<div style='padding:5px;color:red;font-weight:bold'>Uh oh, this page doesn't exist yet.</div>");
 	}
-	if(wtuid) {
+	if(wtrights["edit-page-metadata"]) {
 		var wtcatchooser = new WTCategoryChooser(conf.wgPageName, wtutil, wtapi);
 		wtcatchooser.display(catchooserdiv);
 	}
-	else if(!wtpagenotfound && wtuid) {
-		wtcatchooser.css('display', 'none');
+	else if(!wtpagenotfound && !wtrights["edit-page-metadata"]) {
+		catchooserdiv.css('display', 'none');
 	}
 });

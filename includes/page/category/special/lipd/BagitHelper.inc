@@ -47,6 +47,7 @@ class BagitHelper {
 		$lipdfile = "$basedir.lpd";
 
 		$bag = new BagIt($basedir);
+		$bag->setHashEncoding('md5');
 
 		$files = array_diff(scandir($dir), array('.','..')); 
 		foreach ($files as $file) { 

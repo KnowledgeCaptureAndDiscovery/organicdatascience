@@ -15,7 +15,7 @@ WTUserDescribedData.prototype.getListItem = function( list, data ) {
 	var data_li = $('<li></li>');
 
 	var me = this;
-	if(wtuid) {
+	if(wtrights["edit-page-metadata"]) {
 		var delhref = $('<a class="lodlink"><i class="fa fa-times-circle fa-lg delbutton"></i></a>');
 		delhref.click( function(e) {
 			list.mask(lpMsg('Removing Data Link..'));
@@ -106,7 +106,7 @@ WTUserDescribedData.prototype.display = function( item ) {
 
 	var list = me.getList( item, me.details );
 
-	if(wtuid) {
+	if(wtrights["edit-page-metadata"]) {
 		me.add_data_link = $('<a class="x-small lodbutton">' + lpMsg('Add Link to Data') + '</a>');
 		me.add_data_link.click(function( e ) {
 			list.find('li:first').css('display', '');

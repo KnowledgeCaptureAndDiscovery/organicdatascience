@@ -23,11 +23,11 @@ class WTMainPage extends WTBase {
 			# Recent Changes
 			$this->addRecentChangedPages( $out, $this->limit );
 			# Most Recent Contributors
-			$this->addRecentContributors( $out, $this->limit );
+			$this->addRecentContributors( $out, $this->limit/2 );
 		}
 
 		# Highest Contributors
-		$this->addHighestContributors( $out, $this->limit );
+		$this->addHighestContributors( $out, $this->limit/2 );
 
 		# -- Add Existing Markup Here
 		$out->addHTML( $old );

@@ -222,14 +222,26 @@ WTAPI.prototype.moveDataColumn = function( title, newlist, callbackfunction ) {
 
 WTAPI.prototype.createPageWithCategory = function( title, category, callbackfunction ) {
 	$.post(this.apiuri, {
+		"action"   	: "wtfacts",
+		"operation"	: "newpage",
+		"title"    	: title,
+		"categories": category,
+		"format"   	: "json",
+		"token"    	: this.editToken
+	}, callbackfunction, "json");
+};
+
+WTAPI.prototype.createPageWithCategories = function( title, categories, callbackfunction ) {
+	$.post(this.apiuri, {
 		"action"   : "wtfacts",
 		"operation": "newpage",
 		"title"    : title,
-		"category" : category,
+		"categories" : categories ? categories.join("|") : "",
 		"format"   : "json",
 		"token"    : this.editToken
 	}, callbackfunction, "json");
 };
+
 
 WTAPI.prototype.updateSubobjects = function( title, subobjectsjson, callbackfunction ) {
 	$.post(this.apiuri, {
@@ -304,7 +316,12 @@ WTAPI.prototype.removeFactRaw = function( subject, predicate, object, subobjects
 		"subobjectsjson"  : subobjectsjson,
 		"format"          : "json",
 		"token"    : this.editToken
-	}, callbackfunction, "json");
+	}, function(data){
+		if(data.wtfacts.result == "Error") {
+			noty({text: data.wtfacts.text, type:'error', theme:'relax'});
+		}
+		callbackfunction(data, self);
+	}, "json");
 };
 
 
@@ -319,7 +336,12 @@ WTAPI.prototype.replaceFactRaw = function( subject, predicate, object, oldobject
 		"subobjectsjson"  : subobjectsjson,
 		"format"          : "json",
 		"token"    : this.editToken
-	}, callbackfunction, "json");
+	}, function(data){
+		if(data.wtfacts.result == "Error") {
+			noty({text: data.wtfacts.text, type:'error', theme:'relax'});
+		}
+		callbackfunction(data, self);
+	}, "json");
 };
 
 WTAPI.prototype.setFactRaw = function( subject, predicate, object, subobjectsjson, callbackfunction ) {
@@ -332,7 +354,12 @@ WTAPI.prototype.setFactRaw = function( subject, predicate, object, subobjectsjso
 		"subobjectsjson"  : subobjectsjson,
 		"format"          : "json",
 		"token"    : this.editToken
-	}, callbackfunction, "json");
+	}, function(data){
+		if(data.wtfacts.result == "Error") {
+			noty({text: data.wtfacts.text, type:'error', theme:'relax'});
+		}
+		callbackfunction(data, self);
+	}, "json");
 };
 
 
@@ -375,14 +402,18 @@ WTAPI.prototype.addTraining = function(fullname, username, callbackfunction) {
 WTAPI.prototype.getAllCategories = function(callbackfunction) {
 	var me = this;
 	$.getJSON(this.apiuri, {
-		"action"   : "query",
-		"list"     : "allcategories",
-		"format"   : "json"
+		"action"      : "query",
+		"list"        : "allpages",
+		"apnamespace" : "14",
+		"aplimit"     : "500",
+		"format"      : "json"
 	}, function(result) {
 		var categories = new Array();
-		for(var i=0; i<result.query.allcategories.length; i++) 
-			categories.push(result.query.allcategories[i]["*"]);
-
+		for(var i=0; i<result.query.allpages.length; i++) {
+			var cat = result.query.allpages[i];
+			var catname = cat.title.replace(/^.*?:/, '')
+			categories.push(catname);
+		}
 		callbackfunction(categories);
 	});
 };

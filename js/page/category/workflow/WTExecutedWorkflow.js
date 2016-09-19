@@ -25,7 +25,7 @@ WTExecutedWorkflow.prototype.getListItem = function( list, wflow ) {
 
 	var me = this;
 	var delhref = '';
-	if(wtuid) {
+	if(wtrights["edit-page-metadata"]) {
 		var delhref = $('<a class="lodlink"><i class="fa fa-times-circle fa-lg delbutton"></i></a>');
 		delhref.click( function(e) {
 			list.mask(lpMsg('Removing Executed Workflow Link..'));
@@ -207,7 +207,7 @@ WTExecutedWorkflow.prototype.display = function( item ) {
 
 	var list = me.getList( item, me.details );
 
-	if(wtuid) {
+	if(wtrights["edit-page-metadata"]) {
 		me.addwflow_link = $('<a class="x-small lodbutton">' + lpMsg('Add Pubby Link') + '</a>');
 		me.addwflow_link.click(function( e ) {
 			list.find('li:first').css('display', '');
@@ -224,7 +224,7 @@ WTExecutedWorkflow.prototype.display = function( item ) {
 	wrapper.append(list);
 	item.append(wrapper);
 
-	if(me.details.Workflow && wtuid) {
+	if(me.details.Workflow && wtrights["edit-page-metadata"]) {
 		me.addwflow_link.css('display', 'none');
 	}
 	me.convertGroupLists();

@@ -77,16 +77,38 @@ class WTBase {
 		$out->addExtensionStyle( $wgDir . '/css/wtree.css' );
 	}
 
-	function setJavascriptVariables($out) {
-		$details = $this->getPageDetails();
-		list ($error, $facts, $text) = WTFactsAPI::getFacts($this->title->getFullText());
+	function addCategoryHeaders($out, $cats) {
+		$old = $out->getHTML();
+		$out->clearHTML();
+		if($cats and sizeof($cats) > 0)
+			$out->addHTML("<div class='subheader'>( ". implode(", ", $cats)." )</div>");
+		else
+			$out->addHTML("<style>h1.firstHeading { border-bottom: 2px solid #C9302C; }</style>");
+		# -- Add Existing Markup Here
+		$out->addHTML( $old );
+	}
+
+	function setJavascriptVariables($out, $nofacts=false) {
+		global $wgCore;
+		global $wgUseSimpleTasks, $wgDisableTracking;
 		$out->addHTML("<script>\n"); 
-		$out->addHTML("var allwtfacts = ".json_encode($facts).";\n");
+		if(!$nofacts) {
+			list ($error, $facts, $text) = WTFactsAPI::getFacts($this->title->getFullText());
+			$inprops = WTFactsAPI::getInSubjectProperties($this->title->getFullText());
+			$out->addHTML("var allwtfacts = ".json_encode($facts).";\n");
+			$out->addHTML("var allinprops = ".json_encode($inprops).";\n");
+		}
+		else {
+			$out->addHTML("var allwtfacts = [];\n");
+			$out->addHTML("var allinprops = [];\n");
+		}
+		$details = $this->getPageDetails();
 		$out->addHTML("var allwtdetails = ".json_encode($details).";\n");
 		$out->addHTML("var wtpagenotfound = ".($this->title->exists() ? 'false' : 'true').";\n");
-		$out->addHTML("var wtallcategories = ['SampleCollection','Procedure','Workflow', 'ExecutedWorkflow', 'Task', 'Answer', 'AutomaticallyProvidedData', 'UserProvidedData', 'UserDescribedData', 'Component', 'Model', 'Person', 'Object', 'DataType', 'Thing'];\n");
+		$out->addHTML("var wtallcategories = [];\n");
+		$out->addHTML("var wgCore = '$wgCore';\n");
+		//$out->addHTML("var wtallcategories = ['SampleCollection','Procedure','Workflow', 'ExecutedWorkflow', 'Task', 'Answer', 'AutomaticallyProvidedData', 'UserProvidedData', 'UserDescribedData', 'Component', 'Model', 'Person', 'Object', 'DataType', 'Thing'];\n");
 		//$out->addHTML("var wtallcategories = ['UserProvidedData', 'UserDescribedData', 'Person', 'DataType', 'Thing'];\n");
-		global $wgUseSimpleTasks, $wgDisableTracking;
 		if(!$wgUseSimpleTasks) {
 			$explorer = new WTTaskExplorer($this->title);
 			$out->addHTML("var allwtexplorer = ".json_encode($explorer->getExplorer()).";\n");
@@ -94,31 +116,47 @@ class WTBase {
 		$out->addHTML("var wtcategories = [];\n");
 		$out->addHTML("var stdwtprops = [];\n"); 
 		$cats = $out->getCategories();
+		$props = [];
 		foreach($cats as $cat) {
 			$out->addHTML("wtcategories['$cat'] = true;\n"); 
- 			$props = WTFactsAPI::getCategoryProperties($cat); 
- 			foreach($props as $prop) { 
- 				$out->addHTML("stdwtprops['".$prop['label']."'] = ".json_encode($prop).";\n"); 
- 			} 
+			if(!$nofacts)
+ 				$props = array_merge($props, WTFactsAPI::getCategoryProperties($cat)); 
 		}
+		if(!$nofacts)
+			$out->addHTML("stdwtprops = ".json_encode($props).";\n"); 
+
 		global $wgUser;	 
  		$out->addHTML("var wtuid = null;\n"); 
  		if($wgUser->isLoggedIn()){ 
  			$uid = $wgUser->getName(); 
  			$out->addHTML("wtuid = '".$uid."';\n"); 
- 		}  		
+ 		} 
+
+		$rightsmap = array();
+		foreach($wgUser->getRights() as $right)
+			$rightsmap[$right] = 1;
+		$out->addHTML("var wtrights = ". json_encode($rightsmap).";\n");
+
 		$out->addHTML("var __use_simple_tasks = ".($wgUseSimpleTasks ? 'true' : 'false').";\n");
 		$out->addHTML("var __disable_tracking = ".($wgDisableTracking ? 'true' : 'false').";\n");
 		$out->addHTML("</script>\n"); 
 	}
 
 	function modifyWikiPage($out) {
+		$old = $out->getHTML();
+		$out->clearHTML();
 		
 		# -- Add the Standard Properties Table 
-		//$this->addStdPropsDiv( $out ); 
+		$this->addStdPropsDiv( $out ); 
+
+		# -- Add Existing Markup Here
+		$out->addHTML( $old );
 				
-		# -- Add a Facts Table
-		$this->addFactsDiv( $out );
+		# -- Add the Facts Table
+		$this->addMainFactsDiv( $out ); 
+
+		# -- Add the in-properties Table
+		$this->addInPropsDiv( $out );
 
 		# -- Credits Div
 		$this->addCreditsDiv( $out );
@@ -144,6 +182,10 @@ class WTBase {
 
 	function addStdPropsDiv($out) { 
 		$out->addHTML("<div id='main-std-props' class='props-table'></div>"); 
+	} 
+
+	function addInPropsDiv($out) { 
+		$out->addHTML("<div id='main-in-props' class='props-table'></div>"); 
 	} 	
 
 	function addTimelineDiv($out, $type) {
@@ -156,6 +198,11 @@ class WTBase {
 	
 	function addFactsDiv($out) {
 		$this->addStdPropsDiv($out);
+		$this->addMainFactsDiv($out);
+		$this->addInPropsDiv($out);
+	}
+
+	function addMainFactsDiv($out) {
 		$out->addHTML("<div id='main-facts' class='props-table'></div>");
 	}
 
@@ -193,8 +240,11 @@ class WTBase {
 		$out->addHTML("<div id='main-data' class='props-table'></div>");
 	}
 
-	function addPersonDiv($out) {
-		$out->addHTML("<div id='main-person' class='props-table'></div>");
+	function addPersonDiv($out, $nestedprops=false) {
+		$out->addHTML("<div id='main-person' class='props-table'>");
+		if($nestedprops)
+			$this->addStdPropsDiv($out);
+		$out->addHTML("</div>");
 	}
 
 	function addPersonExpertiseDiv($out) {

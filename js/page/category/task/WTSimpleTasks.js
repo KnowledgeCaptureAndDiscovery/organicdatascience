@@ -11,7 +11,7 @@ WTSimpleTasks.prototype.getListItem = function( list, subdata, answers, is_sub )
 	var sub_li = $('<li></li>');
 
 	var me = this;
-	if(!is_sub && wtuid) {
+	if(!is_sub && wtrights["edit-page-metadata"]) {
 		var delhref = $('<a class="lodlink"><i class="fa fa-times-circle fa-lg delbutton"></i></a>');
 		// Minus [-] link's event handler
 		delhref.click( function(e) {
@@ -131,7 +131,7 @@ WTSimpleTasks.prototype.display = function( item ) {
 	var list = me.getTree( item, me.tree );
 
 	var addsub_link = '';
-	if(wtuid) {
+	if(wtrights["edit-page-metadata"]) {
 		addsub_link = $('<a class="lodlink"><i class="fa fa-plus-circle fa-lg"></i></a>');
 		addsub_link.click(function( e ) {
 			list.find('li:first').css('display', '');

@@ -20,7 +20,7 @@ WTDataColumns.prototype.getListItem = function( list, col ) {
 	var me = this;
 	var delhref = '';
 	var movehref = '';
-	if(wtuid) {
+	if(wtrights["edit-page-metadata"]) {
 		var delhref = $('<a class="lodlink"><i class="fa fa-times-circle fa-lg delbutton"></i></a>');
 		delhref.click( function(e) {
 			list.mask(lpMsg('Removing Column..'));
@@ -164,7 +164,7 @@ WTDataColumns.prototype.display = function( item ) {
 
 	var list = me.getList( item, me.details );
 
-	if(wtuid) {
+	if(wtrights["edit-page-metadata"]) {
 		me.addcol_link = $('<a class="lodlink"><i class="fa fa-plus-circle fa-lg"></i></a>');
 		me.addcol_link.click(function( e ) {
 			list.find('li:last').css('display', '');

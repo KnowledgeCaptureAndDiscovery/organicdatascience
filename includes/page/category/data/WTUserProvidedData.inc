@@ -1,8 +1,9 @@
 <?php
 
 class WTUserProvidedData extends WTBase {
-	function __construct($title) {
+	function __construct($title, $locProp="DataWikiLocation") {
 		parent::__construct($title);
+		$this->locProp = $locProp;
 	}
 
 	/*function setJavascriptVariables($out) {
@@ -39,6 +40,8 @@ class WTUserProvidedData extends WTBase {
 	protected function getUri($di) {
 		if($di->getDIType() == SMWDataItem::TYPE_URI)
 			return $di->getURI();
+		else if($di->getDIType() == 2)
+			return $di->getSerialization();
 		else {
 			$url = $di->getTitle();
 			return preg_replace('/^http/i', 'http', $url);
@@ -53,7 +56,7 @@ class WTUserProvidedData extends WTBase {
 
 		# SMW Initialization 
 		$subject = SMWDIWikiPage::newFromTitle( $this->title );
-		$locProp = SMWDIProperty::newFromUserLabel('DataWikiLocation');
+		$locProp = SMWDIProperty::newFromUserLabel( $this->locProp );
 		$extProp = SMWDIProperty::newFromUserLabel('DataExtractedFrom');
 
 		$locations = smwfGetStore()->getPropertyValues( $subject, $locProp );

@@ -1,8 +1,9 @@
-var WTUserProvidedData = function(title, details, util, api ) {
+var WTUserProvidedData = function(title, details, util, api, propname ) {
 	this.title = title;
 	this.details = details;
 	this.util = util;
 	this.api = api;
+	this.propname = propname || 'DataWikiLocation';
 };
 
 WTUserProvidedData.prototype.appendLinkItem = function( list, link, name ) {
@@ -15,11 +16,11 @@ WTUserProvidedData.prototype.getListItem = function( list, data ) {
 	var data_li = $('<li></li>');
 
 	var me = this;
-	if(wtuid) {
+	if(wtrights["edit-page-metadata"]) {
 		var delhref = $('<a class="lodlink"><i class="fa fa-times-circle fa-lg delbutton"></i></a>');
 		delhref.click( function(e) {
 			list.mask(lpMsg('Removing Data Name..'));
-			me.api.removeDataWikiLink( me.title, data.location, function(resp) {
+			me.api.removeFact( me.title, me.propname, data.location, function(resp) {
 				list.unmask();
 				if(!resp || !resp.wtfacts) return;
 				if(resp.wtfacts.result == 'Success') {
@@ -78,7 +79,9 @@ WTUserProvidedData.prototype.getList = function( item, data ) {
 		ival.data('val','');
 
 		item.mask(lpMsg('Adding Data Link.. Please wait..'));
-		me.api.addDataWikiLink( me.title, val, function(response) {
+		if(!val.match(/^File:/i))
+			val = "File:"+val;
+		me.api.addFact( me.title, me.propname, val, function(response) {
 			item.unmask();
 			if(!response || !response.wtfacts || !response.wtfacts.newdetails) return; 
 			if(response.wtfacts.result == 'Success') {
@@ -110,7 +113,7 @@ WTUserProvidedData.prototype.display = function( item ) {
 
 	var list = me.getList( item, me.details );
 
-	if(wtuid) {
+	if(wtrights["edit-page-metadata"]) {
 		me.add_data_link = $('<a class="x-small lodbutton">' + lpMsg('Provide Data Name') + '</a>');
 		me.add_data_link.click(function( e ) {
 			list.find('li:first').css('display', '');

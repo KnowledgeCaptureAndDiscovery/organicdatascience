@@ -10,7 +10,7 @@ WTAnswers.prototype.getListItem = function( list, ansdata ) {
 	var ans_li = $('<li></li>');
 
 	var me = this;
-	if(wtuid) {
+	if(wtrights["edit-page-metadata"]) {
 		var delhref = $('<a class="lodlink"><i class="fa fa-times-circle fa-lg delbutton"></i></a>');
 		delhref.click( function(e) {
 			list.mask(lpMsg('Removing Answer..'));
@@ -99,7 +99,7 @@ WTAnswers.prototype.display = function( item ) {
 
 
 	var addans_link = '';
-	if(wtuid) {
+	if(wtrights["edit-page-metadata"]) {
 		addans_link = $('<a class="lodlink"><i class="fa fa-plus-circle fa-lg"></i></a>');
 		addans_link.click(function( e ) {
 			list.find('li:first').css('display', '');

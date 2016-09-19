@@ -1,9 +1,12 @@
-var WTStdProperties = function(title, wtfacts, stdprops, util, api ) {
+var WTStdProperties = function(title, wtfacts, stdprops, util, api, blacklist ) {
 	this.title = title;
 	this.wtfacts = wtfacts;
 	this.stdprops = stdprops;
 	this.util = util;
 	this.api = api;
+	this.blacklist = {};
+	for(var i=0; i<blacklist.length; i++)
+		this.blacklist[blacklist[i]] = 1;
 };
 
 WTStdProperties.prototype.display = function($item) {
@@ -12,7 +15,7 @@ WTStdProperties.prototype.display = function($item) {
 	this.$item.unmask();
 	this.generateTable();
 	var me = this;
-	$('body').click(function() {
+	$(document).click(function() {
 		me.closeAllEdits();
 	});
 };
@@ -26,6 +29,8 @@ WTStdProperties.prototype.generateTable = function() {
 
 	// Add children and levels to properties
 	for(var pname in this.stdprops) {
+		if(this.blacklist[pname])
+			continue;
 		var prop = this.stdprops[pname];
 		if(prop.parent) {
 			var pprop = this.stdprops[prop.parent];
@@ -36,6 +41,8 @@ WTStdProperties.prototype.generateTable = function() {
 		}
 	}
 	for(var pname in this.stdprops) {
+		if(this.blacklist[pname])
+			continue;
 		var prop = this.stdprops[pname];
 		prop.level = 0;
 		var curprop = prop;
@@ -45,14 +52,17 @@ WTStdProperties.prototype.generateTable = function() {
 		}
 	}
 
-	me.$table =  $('<div class="wt-table"></div>');
-	me.appendHeadingRow();
+	var extracls = wtrights["edit-page-metadata"] ? 'editable' : '';
+	me.$table =  $('<div class="wt-table '+extracls+'"></div>');
+	//me.appendHeadingRow();
 	me.$item.append(me.$table);
 	for(var pname in this.stdprops) {
+		if(this.blacklist[pname])
+			continue;
 		var property = this.stdprops[pname];
 		me.appendPropertyRows(property, pname, 0);
 	}
-	me.appendNotesRow();
+	//me.appendNotesRow();
 	me.updateIcons();
 };
 
@@ -83,7 +93,7 @@ WTStdProperties.prototype.appendRow = function(property, pname) {
 	me.$table.append($row);
 	$row.click(function(e){	
 		$t = $(this);
-		if(!$t.hasClass('edit') && wtuid){
+		if(!$t.hasClass('edit') && wtrights["edit-page-metadata"]){
 			me.closeAllEdits();
 			$t.addClass('edit');
 			$c = $t.find('.wt-content');
@@ -109,21 +119,24 @@ WTStdProperties.prototype.appendRow = function(property, pname) {
 	return $row;
 };
 
-WTStdProperties.prototype.generateCancelButton = function(pname, valobj) {
+WTStdProperties.prototype.generateDeleteButton = function(pname, valobj, contentitem) {
 	var me = this;
 	var oldv = (valobj && valobj.val) ? valobj.val : null;
 	if(!oldv) return null;
-	var delhref = $('<a class="lodlink"><i class="fa fa-times-circle delbutton"></i></a>');
+	var delhref = $('<a class="lodlink"><i class="fa fa-times-circle delbutton content-icon"></i></a>');
 	delhref.click( function(e) {
 		var p = me.stdprops[pname];
-		me.$item.mask(lpMsg('Removing Fact..'));
+		contentitem.mask(lpMsg('Removing Fact..'));
 		me.api.removeFact( me.title, p.label, oldv, function(response){
-			me.$item.unmask();
+			contentitem.unmask();
 			if(!response || !response.wtfacts || !response.wtfacts.facts) return; 
-			me.wtfacts = response.wtfacts.facts;
-			me.closeAllEdits();
-			me.updateIcons();
+			if(response.wtfacts.result == "Success") {
+				me.wtfacts = response.wtfacts.facts;
+				me.closeAllEdits();
+				me.updateIcons();
+			}
 		});
+		e.stopPropagation();
 	});
 	return delhref;
 };
@@ -168,7 +181,8 @@ WTStdProperties.prototype.closeAllEdits = function() {
 WTStdProperties.prototype.appendIconCell = function($row, pname, property) {
 	$cell = $('<div class="wt-cell wt-icon"></div>');
 	var icon = property.icon ? property.icon : 'fa-tag';
-	var iconhtml = '<i class="fa '+icon+' fa-lg"></i> ';
+	var pfx = icon.replace(/-.*/, "");
+	var iconhtml = '<i class="'+pfx+' '+icon+' '+pfx+'-lg"></i> ';
 	$cell.html(iconhtml);
 	$row.append($cell);
 };
@@ -270,37 +284,42 @@ WTStdProperties.prototype.generateEdit = function($content, pname, valobj, addop
 		$in.val(valobj.val);
 	$in.keyup(function(e){
 		if(e.keyCode == 13){
+			var contentitem = $content;
 			var v = e.currentTarget.value;
 			var oldv = (valobj && valobj.val) ? valobj.val : null;
 			if(addop) {
 				if(v) {
-					me.$item.mask('Adding '+p.label);
+					contentitem.mask('Adding '+p.label);
 					me.api.addFact(me.title, p.label, v, function(response){
-						me.$item.unmask();
+						contentitem.unmask();
 						if(!response || !response.wtfacts || !response.wtfacts.facts) return; 
-						me.wtfacts = response.wtfacts.facts;
-						me.closeAllEdits();
-						me.updateIcons();
+						if(response.wtfacts.result == "Success") {
+							me.wtfacts = response.wtfacts.facts;
+							me.closeAllEdits();
+							me.updateIcons();
+						}
         			});
 				}
 			}
 			else if(v != oldv) {
-				me.$item.mask('Setting '+p.label);
+				contentitem.mask('Setting '+p.label);
 				me.api.replaceFact(me.title, p.label, v, oldv, function(response){
-					me.$item.unmask();
+					contentitem.unmask();
 					if(!response || !response.wtfacts || !response.wtfacts.facts) return; 
-					me.wtfacts = response.wtfacts.facts;
-					me.closeAllEdits();
-					me.updateIcons();
+					if(response.wtfacts.result == "Success") {
+						me.wtfacts = response.wtfacts.facts;
+						me.closeAllEdits();
+						me.updateIcons();
+					}
         		});
 			}
 		}
 	});
 	$div = $('<div style="white-space:nowrap"></div>');
 	if(!addop)
-		$div.append(this.generateCancelButton(pname, valobj)).append(' ');
+		$div.append(this.generateDeleteButton(pname, valobj, $content)).append(' ');
 	else	
-		$div.append('<i class="fa fa-plus"></i>').append(' ');
+		$div.append('<i class="fa fa-plus content-icon"></i>').append(' ');
 	$div.append($in);
 	$content.append($div);
 	$in.focus();
@@ -349,10 +368,6 @@ WTStdProperties.prototype.propValue = function(pname, index) {
 
 WTStdProperties.prototype.typeToLabel = function(pname) {
 	return pname.replace(/_/g, ' ');
-};
-
-WTStdProperties.prototype.lock = function(message) {
-	this.$item.mask(lpMsg(message));
 };
 
 WTStdProperties.prototype.updateIcons = function(){

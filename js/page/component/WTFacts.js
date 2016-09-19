@@ -8,7 +8,7 @@ var WTFacts = function(title, wtfacts, stdprops, util, api ) {
 
 WTFacts.prototype.closeAllEdits = function() {
 	var me = this;
-	me.$table.find('.wt-row').each(function(k, row){		
+	me.$table.find('.wt-row.edit').each(function(k, row){		
 		$row = $(row);
 		$row.removeClass('edit');
 		var fact = $row.data('fact');
@@ -49,7 +49,7 @@ WTFacts.prototype.getfactrow = function( fact, item, data ) {
 	tr.data('fact', fact);
 	tr.click(function(e){
 		$t = $(this);
-		if(!$t.hasClass('edit') && wtuid){
+		if(!$t.hasClass('edit') && wtrights["edit-page-metadata"]){
 			me.closeAllEdits();
 			$t.addClass('edit');
 			var pname = fact.property.name;
@@ -69,7 +69,8 @@ WTFacts.prototype.getfactrow = function( fact, item, data ) {
 						if(response.wtfacts.result == 'Success') {
 							me.wtfacts = response.wtfacts.facts;
 							item.children('.wt-table').remove();
-							item.append(me.getfactstable(item, response.wtfacts.facts));
+							me.$table = me.getfactstable(item, response.wtfacts.facts);
+							item.append(me.$table);
 						}
         			});
 				}
@@ -83,19 +84,23 @@ WTFacts.prototype.getfactrow = function( fact, item, data ) {
 
 	// Delete link and event handler
 	var delhref = '';
-	if(wtuid) {
-		delhref = $('<a class="lodlink"><i class="fa fa-times-circle fa-lg delbutton"></i></a>');
+	if(wtrights["edit-page-metadata"]) {
+		delhref = $('<a class="lodlink"><i class="fa fa-times-circle delbutton"></i></a>');
 		delhref.click( function(e) {
-			item.mask(lpMsg('Removing Fact..'));
+			tr.find('.wt-label').mask(lpMsg(''));
+			tr.find('.wt-content').mask(lpMsg('Removing Fact..'));
 			me.api.removeFact( me.title, fact.property.name, fact.value.val, function(resp) {
-				item.unmask();
+				tr.find('.wt-label').unmask();
+				tr.find('.wt-content').unmask();
 				if(!resp || !resp.wtfacts || !resp.wtfacts.facts) return;
 				if(resp.wtfacts.result == 'Success') {
 					item.children('.wt-table').remove();
-					item.append(me.getfactstable(item, resp.wtfacts.facts));
+					me.$table = me.getfactstable(item, resp.wtfacts.facts);
+					item.append(me.$table);
 					//me.util.showFacts([{p:fact.property, o:fact.value}]);
 				}
 			});
+			e.stopPropagation();
 		});
 	}
 	else {
@@ -124,18 +129,19 @@ WTFacts.prototype.getfactrow = function( fact, item, data ) {
 WTFacts.prototype.blacklist = ['SubTask', 'Answer', 'Answered', 'Workflow', 'DataLocation', 'DataWikiLocation', 'DataExtractedFrom', 'Columns'];
 
 WTFacts.prototype.getfactstable = function( item, data ) {
-	var table = $('<div class="wt-table"></div>');
+	var extracls = wtrights["edit-page-metadata"] ? 'editable' : '';
+	var table = $('<div class="wt-table '+extracls+'"></div>');
 
-	var iprop = $('<input style="width:97%" type="text"/>');
-	var ival = $('<input style="width:99%" type="text" />');
-	var igo = $('<a class="lodbutton">' + lpMsg('Go') + '</a>');
-	var icancel = $('<a class="lodbutton">' + lpMsg('Cancel') + '</a>');
+	var iprop = $('<input type="text" placeholder="Property"/>');
+	var ival = $('<input type="text"  placeholder="Value"/>');
+	var igo = $('<a class="lodbutton"><i class="fa fa-check okbutton"></i></a>');
+	var icancel = $('<a class="lodbutton"><i class="fa fa-remove delbutton"></i></a>');
 
 	var addfact_tr = $('<div class="wt-row"></div>');
-	addfact_tr.append($('<div class="wt-cell wt-icon"></div>'));
+	addfact_tr.append($('<div class="wt-cell wt-icon"><i class="fa fa-plus fa-lg"></i></div>'));
 	addfact_tr.append($('<div class="wt-cell wt-label"></div>').append(iprop));
 	addfact_tr.append($('<div class="wt-cell wt-content"></div>').append(ival));
-	addfact_tr.append($('<div class="wt-cell"></div>').append(igo).append(icancel)).hide();
+	addfact_tr.append($('<div class="wt-cell wt-buttons"></div>').append(igo).append(icancel)).hide();
 	table.append(addfact_tr);
 
 	var me = this;
@@ -183,19 +189,20 @@ WTFacts.prototype.getfactstable = function( item, data ) {
 	function localAddFact() {
 		var prop = iprop.data('val') ? iprop.data('val') : iprop.val();
 		var val = ival.data('val') ? ival.data('val') : ival.val();
-		addfact_tr.hide();
-		if(!prop || !val) return; // TODO Error message?
-		iprop.val(''); ival.val('');
-		iprop.data('val',''); ival.data('val','');
 
 		item.mask(lpMsg('Adding Fact..'));
 		me.api.addFact( me.title, prop, val, function(response) {
 			item.unmask();
+			addfact_tr.hide();
+			if(!prop || !val) return; // TODO Error message?
+			iprop.val(''); ival.val('');
+			iprop.data('val',''); ival.data('val','');
 			if(!response || !response.wtfacts || !response.wtfacts.facts) return; 
 			if(response.wtfacts.result == 'Success') {
 				me.wtfacts = response.wtfacts.facts;
 				item.children('.wt-table').remove();
-				item.append(me.getfactstable(item, response.wtfacts.facts));
+				me.$table = me.getfactstable(item, response.wtfacts.facts);
+				item.append(me.$table);
 			}
 		});
 	}
@@ -212,8 +219,8 @@ WTFacts.prototype.display = function( item ) {
 	me.$table = me.getfactstable( item, me.wtfacts );
 
 	var addfact_link = '';
-	if(wtuid) {
-		addfact_link = $('<a class="lodlink"><i class="fa fa-plus-circle fa-lg"></i></a>');
+	if(wtrights["edit-page-metadata"]) {
+		addfact_link = $('<a class="lodlink"><i class="fa fa-plus-circle"></i></a>');
 		addfact_link.click(function( e ) {
 			var table = item.data('table');
 			table.find('div.wt-row:first').css('display', '');
@@ -221,12 +228,13 @@ WTFacts.prototype.display = function( item ) {
 	}
 
 
-	var header = $('<div class="heading"></div>').append($('<b>Properties</b>').append(' ').append(addfact_link));
+	//var header = $('<div class="heading"></div>').append($('<b>Properties</b>').append(' ').append(addfact_link));
+	var header = $('<div class="heading"></div>').append($('<b>Extra information</b>').append(' ').append(addfact_link));
 	item.append(header);
 	//item.append(me.util.getHelpButton('add-fact'));
 	item.append(me.$table);
 
-	$('body').click(function() {
+	$(document).click(function() {
 		me.closeAllEdits();
 	});
 };
