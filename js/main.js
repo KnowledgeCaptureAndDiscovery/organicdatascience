@@ -50,6 +50,7 @@ $(function() {
 		
 		WTTracker.trackHover($sidebar, WTTracker.c.explorer);
 		if($sidebar) {
+			$sidebar.css('display', '');
 			var $pnav = $('#p-navigation');
 			var wtside = new WTSidebar(conf.wgPageName, $sidebar, wtexpapi, wtapi, conf.wgScriptPath, wtmenu)
 			wtside.display();	
@@ -206,6 +207,7 @@ $(function() {
 		if(Object.keys(stdwtprops).length) {
 			var wtstdprops = new WTStdProperties(conf.wgPageName, allwtfacts, stdwtprops, wtutil, wtapi, ['HasFileName '+wgCore]);
 			wtstdprops.display(stdpropsdiv);
+			stdpropsdiv.css('display', 'block');
 		}
 		else {
 			stdpropsdiv.css('display', 'none');
@@ -215,6 +217,7 @@ $(function() {
 		if(Object.keys(allinprops).length) {
 			var wtinprops = new WTInProperties(conf.wgPageName, allinprops, wtutil, wtapi);
 			wtinprops.display(inpropsdiv);
+			inpropsdiv.css('display', 'block');
 		}
 		else {
 			inpropsdiv.css('display', 'none');
@@ -222,9 +225,11 @@ $(function() {
 
 		var wtfacts = new WTFacts(conf.wgPageName, allwtfacts, stdwtprops, wtutil, wtapi);
 		wtfacts.display(factsdiv);
+		factsdiv.css('display', 'block');
 
 		var wtcredits = new WTCredits(conf.wgPageName, allwtdetails, wtutil, wtapi);
 		wtcredits.display(creditsdiv);
+		creditsdiv.css('display', 'block');
 	}
 	else {
 		stdpropsdiv.css('display', 'none');
@@ -243,6 +248,7 @@ $(function() {
 	if(wtrights["edit-page-metadata"]) {
 		var wtcatchooser = new WTCategoryChooser(conf.wgPageName, wtutil, wtapi);
 		wtcatchooser.display(catchooserdiv);
+		catchooserdiv.css('display', 'block');
 	}
 	else if(!wtpagenotfound && !wtrights["edit-page-metadata"]) {
 		catchooserdiv.css('display', 'none');

@@ -399,14 +399,14 @@ function locationToJson($geo, $parent=null) {
 		
 	if(array_key_exists("coordinates", $geo)) {
 		$latlong = explode(",", $geo["coordinates"]);
-		$geojson["geometry"]["coordinates"][0] = floatval($latlong[0]);
-		$geojson["geometry"]["coordinates"][1] = floatval($latlong[1]);
+		$geojson["geometry"]["coordinates"][0] = floatval($latlong[1]);
+		$geojson["geometry"]["coordinates"][1] = floatval($latlong[0]);
 		$geojson["geometry"]["type"] = "Point";
 	}
-	if(array_key_exists("wgs84:Lat", $geo)) 
-		$geojson["geometry"]["coordinates"][0] = floatval($geo["wgs84:Lat"]);
 	if(array_key_exists("wgs84:Long", $geo)) 
-		$geojson["geometry"]["coordinates"][1] = floatval($geo["wgs84:Long"]);
+		$geojson["geometry"]["coordinates"][0] = floatval($geo["wgs84:Long"]);
+	if(array_key_exists("wgs84:Lat", $geo)) 
+		$geojson["geometry"]["coordinates"][1] = floatval($geo["wgs84:Lat"]);
 	if(array_key_exists("wgs84:Alt", $geo)) 
 		$geojson["geometry"]["coordinates"][2] = floatval($geo["wgs84:Alt"]);
 

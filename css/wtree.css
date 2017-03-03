@@ -86,6 +86,15 @@ h1.firstHeading {
 	border-radius: 5px;
 }
 
+#main-credits,
+#main-tree-sidebar,
+#category-chooser,
+#main-std-props,
+#main-in-props,
+#main-facts {
+	display: none;
+}
+
 img.wflowimage {
 	width:50%;
 	border: thin #aaa solid;
@@ -1730,3 +1739,13 @@ h6, .h6 {
     font-size: 0.95em;
 }
 
+.thumbinner, .thumbimage {
+	border-radius: 5px;
+}
+
+.tmbox {
+	margin: 4px 10%;
+	padding: 10px;
+	border: 1px solid #c0c090;
+	background: #f8eaba;
+}

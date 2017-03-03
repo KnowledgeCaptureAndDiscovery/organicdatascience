@@ -203,6 +203,7 @@ function WTRender (&$out, &$skin) {
 	if ( (($ns !== NS_MAIN) && ($ns !== NS_USER) && ($ns !== SMW_NS_PROPERTY) && ($ns != NS_CATEGORY)) 
 			|| (($action !== 'view') && ($action !== 'purge') && ($action !== '')) ) {
 		$item = new WTBase($title);
+		$item->addPageHeader($out);
 		$item->includeCSSHeaders($out, $wgDir);
 		$item->addCategoryHeaders($out, $cats);
 		return false;
@@ -219,6 +220,7 @@ function WTRender (&$out, &$skin) {
 			$item = new WTWorkingGroup($title);
 		else {
 			$item = new WTBase($title);
+			$item->addPageHeader($out);
 			$item->includeCSSHeaders($out, $wgDir);
 			$item->includeJSHeaders($out);
 			$item->addCategoryHeaders($out, $cats);
@@ -288,6 +290,7 @@ function WTRender (&$out, &$skin) {
 		$item = new WTBase($title);
 	}
 
+	$item->addPageHeader($out);
 	$item->includeJSHeaders($out, $wgDir);
 	$item->includeCSSHeaders($out, $wgDir);
 	$item->setJavascriptVariables($out);

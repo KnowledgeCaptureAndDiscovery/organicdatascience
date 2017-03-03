@@ -88,6 +88,20 @@ class WTBase {
 		$out->addHTML( $old );
 	}
 
+	function addPageHeader($out) {
+		global $wgServer, $wgScriptPath;
+		$ns = $this->title->getNsText();
+		$headerpage = "Mediawiki:${ns}_Header";
+		$htitle = Title::newFromText($headerpage);
+		if($htitle->exists()) {
+			$old = $out->getHTML();
+			$out->clearHTML();
+			$harticle = WikiPage::factory($htitle);
+			$out->addHTML(file_get_contents("${wgServer}$wgScriptPath/index.php/$headerpage?action=render"));
+			$out->addHTML( $old );
+		}
+	}
+
 	function setJavascriptVariables($out, $nofacts=false) {
 		global $wgCore;
 		global $wgUseSimpleTasks, $wgDisableTracking;
