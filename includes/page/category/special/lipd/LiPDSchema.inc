@@ -4,66 +4,68 @@ global $SCHEMA;
 
 $SCHEMA["Dataset"] = array(
 	"@id" => array("{dataSetName}"),
+	"@toJson" => array("getVariableArchiveTypes"),
 
-	"dataSetName" => array( 
-		"name"=>"Name" , 
-		"alternates"=>["paleoArchiveName"] 
+
+	"dataSetName" => array(
+		"name"=>"Name" ,
+		"alternates"=>["paleoArchiveName"]
 	),
-	"originalDataURL" => array( 
-		"name"=>"HasLink" , 
-		"alternates"=>["dataURL"] 
+	"originalDataURL" => array(
+		"name"=>"HasLink" ,
+		"alternates"=>["dataURL"]
 	),
-	"dataContributor" => array( 
-		"name"=>"Author", 
-		"schema"=>"Person", 
+	"dataContributor" => array(
+		"name"=>"Author",
+		"schema"=>"Person",
 		"alternates"=>["whoEnteredinDB", "MetadataEnteredByWhom"],
 		"fromJson"=>"parsePerson"
 	),
-	"archiveType" => array( 
-		"name"=>"archiveType", 
-		"alternates"=>["paleoDataArchive", "paleoData_Archive"] 
+	"archiveType" => array(
+		"name"=>"archiveType",
+		"alternates"=>["archive", "paleoDataArchive", "paleoData_Archive"]
 	),
-	"investigator" => array( 
-		"name"=>"Contributor" , 
-		"schema"=>"Person", 
+	"investigator" => array(
+		"name"=>"Contributor" ,
+		"schema"=>"Person",
 		"multiple"=>true,
 		"fromJson"=>"parsePersons",
 	),
 	// The following added for dealing with Single line investigators
-	"investigators" => array( 
-		"name"=>"Contributor" , 
-		"schema"=>"Person", 
+	"investigators" => array(
+		"name"=>"Contributor" ,
+		"schema"=>"Person",
 		"hack"=>true,
 		"fromJson"=>"parsePersonsString",
 	),
-	"funding" => array( 
-		"name"=>"FundedBy", 
+	"funding" => array(
+		"name"=>"FundedBy",
 		"multiple"=>true,
 		"schema"=>"Funding"
 	),
-	"pub" => array( 
-		"name"=>"PublishedIn", 
+	"pub" => array(
+		"name"=>"PublishedIn",
 		"multiple"=>true,
 		"schema"=>"Publication"
 	),
-	"geo" => array( 
-		"name"=>"CollectedFrom", 
-		"schema"=>"Location", 
+	"geo" => array(
+		"name"=>"CollectedFrom",
+		"schema"=>"Location",
 		"fromJson"=>"parseLocation",
 		"toJson"=>"locationToJson"
 	),
-	"paleoData" => array( 
-		"name"=>"IncludesPaleoData", 
+	"paleoData" => array(
+		"name"=>"IncludesPaleoData",
 		"multiple"=>true,
 		"schema"=>"PaleoData"
 	),
-	"chronData" => array( 
-		"name"=>"IncludesChronData", 
+	"chronData" => array(
+		"name"=>"IncludesChronData",
 		"multiple"=>true,
 		"schema"=>"ChronData"
 	),
-	"googleSpreadSheetKey" => array( 
-		"name"=>"HasSpreadsheetLink", 
+	"googleSpreadSheetKey" => array(
+		"name"=>"HasSpreadsheetLink",
 		"fromJson"=>"getGoogleSpreadsheetURL",
 		"toJson"=>"getGoogleSpreadsheetKey"
 	),
@@ -73,42 +75,42 @@ $SCHEMA["Dataset"] = array(
 $SCHEMA["Funding"] = array(
 	"@id" => array( "{fundingAgency|agency}", ".", "{fundingGrant|grant}" ),
 
-	"agency" => array ( 
+	"agency" => array (
 		"name"=>"FundingAgency",
 		"alternates"=>["fundingAgency"]
 	),
-	"grant" => array ( 
+	"grant" => array (
 		"name"=>"GrantNumber",
 		"multiple"=>true,
 		"alternates"=>["fundingGrant"]
 	),
-	"country" => array ( 
+	"country" => array (
 		"name"=>"FundingCountry",
 		"alternates"=>["fundingCountry"]
 	)
 );
 
 $SCHEMA["Publication"] = array(
-	"@id" => array("Publication.", "{identifier.0.id|doi|@parent.dataSetName}"),
+	"@id" => array("Publication.", "{identifier.0.id|doi|hasDOI|@parent.dataSetName}"),
 	"@fromJson"=> array("setIdentifierProperties"),
 	"@toJson" => array("createPublicationIdentifier"),
 
-	"title" => array( 
+	"title" => array(
 		"name"=>"Title"
 	),
-	"pubYear" => array( 
+	"pubYear" => array(
 		"name"=>"PublicationYear",
 		"alternates"=>["year"]
 	),
-	"citation" => array( 
+	"citation" => array(
 		"name"=>"Citation",
 		"alternates"=>["reference"]
 	),
-	"link" => array( 
+	"link" => array(
 		"name"=>"HasLink",
 		"multiple"=>true
 	),
-	"author" => array( 
+	"author" => array(
 		"name"=>"Author",
 		"schema"=>"Person",
 		"multiple"=>true,
@@ -116,9 +118,9 @@ $SCHEMA["Publication"] = array(
 	),
 
 	// The following added for dealing with Single line authors
-	"authors" => array( 
-		"name"=>"Author", 
-		"schema"=>"Person", 
+	"authors" => array(
+		"name"=>"Author",
+		"schema"=>"Person",
 		"fromJson"=>"parsePersonsString",
 		"hack"=>true
 	)
@@ -128,9 +130,9 @@ $SCHEMA["PaleoData"] = array(
 	"@id" => array("{@parent.dataSetName}", ".PaleoData", "{@index}"),
 	"paleoDataName" => array("name"=>"Name"),
 
-	"paleoMeasurementTable" => array( 
-		"name"=>"FoundInMeasurementTable", 
-		"multiple"=>true, 
+	"paleoMeasurementTable" => array(
+		"name"=>"FoundInMeasurementTable",
+		"multiple"=>true,
 		"schema"=>"DataTable"
 	),
 	"paleoModel" => array(
@@ -144,8 +146,8 @@ $SCHEMA["PaleoData"] = array(
 $SCHEMA["ChronData"] = array(
 	"@id" => array("{@parent.dataSetName}", ".ChronData", "{@index}"),
 
-	"chronMeasurementTable" => array( 
-		"name"=>"FoundInMeasurementTable", 
+	"chronMeasurementTable" => array(
+		"name"=>"FoundInMeasurementTable",
 		"multiple"=>true,
 		"schema"=>"DataTable"
 	),
@@ -163,17 +165,17 @@ $SCHEMA["Model"] = array(
 		"name"=>"HasCode",
 		"schema"=>"SoftwareCode"
 	),
-	"summaryTable" => array( 
-		"name"=>"FoundInSummaryTable", 
+	"summaryTable" => array(
+		"name"=>"FoundInSummaryTable",
 		"schema"=>"DataTable"
 	),
-	"ensembleTable" => array( 
-		"name"=>"FoundInEnsembleTable", 
+	"ensembleTable" => array(
+		"name"=>"FoundInEnsembleTable",
 		"schema"=>"DataTable"
 	),
-	"distributionTable" => array( 
-		"name"=>"FoundInDistributionTable", 
-		"multiple"=>true, 
+	"distributionTable" => array(
+		"name"=>"FoundInDistributionTable",
+		"multiple"=>true,
 		"schema"=>"DataTable"
 	)
 );
@@ -189,38 +191,40 @@ $SCHEMA["SoftwareCode"] = array(
 $SCHEMA["DataTable"] = array(
 	"@id" => array("{filename}", "_trunc(4)"),
 	"@fromJson" => array("checkForDepthVariable"),
-	"@toJson" => array("removeDepthProperty"),
 
-	"filename" => array( 
-		"name"=>"hasFileName", 
-		"type"=>"File" 
+	"filename" => array(
+		"name"=>"hasFileName",
+		"type"=>"File"
 	),
-	"columns" => array( 
-		"name"=>"IncludesVariable", 
-		"multiple"=>true, 
+	"columns" => array(
+		"name"=>"IncludesVariable",
+		"multiple"=>true,
 		"schema"=>"Variable"
 	)
 );
 
 $SCHEMA["Variable"] = array(
-	"@id" => array("{TSid|@parent.@id}", ".", "{variableName}"),
-	"@fromJson" => array("setVariableCategory", "wrapUncertainty", "createProxySystem", "addFoundInTable"),
-	"@toJson" => array("setVariableType", "unwrapUncertainty", "extractFromProxySystem", "removeFoundInTable"),
+	"@id" => array("{TSid|tsid|foundInTable|@parent.@id}", ".", "{variableName|name}"),
+	"@fromJson" => array("setVariableCategory", "wrapUncertainty", "createProxySystem", "addFoundInTable", "wrapCalibration", "wrapInterpretation"),
+	"@toJson" => array("setVariableType", "unwrapUncertainty", "extractFromProxySystem", "removeFoundInTable", "removeDepthProperty"),
 
 	"number" => array("name"=>"HasColumnNumber", "type"=>"Number"),
-	"TSid" => array("name"=>"HasID"),
+	"TSid" => array("name"=>"HasID", "alternates"=>["tsid"]),
 	"variableName" => array("name"=>"Name"),
 	"units" => array("name"=>"HasUnits"),
 	"measurementMethod" => array("name"=>"Method"),
 	"measurementStandard" => array("name"=>"Standard"),
 	"missingValue" => array("name"=>"HasMissingValue"),
 	"instrument" => array(
-		"name"=>"measuredBy", 
+		"name"=>"measuredBy",
 		"type"=>"Page",
 		"category"=>"Instrument"
 	),
 	"calibration" => array(
-		"name"=>"CalibratedWith", 
+		"name"=>"CalibratedWith",
+		"schema"=>"CalibrationModel"
+	),
+	"calibratedFrom" => array(
 		"schema"=>"CalibrationModel"
 	),
 	"climateInterpretation" => array(
@@ -232,6 +236,10 @@ $SCHEMA["Variable"] = array(
 		"name"=>"InterpretedAs",
 		"schema"=>"IsotopeInterpretation",
 		"category"=>"IsotopeInterpretation"
+	),
+	"inferredFrom" => array(
+		"schema"=>"Variable",
+		"category"=>"MeasuredVariable"
 	)
 	/*,
 	"proxySystemModel" => array(
@@ -305,10 +313,11 @@ $SCHEMA["IndependentVariable"] = array(
 );
 
 $SCHEMA["CalibrationModel"] = array(
-	"@id" => array("{@parent.TSid}", ".Calibration"),
+	"@id" => array("{@parent.@id}", ".Calibration"),
 	"@fromJson" => array("wrapUncertainty"),
 	"@toJson" => array("unwrapUncertainty"),
 	"reference"=> array("name"=>"RelevantQuote"),
+	"calibrationReferences"=>array("schema"=>"Publication")
 );
 
 $SCHEMA["Person"] = array(
@@ -351,12 +360,12 @@ function parsePersonsString($authstring, $parent=null) {
 
 function parsePerson($auth, $parent=null) {
 	$authname = $auth;
-	if(is_array($auth)) 
+	if(is_array($auth))
 		$authname = $auth["name"];
 
-	if(preg_match("/(.+)\s*,\s*(.+)/", $authname, $m)) 
+	if(preg_match("/(.+)\s*,\s*(.+)/", $authname, $m))
 		return array("name" => $m[2]." ".$m[1]);
-	else 
+	else
 		return array("name" => $authname);
 }
 
@@ -375,20 +384,22 @@ function parseLocation($geo, $parent=null) {
 	$ngeo = array();
 	$ngeo["locationType"] = $geo["type"];
 	$ngeo["coordinatesFor"] = $parent["@id"];
-	$ngeo["coordinates"] = $geo["geometry"]["coordinates"][1].",".$geo["geometry"]["coordinates"][0];
-	$ngeo["Wgs84:Lat"] = $geo["geometry"]["coordinates"][1];
-	$ngeo["Wgs84:Long"] = $geo["geometry"]["coordinates"][0];
-	// FIXME: For now assuming points
-	$wkt = "POINT(". $geo["geometry"]["coordinates"][1]." ".$geo["geometry"]["coordinates"][0];
-	if(sizeof($geo["geometry"]["coordinates"]) > 2) {
-		$ngeo["Wgs84:Alt"] = $geo["geometry"]["coordinates"][2];
-		$wkt .= " ".$geo["geometry"]["coordinates"][2];
+	$coords = $geo["geometry"]["coordinates"];
+	if($coords && sizeof($coords) > 0) {
+		$ngeo["coordinates"] = $coords[1].",".$coords[0];
+		$ngeo["Wgs84:Lat"] = $coords[1];
+		$ngeo["Wgs84:Long"] = $coords[0];
+		// FIXME: For now assuming points
+		$wkt = "POINT(". $coords[1]." ".$coords[0];
+		if(sizeof($coords) > 2) {
+			$ngeo["Wgs84:Alt"] = $coords[2];
+			$wkt .= " ".$coords[2];
+		}
+		$wkt .= ")";
+		$ngeo["Geo:HasGeometry"] = array("@id"=>$parent["@id"].".Geometry", "@category"=>"Geo:Geometry", "Geo:AsWKT"=>$wkt);
 	}
-	$wkt .= ")";
-	$ngeo["Geo:HasGeometry"] = array("@id"=>$parent["@id"].".Geometry", "@category"=>"Geo:Geometry", "Geo:AsWKT"=>$wkt);
-
 	if(array_key_exists("properties", $geo)) {
-		foreach($geo["properties"] as $key=>$value) 
+		foreach($geo["properties"] as $key=>$value)
 			$ngeo[$key] = $value;
 	}
 	return $ngeo;
@@ -396,18 +407,18 @@ function parseLocation($geo, $parent=null) {
 
 function locationToJson($geo, $parent=null) {
 	$geojson = array("geometry"=>array("coordinates"=>[]), "properties"=>array());
-		
+
 	if(array_key_exists("coordinates", $geo)) {
 		$latlong = explode(",", $geo["coordinates"]);
 		$geojson["geometry"]["coordinates"][0] = floatval($latlong[1]);
 		$geojson["geometry"]["coordinates"][1] = floatval($latlong[0]);
 		$geojson["geometry"]["type"] = "Point";
 	}
-	if(array_key_exists("wgs84:Long", $geo)) 
+	if(array_key_exists("wgs84:Long", $geo))
 		$geojson["geometry"]["coordinates"][0] = floatval($geo["wgs84:Long"]);
-	if(array_key_exists("wgs84:Lat", $geo)) 
+	if(array_key_exists("wgs84:Lat", $geo))
 		$geojson["geometry"]["coordinates"][1] = floatval($geo["wgs84:Lat"]);
-	if(array_key_exists("wgs84:Alt", $geo)) 
+	if(array_key_exists("wgs84:Alt", $geo))
 		$geojson["geometry"]["coordinates"][2] = floatval($geo["wgs84:Alt"]);
 
 	foreach($geo as $prop=>$value) {
@@ -472,11 +483,11 @@ function setIdentifierProperties($pub, $hash) {
 	$props = array();
 	if(array_key_exists("identifier", $pub)) {
 		foreach($pub["identifier"] as $identifier) {
-			if($identifier["type"] == "doi") 
+			if($identifier["type"] == "doi")
 				$pub["hasDOI"][] = $identifier["id"];
-			else if($identifier["type"] == "issn") 
+			else if($identifier["type"] == "issn")
 				$pub["hasISSN"][] = $identifier["id"];
-			else if($identifier["type"] == "isbn") 
+			else if($identifier["type"] == "isbn")
 				$pub["hasISBN"][] = $identifier["id"];
 			if(array_key_exists("url", $identifier))
 				$pub["hasLink"][] = $identifier["url"];
@@ -500,6 +511,10 @@ function setVariableCategory($obj, $hash) {
 	return [$obj, $hash, array()];
 }
 
+function getLiPDArchiveType($archiveType) {
+	return unCamelCase($archiveType);
+}
+
 function getArchiveType($id, $latitude) {
 	$id = strtolower($id);
 	if($id == "tree")
@@ -521,6 +536,13 @@ function camelCase($id) {
 		$term .= ucfirst($subid);
 	return $term;
 }
+
+function unCamelCase($id) {
+	$re = '/(?<=[a-z])(?=[A-Z]) | (?<=[A-Z])(?=[A-Z][a-z])/x';
+	$a = preg_split($re, $id);
+	return strtolower(implode(" " , $a));
+}
+
 
 function guessSensorType($archive, $observation, $sensor) {
 	if(array_key_exists('sensorGenus', $sensor) || array_key_exists('sensorSpecies', $sensor)) {
@@ -592,18 +614,26 @@ function getObservation($observation) {
 	return camelCase($observation);
 }
 
+function getVariableId($obj, $parentid) {
+	$iobj = array_change_key_case($obj);
+	$id = array_key_exists("tsid", $iobj) ? $iobj["tsid"] : $parentid;
+	$id .= "." . $iobj["variablename"];
+	return $id;
+}
+
 function checkForDepthVariable($obj, $hash) {
 	$depthcol = null;
 	foreach($obj["columns"] as $col) {
 		if($col["variableName"] == "depth")
-			$depthcol = $col["TSid"].".".$col["variableName"];
+			$depthcol = getVariableId($col, $obj["@id"]);
 	}
 	if($depthcol) {
 		foreach($obj["columns"] as &$col) {
-			$thiscol = $col["TSid"].".".$col["variableName"];
+			$thiscol = getVariableId($col, $obj["@id"]);
 			if($thiscol != $depthcol)
 				$col["takenAtDepth"] = $depthcol;
 		}
+		unset($col);
 	}
 	return [$obj, $hash, array()];
 }
@@ -619,7 +649,13 @@ function createProxySystem($obj, $hash) {
 	$varid = $obj["@id"];
 
 	// Deal with proxies
-	if(array_key_exists("proxy", $obj)) {
+	$proxyobs = $obj["proxy"];
+	if(!$proxyobs)
+		$proxyobs = $obj['onProxyObservationProperty'];
+
+	$vartype = $obj["@category"];
+	if($vartype && $vartype == "MeasuredVariable") {
+	//if(array_key_exists("proxy", $obj)) {
 		// Get the archive type
 		$dsname = getParentProperty($obj, "dataSetName");
 		$geo = getParentProperty($obj, "geo");
@@ -629,6 +665,8 @@ function createProxySystem($obj, $hash) {
 			$latitude = $geo["geometry"]["coordinates"][1];
 
 		$archivetype = getParentProperty($obj, "archiveType");
+		if(!$archivetype)
+			$archivetype = getParentProperty($obj, "archive");
 		$archivetype = getArchiveType($archivetype, $latitude);
 		$archiveid = $obj["@parent"]["@id"].".".$archivetype;
 
@@ -639,7 +677,7 @@ function createProxySystem($obj, $hash) {
 			$hash[$archiveid] = $archive;
 		}
 
-		$observationid = getObservation($obj["proxy"]);
+		$observationid = getObservation($proxyobs); //$obj["proxy"]);
 
 		// Create sensor
 		$sensorid = $observationid."DefaultSensor";
@@ -654,9 +692,19 @@ function createProxySystem($obj, $hash) {
 				unset($obj["archiveSpecies"]);
 			}
 		}
+		if(array_key_exists("sensorGenus", $obj)) {
+			$sensor["sensorGenus"] = $obj["sensorGenus"];
+			$sensorid = camelCase($sensor["sensorGenus"]);
+			unset($obj["sensorGenus"]);
+			if(array_key_exists("archiveSpecies", $obj)) {
+				$sensor["sensorSpecies"] = $obj["sensorSpecies"];
+				$sensorid .= "-" .camelCase($sensor["sensorSpecies"]);
+				unset($obj["sensorSpecies"]);
+			}
+		}
 		if(!array_key_exists($sensorid, $hash)) {
 			$sensor["@id"] = $sensorid;
-			$sensor["@category"] = guessSensorType($archivetype, $observationid, $sensor); 
+			$sensor["@category"] = guessSensorType($archivetype, $observationid, $sensor);
 			$hash[$sensorid] = $sensor;
 		}
 
@@ -666,10 +714,10 @@ function createProxySystem($obj, $hash) {
 		$proxyid = $obj["@id"].".$archivetype.$sensorid.ProxySystem";
 		if(!array_key_exists($proxyid, $hash)) {
 			$proxy = array(
-				"@id"=>$proxyid, 
+				"@id"=>$proxyid,
 				"@category"=>"ProxySystem",
-				"name"=>$observationid, 
-				"hasProxySensor"=>$sensorid, 
+				"name"=>$observationid,
+				"hasProxySensor"=>$sensorid,
 				"hasProxyArchive"=>$archiveid,
 				"hasProxyObservation"=>$observationid
 			);
@@ -677,10 +725,10 @@ function createProxySystem($obj, $hash) {
 				$proxymodelid = "$proxyid.Model";
 				// TODO: Create proxy sensor/archive/observation models
 				$proxymodel = array(
-					"@id"=>$proxymodelid, 
+					"@id"=>$proxymodelid,
 					"@category"=>"ProxySystemModel",
-					"name"=>$observationid, 
-					"hasProxySensorModel"=>"$sensorid.Model", 
+					"name"=>$observationid,
+					"hasProxySensorModel"=>"$sensorid.Model",
 					"hasProxyArchiveModel"=>"$archiveid.Model",
 					"hasProxyObservationModel"=>"$observationid.Model"
 				);
@@ -758,6 +806,44 @@ function wrapUncertainty($obj, $hash) {
 	return [$obj, $hash, array()];
 }
 
+function wrapInterpretation($obj, $hash) {
+	return wrapKeys($obj, "Interpretation", "InterpretedAs", "ClimateInterpretation", $hash);
+}
+
+function wrapCalibration($obj, $hash) {
+	return wrapKeys($obj, "Calibration", "CalibratedWith", "CalibrationModel", $hash);
+}
+
+function wrapKeys($obj, $objkey, $prop, $category, $hash) {
+	$objid = $obj["@id"];
+
+	// Deal with special keys (convert flat keys to hierarchical)
+	$tpvals = array();
+	foreach($obj as $key=>$value) {
+		if(preg_match("/^$objkey(\d?)_?(.+)$/i", $key, $m)) {
+			$tmpkey = $objkey . $m[1];
+			if(!$tpvals[$tmpkey])
+				$tpvals[$tmpkey] = array();
+			$tpvals[$tmpkey][$m[2]] = $value;
+			unset($obj[$key]);
+		}
+	}
+	if(sizeof($tpvals) > 0) {
+		$obj[$prop] = array();
+		foreach($tpvals as $tmpkey=>$pvals) {
+			$newid = "$objid.$tmpkey";
+			$obj[$prop][] = $newid;
+			$newobj = array("@id"=>$newid, "@category"=>$category);
+			foreach($pvals as $subprop=>$value) {
+				$newobj[$subprop] = $value;
+			}
+			$hash[$newid] = $newobj;
+		}
+		return [$obj, $hash, $obj[$prop]];
+	}
+	return [$obj, $hash, array()];
+}
+
 function addFoundInTable($obj, $hash) {
 	$obj["foundInTable"] = $obj["@parent"]["@id"];
 	return [$obj, $hash, array()];
@@ -771,18 +857,58 @@ function removeFoundInTable($var, $parent=null) {
 	return $var;
 }
 
+function _getVariableArchiveTypes(&$item, $atypes=array()) {
+	$nitem = array();
+	if(Util::is_assoc($item)) {
+		foreach($item as $key=>&$value) {
+			if($key == "archiveType") {
+				$atypes[$value] = 1;
+			}
+			else {
+				list($nitem[$key], $atypes) = _getVariableArchiveTypes($value, $atypes);
+			}
+		}
+	}
+	else if(is_array($item)) {
+		foreach($item as &$value) {
+			list($nit , $atypes) = _getVariableArchiveTypes($value, $atypes);
+			$nitem[] = $nit;
+		}
+	}
+	else {
+		$nitem = $item;
+	}
+	return array($nitem, $atypes);
+}
+
+function getVariableArchiveTypes($var, $parent=null) {
+	list($var, $atypes) = _getVariableArchiveTypes($var);
+	foreach($atypes as $atype=>$ok) {
+		$var["archiveType"] = $atype;
+	}
+	return $var;
+}
+
 function extractFromProxySystem($var, $parent=null) {
 	if(array_key_exists("hasProxySystem", $var)) {
 		$ps = $var["hasProxySystem"];
-		$var["proxy"] = $ps["name"];
+		//$var["proxy"] = $ps["name"];
 		if(array_key_exists("hasProxySensor", $ps)) {
-			if(array_key_exists("sensorGenus", $ps["hasProxySensor"]))
-				$var["archiveGenus"] = $ps["hasProxySensor"]["sensorGenus"];
-			if(array_key_exists("sensorSpecies", $ps["hasProxySensor"]))
-				$var["archiveSpecies"] = $ps["hasProxySensor"]["sensorSpecies"];
+			$psensor = $ps["hasProxySensor"];
+			if(is_object($psensor)) {
+				if(array_key_exists("sensorGenus", $psensor))
+					$var["sensorGenus"] = $psensor["sensorGenus"];
+				if(array_key_exists("sensorSpecies", $psensor))
+					$var["sensorSpecies"] = $psensor["sensorSpecies"];
+			}
 		}
 		unset($var["hasProxySystem"]);
-		unset($var["onProxyObservationProperty"]);
+	}
+	if(array_key_exists("measuredOn", $var)) {
+		$archive = $var["measuredOn"];
+		$archiveType = $archive["@category"];
+		$var["archiveType"] = getLiPDArchiveType($archiveType);
+		//print "$archiveType\n"
 		unset($var["measuredOn"]);
 	}
 	return $var;
@@ -851,7 +977,7 @@ function createPublicationIdentifier($pub, $parent=null) {
 	$identifiers = array();
 	if(array_key_exists("hasDOI", $pub)) {
 		$identifier["type"] = "doi";
-		$identifier["id"] = $pub["hasDOI"]; 
+		$identifier["id"] = $pub["hasDOI"];
 		if(array_key_exists("link", $pub)) {
 			foreach($pub["link"] as $link) {
 				if(preg_match("/dx.doi.org/", $link)) {

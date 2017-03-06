@@ -81,7 +81,7 @@ class LiPDJson {
 			$xschema[$key] = $props;
 			$xschema[$corekey] = $props;
 			foreach($props as $lipdkey=>$pdetails) {
-				if(!is_array($pdetails)) 
+				if(!is_array($pdetails))
 					continue;
 				if(array_key_exists("alternates", $pdetails)) {
 					foreach($pdetails["alternates"] as $altkey) {
@@ -117,7 +117,7 @@ class LiPDJson {
 		$schema = array_key_exists($schemaname, $SCHEMA) ? $SCHEMA[$schemaname] : [];
 		$SCHEMA[$schemaname] = $schema;
 
-		if(!is_array($obj)) 
+		if(!is_array($obj))
 			return $obj;
 
 		$obj["@parent"] = $parent;
@@ -158,7 +158,7 @@ class LiPDJson {
 				$subobject = array_key_exists("subobject", $details) ? $details["subobject"] : false;
 				if($sch && !$cat)
 					$cat = $sch;
-	
+
 				if($fromJson) {
 					$value = call_user_func($fromJson, $value, $obj);
 					if(!$value)
@@ -188,12 +188,12 @@ class LiPDJson {
 
 				if(!$pname)
 					continue;
-	
+
 				if($subobject) {
 					$item["@subobjects"][] = array($prop=>$value);
 					continue;
 				}
-	
+
 				if(is_array($value) && !Util::is_assoc($value)) {
 					$index = 1;
 					foreach($value as $subvalue) {
@@ -249,13 +249,13 @@ class LiPDJson {
 			$fromJson = array_key_exists("fromJson", $details) ? $details["fromJson"] : null;
 			$multiple = array_key_exists("multiple", $details) ? $details["multiple"] : false;
 			$subobject = array_key_exists("subobject", $details) ? $details["subobject"] : false;
-	
+
 			if(!$prop)
 				continue;
 
 			// Create Property
 			$propDI = $this->createProperty( $prop, $type, $cat, $icon, $multiple, $out );
-	
+
 			// Set property value
 			if(is_array($value) && !Util::is_assoc($value)) {
 				foreach($value as $subvalue) {
@@ -303,7 +303,7 @@ class LiPDJson {
 		$subpage = SMWDIWikiPage::newFromTitle($subtitle);
 
 		$subdata = $data->findSubSemanticData($subobjectid);
-		if($subdata) 
+		if($subdata)
 			$data->removeSubSemanticData($subdata);
 
 		$subdata = new SMWSemanticData($subpage);
@@ -320,11 +320,11 @@ class LiPDJson {
 				$sch = array_key_exists("schema", $details) ? $details["schema"] : null;
 				$fromJson = array_key_exists("fromJson", $details) ? $details["fromJson"] : null;
 				$multiple = array_key_exists("multiple", $details) ? $details["multiple"] : false;
-	
+
 				// Create & set Property
 				$propDI = $this->createProperty( $prop, $type, $cat, $icon, $multiple );
 				$subdata = $this->setProperty( $subdata, $propDI, $value);
-	
+
 				//print "|$key=$value";
 			}
 		}
@@ -359,7 +359,7 @@ class LiPDJson {
 		$cname = $this->resolveCategory($category);
 		if($cname) // If category already exists
 			return $cname;
-		
+
 		$pageid = "Category:$category";
 
 		/*$title = Title::newFromText($pageid);
@@ -482,7 +482,7 @@ class LiPDJson {
 				$arg = $m[2];
 				$objid = $this->getFunctionKeyId($fn, $arg, $objid);
 			}
-			else 
+			else
 				$objid .= $key;
 		}
 		return $objid;
@@ -526,7 +526,7 @@ class LiPDJson {
 				foreach($value as $subvalue)
 					return $this->guessValueType($subvalue);
 			}
-			else 
+			else
 				return "Page";
 		}
 		else if($value) {
@@ -542,13 +542,13 @@ class LiPDJson {
 		$pname = $this->fromCamelCase($key);
 		$details = array("name"=>$pname);
 
-		if(array_key_exists($key, $schema) && 
+		if(array_key_exists($key, $schema) &&
 				array_key_exists("@@processed", $schema[$key]))
 			return $schema[$key];
 
 		// Get details from schema
 		if(array_key_exists($key, $schema)) {
-			foreach($schema[$key] as $skey=>$svalue) 
+			foreach($schema[$key] as $skey=>$svalue)
 				$details[$skey] = $svalue;
 		}
 		if(array_key_exists("schema", $details))

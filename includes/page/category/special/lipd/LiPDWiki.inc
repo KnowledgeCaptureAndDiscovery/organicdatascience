@@ -25,7 +25,7 @@ class LiPDWiki {
 	public function export($out) {
 		try {
 			$this->tmpdir = BagitHelper::tempdir();
-			$this->R_SCHEMA = $this->getSchemaReverseMap(); 
+			$this->R_SCHEMA = $this->getSchemaReverseMap();
 			$facts = $this->getFactsRecursively($this->id);
 			$lipd = $this->convertToLiPD($this->id, $facts, "Dataset", "Dataset");
 			$lipd = $this->postProcessing($lipd, null);
@@ -50,10 +50,10 @@ class LiPDWiki {
 			$deletionPageList[] = $delpageid;
 
 			list($status, $facts, $txt) = WTFactsAPI::getFacts($delpageid);
-			foreach($facts as $prop=>$details) 
+			foreach($facts as $prop=>$details)
 				if(array_key_exists("values", $details))
 					foreach($details["values"] as $value)
-						if(($value["type"] == "WikiPage") && 
+						if(($value["type"] == "WikiPage") &&
 								!in_array($value["key"], $deletionPageList))
 							$deletionQ[] = $value["key"];
 		}
@@ -70,7 +70,7 @@ class LiPDWiki {
 					$numExternalReferences++;
 			}
 			if($numExternalReferences == 0) {
-				if(preg_match("/^File:(.+)/", $delpageid, $m)) 
+				if(preg_match("/^File:(.+)/", $delpageid, $m))
 					$this->deleteFileFromWiki($m[1]);
 				WTFactsAPI::deleteWikiPage($delpageid, $this->id." LiPD Dataset was deleted");
 			}
@@ -208,14 +208,14 @@ class LiPDWiki {
 				$subobject = array_key_exists("subobject", $details) ? $details["subobject"] : false;
 
 				if(array_key_exists("values", $pfacts)) {
-					if($multiple) 
+					if($multiple)
 						$obj[$name] = array();
-	
+
 					foreach($pfacts["values"] as $value) {
 						$val = $value["val"];
-						if($value["type"] == "WikiPage" && !$nofollow) 
+						if($value["type"] == "WikiPage" && !$nofollow)
 							$val = $this->convertToLiPD($value["key"], $value["facts"], $cat, $sch);
-						
+
 						if($toJson)
 							$val = call_user_func($toJson, $val);
 
@@ -226,7 +226,7 @@ class LiPDWiki {
 
 						// If there is already a value present
 						// - Then this need to be marked as "multiple"
-						if(!$multiple && array_key_exists($name, $obj) && 
+						if(!$multiple && array_key_exists($name, $obj) &&
 								!is_array($obj[$name]) && !Util::is_assoc($obj[$name])) {
 							$multiple = true;
 							$obj[$name] = [$obj[$name]];
@@ -261,14 +261,14 @@ class LiPDWiki {
 				for($i=0; $i<sizeof($value); $i++)
 					$obj[$key][$i] = $this->postProcessing($value[$i], $obj);
 			}
-			else 
+			else
 				$obj[$key] = $this->postProcessing($value, $obj);
 		}
 
 		$schemaname = $obj["@schema"];
 		$tschema = array_key_exists($schemaname, $SCHEMA) ? $SCHEMA[$schemaname] : null;
-		if($tschema && array_key_exists("@toJson", $tschema)) 
-			foreach($tschema["@toJson"] as $func) 
+		if($tschema && array_key_exists("@toJson", $tschema))
+			foreach($tschema["@toJson"] as $func)
 				$obj = call_user_func($func, $obj, $parent);
 
 		return $obj;
@@ -278,7 +278,7 @@ class LiPDWiki {
 		if(is_array($obj))
 			foreach($obj as $key=>$value)
 				if($key[0] == "@")
-					unset($obj[$key]);	
+					unset($obj[$key]);
 				else
 					$this->cleanup($obj[$key]);
 	}
@@ -287,7 +287,7 @@ class LiPDWiki {
 	private function getPropertyDetails($key, $schema) {
 		$pname = $this->toWikiId($key);
 		$details = array("name"=>$pname);
-		// Create property 
+		// Create property
 		if($schema && array_key_exists($key, $schema)) {
 			foreach($schema[$key] as $skey=>$svalue)
 				$details[$skey] = $svalue;
@@ -320,7 +320,7 @@ class LiPDWiki {
 	private function toLipdId($prop) {
 		global $wgCore;
 		$prop = preg_replace("/[\s_].*$wgCore$/", "", $prop);
-		/*$prop = preg_replace("/_(.?)/e","strtoupper('$1')", $prop); 
+		/*$prop = preg_replace("/_(.?)/e","strtoupper('$1')", $prop);
 		if(!preg_match("/^[A-Z][A-Z]/", $prop))
 			$prop = lcfirst($prop);*/
 		return $prop;

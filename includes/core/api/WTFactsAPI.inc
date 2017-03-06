@@ -575,13 +575,7 @@ class WTFactsAPI extends ApiBase {
 		return WTFactsAPI::setFactsHelper($title, $property, $value, false, $oldvalue);
 	}
 
-	public static function setFactsHelper($title, $property, $value, $replaceAll, $oldvalue=null) {
-		if($property == "SubTask") 
-			$value = WTFactsAPI::replaceSpecialCharacters($value);
-		$subTitle = Title::newFromText($title);
-		$subject = SMWDIWikiPage::newFromTitle( $subTitle );
-		$data = WTFactsAPI::getSemanticData( $subject );
-
+	public static function modifySemanticData($data, $property, $value, $replaceAll, $oldvalue=null) {
 		$propDI = SMWDIProperty::newFromUserLabel( $property );
 		$valDI = null;
 		$oldValDI = null;
@@ -593,9 +587,17 @@ class WTFactsAPI extends ApiBase {
 			$oldValDV = SMWDataValueFactory::newPropertyObjectValue( $propDI, $oldvalue );
 			$oldValDI = $oldValDV->getDataItem();
 		}
-
 		$data = WTFactsAPI::setPropValInData($data, $propDI, $valDI, $replaceAll, $oldValDI);
+		return $data;
+	}
 
+	public static function setFactsHelper($title, $property, $value, $replaceAll, $oldvalue=null) {
+		if($property == "SubTask") 
+			$value = WTFactsAPI::replaceSpecialCharacters($value);
+		$subTitle = Title::newFromText($title);
+		$subject = SMWDIWikiPage::newFromTitle( $subTitle );
+		$data = WTFactsAPI::getSemanticData( $subject );
+		$data = WTFactsAPI::modifySemanticData($data, $property, $value, $replaceAll, $oldvalue);
 		$summary = "Set PropertyValue: $property = $value";
 		return WTFactsAPI::updateWiki($title, $summary, $data);
 	}

@@ -479,3 +479,69 @@ function updateWorkingGroupsWatchlist( &$article, &$user, $content, $summary,
 	}
 }
 
+$wgHooks['TitleMoveComplete'][] = 'renameDatasetDependencies';
+function renameDatasetDependencies($title, $newTitle ) {
+	global $wgCore;
+	$page = new WikiPage($newTitle);
+	$cats = array();
+	$catarray = $page->getCategories();
+	while($catarray->valid()) {
+		$cur = $catarray->current();
+		$cats[$cur->getText()] = 1;
+		$catarray->next();
+	}
+	if(!array_key_exists("Dataset $wgCore", $cats)) 
+		return;
+
+	$dsname = $title->getText();
+	$newdsname = $newTitle->getText();
+	renameSemanticAssertions($newdsname, $dsname, $newdsname, array());
+
+	// Semantic assertions don't fire up on a redirect. Shall we Re-save page to fix it ? 
+}
+
+function renameSemanticAssertions($pagename, $oldprefix, $newprefix, $pages) {
+	if(array_key_exists($pagename, $pages))
+		return;
+	$pages[$pagename] = 1;
+
+	$subTitle = Title::newFromText($pagename);
+	$subject = SMWDIWikiPage::newFromTitle( $subTitle );
+	$data = smwfGetStore()->getSemanticData($subject);
+	$props = $data->getProperties();
+	foreach($props as $prop) {
+		$pkey = $prop->getKey();
+		if($pkey[0] == "_") continue;
+		if($prop->getLabel()) {
+			$valobjs = $data->getPropertyValues($prop);
+			$vals = array();
+			foreach ( $valobjs as $di ) {
+				$dv = SMWDataValueFactory::newDataItemValue( $di, $prop );
+				$val = WTFactsAPI::getDVDetails($dv, $di);
+				$oldvalue = $val["val"];
+				$isfile = false;
+				if(preg_match('/^File:(.+)/', $oldvalue, $m)) {
+					$isfile = true;
+					$oldvalue = $m[1];
+				}
+				if(strpos(strtolower($oldvalue), strtolower($oldprefix)) === 0) {
+					$newvalue = $newprefix . substr($oldvalue, strlen($oldprefix));
+					if($isfile) {
+						$oldvalue = "File:$oldvalue";
+						$newvalue = "File:$newvalue";
+					}
+					if($val["type"] == "WikiPage" || $isfile) {
+						$oldTitle = Title::newFromText($oldvalue);
+						$newTitle = Title::newFromText($newvalue);
+						$oldTitle->moveTo($newTitle, true, "Dataset $oldprefix renamed to $newprefix", false);
+						if(!$isfile)
+							renameSemanticAssertions($newvalue, $oldprefix, $newprefix, $pages);
+					}
+					$data = WTFactsAPI::modifySemanticData($data, $prop->getLabel(), $newvalue, false, $oldvalue);
+				}
+			}
+		}
+	}
+	$summary = "Rename Dataset from $oldprefix to $newprefix";
+	WTFactsAPI::updateWiki($pagename, $summary, $data);
+}
