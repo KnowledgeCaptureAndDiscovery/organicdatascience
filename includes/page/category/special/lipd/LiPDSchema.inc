@@ -222,24 +222,32 @@ $SCHEMA["Variable"] = array(
 	),
 	"calibration" => array(
 		"name"=>"CalibratedWith",
-		"schema"=>"CalibrationModel"
+		"schema"=>"CalibrationModel",
+		"multiple"=>true
 	),
 	"calibratedFrom" => array(
-		"schema"=>"CalibrationModel"
+		"schema"=>"CalibrationModel",
+		"multiple"=>true
 	),
 	"climateInterpretation" => array(
 		"name"=>"InterpretedAs",
 		"schema"=>"ClimateInterpretation",
-		"category"=>"ClimateInterpretation"
+		"category"=>"ClimateInterpretation",
+		"multiple"=>true
 	),
 	"isotopeInterpretation" => array(
 		"name"=>"InterpretedAs",
 		"schema"=>"IsotopeInterpretation",
-		"category"=>"IsotopeInterpretation"
+		"category"=>"IsotopeInterpretation",
+		"multiple"=>true
 	),
 	"inferredFrom" => array(
 		"schema"=>"Variable",
 		"category"=>"MeasuredVariable"
+	),
+	"hasUncertainty" => array(
+		"schema"=>"Uncertainty",
+		"multiple"=>true
 	)
 	/*,
 	"proxySystemModel" => array(
@@ -265,7 +273,7 @@ $SCHEMA["Location"] = array(
 );
 
 $SCHEMA["ClimateInterpretation"] = array(
-	"@id" => array("{@parent.@id}", ".ClimateInterpretation"),
+	"@id" => array("{@parent.@id}", ".ClimateInterpretation", "{@index}"),
 	"@toJson" => array("changeSeasonalityType"),
 
 	"interpDirection" => array("name"=>"InterpretationDirection", "alternates"=>["dir", "interpDir", "direction"]),
@@ -277,7 +285,7 @@ $SCHEMA["ClimateInterpretation"] = array(
 );
 
 $SCHEMA["IsotopeInterpretation"] = array(
-	"@id" => array("{@parent.@id}", ".IsotopeInterpretation"),
+	"@id" => array("{@parent.@id}", ".IsotopeInterpretation", "{@index}"),
 	"@fromJson" => array("wrapIntegrationTime"),
 	"@toJson" => array("unwrapIntegrationTime"),
 	"integrationTime" => array(
@@ -313,18 +321,23 @@ $SCHEMA["IndependentVariable"] = array(
 );
 
 $SCHEMA["CalibrationModel"] = array(
-	"@id" => array("{@parent.@id}", ".Calibration"),
+	"@id" => array("{@parent.@id}", ".Calibration", "{@index}"),
 	"@fromJson" => array("wrapUncertainty"),
 	"@toJson" => array("unwrapUncertainty"),
 	"reference"=> array("name"=>"RelevantQuote"),
-	"calibrationReferences"=>array("schema"=>"Publication")
+	/*"reference"=>array(
+		"name"=>"CalibrationReferences",
+		"schema"=>"Publication",
+		"alternates"=>"calibrationReferences"
+	)*/
 );
 
 $SCHEMA["Person"] = array(
 	"@id" => array("{name}")
 );
+
 $SCHEMA["Uncertainty"] = array(
-	"@id" => array("{@parent.@id}", ".Uncertainty")
+	"@id" => array("{@parent.@id}", ".Uncertainty", "{@index}")
 );
 
 function parsePersonsString($authstring, $parent=null) {
@@ -684,21 +697,21 @@ function createProxySystem($obj, $hash) {
 		$sensor = array("@id"=>$sensorid, "@category"=>"Sensor");
 		if(array_key_exists("archiveGenus", $obj)) {
 			$sensor["sensorGenus"] = $obj["archiveGenus"];
-			$sensorid = camelCase($sensor["sensorGenus"]);
+			$sensorid = ucfirst(strtolower($sensor["sensorGenus"]));
 			unset($obj["archiveGenus"]);
 			if(array_key_exists("archiveSpecies", $obj)) {
 				$sensor["sensorSpecies"] = $obj["archiveSpecies"];
-				$sensorid .= "-" .camelCase($sensor["sensorSpecies"]);
+				$sensorid .= " " .strtolower($sensor["sensorSpecies"]);
 				unset($obj["archiveSpecies"]);
 			}
 		}
 		if(array_key_exists("sensorGenus", $obj)) {
 			$sensor["sensorGenus"] = $obj["sensorGenus"];
-			$sensorid = camelCase($sensor["sensorGenus"]);
+			$sensorid = ucfirst(strtolower($sensor["sensorGenus"]));
 			unset($obj["sensorGenus"]);
 			if(array_key_exists("archiveSpecies", $obj)) {
 				$sensor["sensorSpecies"] = $obj["sensorSpecies"];
-				$sensorid .= "-" .camelCase($sensor["sensorSpecies"]);
+				$sensorid .= " " .strtolower($sensor["sensorSpecies"]);
 				unset($obj["sensorSpecies"]);
 			}
 		}
