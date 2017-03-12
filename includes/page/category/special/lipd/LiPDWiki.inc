@@ -47,6 +47,8 @@ class LiPDWiki {
 		// Get the whole list of pages to be deleted
 		while(sizeof($deletionQ) > 0) {
 			$delpageid = array_shift($deletionQ);
+			if(in_array($delpageid, $deletionPageList))
+				continue;
 			$deletionPageList[] = $delpageid;
 
 			list($status, $facts, $txt) = WTFactsAPI::getFacts($delpageid);
@@ -59,8 +61,12 @@ class LiPDWiki {
 		}
 
 		foreach($deletionPageList as $delpageid) {
+			if($this->isCategory($delpageid)) {
+				//print "Is Category. Not deleting $delpageid\n";
+				continue;
+			}
 			if($this->isObservation($delpageid)) {
-				print "Not deleting $delpageid\n";
+				//print "Is Observation. Not deleting $delpageid\n";
 				continue;
 			}
 			$subprops = WTFactsAPI::getInSubjectProperties($delpageid);
@@ -77,15 +83,23 @@ class LiPDWiki {
 		}
 	}
 
-	private function isObservation($pageid) {
+	private function isCategory($pageid) {
+		return preg_match("/Category:/i", $pageid);
+	}
+
+	private function isObservation($pageid, $pages=array()) {
 		global $wgCore;
 		$categories = WTFactsAPI::getPageCategories($pageid);
+		if(array_key_exists($pageid, $pages))
+			return false;
+		$pages[$pageid] = true;
+
 		foreach($categories as $cat) {
 			if($cat == "ProxyObservation_$wgCore") {
 				return true;
 			}
 			else {
-				$is = $this->isObservation("Category:$cat");
+				$is = $this->isObservation("Category:$cat", $pages);
 				if($is)
 					return true;
 			}

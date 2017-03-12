@@ -662,9 +662,11 @@ function createProxySystem($obj, $hash) {
 	$varid = $obj["@id"];
 
 	// Deal with proxies
-	$proxyobs = $obj["proxy"];
-	if(!$proxyobs)
-		$proxyobs = $obj['onProxyObservationProperty'];
+	$proxyobs = null;
+	if(array_key_exists("proxy", $obj))
+		$proxyobs = $obj["proxy"];
+	else if(array_key_exists("onProxyObservationProperty", $obj))
+		$proxyobs = $obj["onProxyObservationProperty"];
 
 	$vartype = $obj["@category"];
 	if($vartype && $vartype == "MeasuredVariable") {
@@ -674,7 +676,7 @@ function createProxySystem($obj, $hash) {
 		$geo = getParentProperty($obj, "geo");
 
 		$latitude = 0;
-		if(array_key_exists("geometry", $geo))
+		if(array_key_exists("geometry", $geo) && sizeof($geo["geometry"]["coordinates"]) > 1)
 			$latitude = $geo["geometry"]["coordinates"][1];
 
 		$archivetype = getParentProperty($obj, "archiveType");
