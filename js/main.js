@@ -2,6 +2,9 @@ var lpMsg = function(key) {
 	return key;
 };
 
+// global
+var wtpagesuggest;
+
 $(function() {
 	var conf = mw.config.get([
         'wgPageName',
@@ -30,33 +33,33 @@ $(function() {
 
 	var $sidebar = $('#main-tree-sidebar');
 	if(!__use_simple_tasks) {
-		var wtexpapi = new WTExplorerAPI(allwtexplorer, conf.wgScriptPath, wtapi);	
+		var wtexpapi = new WTExplorerAPI(allwtexplorer, conf.wgScriptPath, wtapi);
 		new WTTracker(wtexpapi.userid(), conf.wgScriptPath, wtutil);
 		var wtcats = []
 		for(var cat in wtcategories)
 			wtcats.push(cat);
-	
+
 		WTTracker.track({
 			component: WTTracker.c.page,
 			actiontype: WTTracker.t.nav,
 			action: 'open page',
 			taskId: conf.wgPageName,
 			value: wtcats.join()
-		});	
-	
+		});
+
 		var $menu = $('#p-personal ul');
-		var wtta = new WTTaskAlert(wtexpapi, conf.wgScriptPath, $menu).display();	
+		var wtta = new WTTaskAlert(wtexpapi, conf.wgScriptPath, $menu).display();
 		var wtmenu = new WTExplorerMenu(conf.wgPageName, wtapi, wtexpapi, conf.wgScriptPath);
-		
+
 		WTTracker.trackHover($sidebar, WTTracker.c.explorer);
 		if($sidebar) {
 			$sidebar.css('display', '');
 			var $pnav = $('#p-navigation');
 			var wtside = new WTSidebar(conf.wgPageName, $sidebar, wtexpapi, wtapi, conf.wgScriptPath, wtmenu)
-			wtside.display();	
+			wtside.display();
 			if($pnav.css('display')) {
 				$pnav.prepend($sidebar.detach());
-				new WTSidebarResizer(wtside).display();	
+				new WTSidebarResizer(wtside).display();
 			}
 			else {
 				$sidebar.css('display', 'none');
@@ -68,37 +71,37 @@ $(function() {
 				var $li = $('<li id="n-task-toggle"></li>').append($btna);
 				var $btn = $('<ul class="nav navbar-nav"></ul>').append($li);
 				$('#mw-navigation-collapse').append($btn);
-				$('#mw-navigation').append($sidebar.detach());				
+				$('#mw-navigation').append($sidebar.detach());
 			}
-		}			
-	
-		if(wtcategories["Task"]) {			
+		}
+
+		if(wtcategories["Task"]) {
 			var metadiv = $("#main-taskmetadata");
 			WTTracker.trackHover(metadiv, WTTracker.c.metadata);
-			var wtmd = new WTTaskMetaData(conf.wgPageName, wtexpapi, wtapi, conf.wgScriptPath, metadiv);		
+			var wtmd = new WTTaskMetaData(conf.wgPageName, wtexpapi, wtapi, conf.wgScriptPath, metadiv);
 			wtmd.display();
 
 			var treediv = $("#main-tree");
 			WTTracker.trackHover(treediv, WTTracker.c.subtasks);
 			var wtsubs = new WTSubTasks(conf.wgPageName, wtexpapi, wtutil, wtapi, conf.wgScriptPath, treediv, wtmenu);
 			wtsubs.display();
-		
+
 			WTTracker.trackHover($('#main-facts'), WTTracker.c.facts);
-					
+
 			var wtanswers = new WTAnswers(conf.wgPageName, allwtdetails, wtutil, wtapi);
 			var answersdiv = $("#main-answers");
 			WTTracker.trackHover(answersdiv, WTTracker.c.answers);
 			wtanswers.display(answersdiv);
-		
-			var timelinediv = $("#main-timeline");	
+
+			var timelinediv = $("#main-timeline");
 			WTTracker.trackHover(timelinediv, WTTracker.c.timeline);
-			var wtt = new WTTimeline(wtexpapi, timelinediv);			
+			var wtt = new WTTimeline(wtexpapi, timelinediv);
 			wtt.display();
-		
+
 			$('#jump-to-nav, #contentSub').remove();
-			var headingdiv = $("#firstHeading");		
+			var headingdiv = $("#firstHeading");
 			var wtctx = new WTTaskContext(wtexpapi, headingdiv, treediv, timelinediv);
-			wtctx.display();		
+			wtctx.display();
 		}
 	}
 	else {
@@ -170,13 +173,13 @@ $(function() {
 		wtperson.display(persondiv);
 		if(!__use_simple_tasks) {
 			var wtpctx = new WTPersonContext(conf.wgScriptPath);
-			wtpctx.display($('#firstHeading'));	
-				
+			wtpctx.display($('#firstHeading'));
+
 			var wtpexp = new WTPersonExpertise(conf.wgPageName, wtexpapi, wtapi, allwtdetails);
 			var wtpersexpertdiv = $('#main-personexpertise');
 			WTTracker.trackHover(wtpersexpertdiv, WTTracker.c.persexpert);
 			wtpexp.display(wtpersexpertdiv);
-		
+
 			var wtptasks = new WTPersonTasks(conf.wgPageName, wtexpapi, conf.wgScriptPath);
 			var wtperstasks = $('#main-persontasks');
 			WTTracker.trackHover(wtperstasks, WTTracker.c.perstasks);
@@ -199,6 +202,7 @@ $(function() {
 		wtadmin.display($('#firstHeading'), $("#main-admin"));
 	}
 
+	var suggestiondiv = $("#pageid-suggestion");
 	var stdpropsdiv = $("#main-std-props");
 	var inpropsdiv = $("#main-in-props");
 	var factsdiv = $("#main-facts");
@@ -213,6 +217,8 @@ $(function() {
 			stdpropsdiv.css('display', 'none');
 			factsdiv.css('margin-top', '15px');
 		}
+		wtpagesuggest = new WTPageIdSuggestions(conf.wgPageName, wtnames, wtutil, wtapi);
+		wtpagesuggest.display(suggestiondiv);
 
 		if(Object.keys(allinprops).length) {
 			var wtinprops = new WTInProperties(conf.wgPageName, allinprops, wtutil, wtapi);

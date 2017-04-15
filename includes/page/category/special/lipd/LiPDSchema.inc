@@ -190,7 +190,7 @@ $SCHEMA["SoftwareCode"] = array(
 
 $SCHEMA["DataTable"] = array(
 	"@id" => array("{filename}", "_trunc(4)"),
-	"@fromJson" => array("checkForDepthVariable"),
+	"@fromJson" => array("setInterVariableLinks"),
 
 	"filename" => array(
 		"name"=>"hasFileName",
@@ -205,11 +205,11 @@ $SCHEMA["DataTable"] = array(
 
 $SCHEMA["Variable"] = array(
 	"@id" => array("{TSid|tsid|foundInTable|@parent.@id}", ".", "{variableName|name}"),
-	"@fromJson" => array("setVariableCategory", "wrapUncertainty", "createProxySystem", "addFoundInTable", "wrapCalibration", "wrapInterpretation"),
+	"@fromJson" => array("setVariableCategory", "wrapUncertainty", "createProxySystem", "addFoundInTable"),
 	"@toJson" => array("setVariableType", "unwrapUncertainty", "extractFromProxySystem", "removeFoundInTable", "removeDepthProperty"),
 
 	"number" => array("name"=>"HasColumnNumber", "type"=>"Number"),
-	"TSid" => array("name"=>"HasID", "alternates"=>["tsid"]),
+	"TSid" => array("name"=>"HasVariableID", "alternates"=>["tsid"]),
 	"variableName" => array("name"=>"Name"),
 	"units" => array("name"=>"HasUnits"),
 	"measurementMethod" => array("name"=>"Method"),
@@ -221,25 +221,21 @@ $SCHEMA["Variable"] = array(
 		"category"=>"Instrument"
 	),
 	"calibration" => array(
-		"name"=>"CalibratedWith",
+		"name"=>"CalibratedVia",
 		"schema"=>"CalibrationModel",
 		"multiple"=>true
 	),
-	"calibratedFrom" => array(
-		"schema"=>"CalibrationModel",
+	"interpretation" => array(
+		"name"=>"InterpretedAs",
+		"schema"=>"Interpretation",
+		"category"=>"Interpretation",
 		"multiple"=>true
 	),
-	"climateInterpretation" => array(
-		"name"=>"InterpretedAs",
-		"schema"=>"ClimateInterpretation",
-		"category"=>"ClimateInterpretation",
-		"multiple"=>true
-	),
-	"isotopeInterpretation" => array(
-		"name"=>"InterpretedAs",
-		"schema"=>"IsotopeInterpretation",
-		"category"=>"IsotopeInterpretation",
-		"multiple"=>true
+	"resolution" => array(
+		"name"=>"HasResolution",
+		"category"=>"Resolution",
+		"schema"=>"Resolution",
+		"alternates"=>["hasResolution"]
 	),
 	"inferredFrom" => array(
 		"schema"=>"Variable",
@@ -264,6 +260,16 @@ $SCHEMA["ProxySystemModel"] = array(
 	)
 );
 
+$SCHEMA["PhysicalSample"] = array(
+	"hasidentifier" => array( "name"=> "hasIGSN" ),
+	"hasname" => array("name" => "Name" ),
+	"housedat" => array("name"=> "HousedAt")
+);
+
+$SCHEMA["Resolution"] = array(
+	"@id" => array("{@parent.@id}", ".Resolution"),
+);
+
 $SCHEMA["Location"] = array(
 	"@id" => array("{@parent.dataSetName}", ".Location"),
 
@@ -272,13 +278,13 @@ $SCHEMA["Location"] = array(
 	"coordinatesFor" => array( "type"=>"Page" )
 );
 
-$SCHEMA["ClimateInterpretation"] = array(
-	"@id" => array("{@parent.@id}", ".ClimateInterpretation", "{@index}"),
+$SCHEMA["Interpretation"] = array(
+	"@id" => array("{@parent.@id}", ".Interpretation", "{@index}"),
 	"@toJson" => array("changeSeasonalityType"),
 
-	"interpDirection" => array("name"=>"InterpretationDirection", "alternates"=>["dir", "interpDir", "direction"]),
+	"interpDirection" => array("name"=>"InterpretationDirection", "alternates"=>["dir", "interpDir", "interpdirection", "direction"]),
 	"variable" => array("name"=>"Name"),
-	"variableDetail" => array("name"=>"Detail"),
+	"variableDetail" => array("name"=>"Detail", "alternates"=>["variabledetail"]),
 	"rank" => array("name"=>"hasRank"),
 	"basis"=> array("name"=>"RelevantQuote"),
 	"local"=> array("name"=>"IsLocal")
@@ -321,7 +327,7 @@ $SCHEMA["IndependentVariable"] = array(
 );
 
 $SCHEMA["CalibrationModel"] = array(
-	"@id" => array("{@parent.@id}", ".Calibration", "{@index}"),
+	"@id" => array("{@parent.@id}", ".Calibration"),
 	"@fromJson" => array("wrapUncertainty"),
 	"@toJson" => array("unwrapUncertainty"),
 	"reference"=> array("name"=>"RelevantQuote"),
@@ -634,39 +640,48 @@ function getVariableId($obj, $parentid) {
 	return $id;
 }
 
-function checkForDepthVariable($obj, $hash) {
+function setInterVariableLinks($obj, $hash) {
 	$depthcol = null;
+	$vhash = array();
 	foreach($obj["columns"] as $col) {
-		if($col["variableName"] == "depth")
-			$depthcol = getVariableId($col, $obj["@id"]);
+		$vhash[strtolower($col["variableName"])] =  getVariableId($col, $obj["@id"]);
 	}
-	if($depthcol) {
-		foreach($obj["columns"] as &$col) {
-			$thiscol = getVariableId($col, $obj["@id"]);
-			if($thiscol != $depthcol)
-				$col["takenAtDepth"] = $depthcol;
+	$depthcol = array_key_exists("depth", $vhash) ? $vhash["depth"] : null;
+	foreach($obj["columns"] as &$col) {
+		$thiscol = getVariableId($col, $obj["@id"]);
+		if(array_key_exists("InferredFrom", $col)) {
+			$infcol = strtolower($col["InferredFrom"]);
+			if(array_key_exists($infcol, $vhash))
+				$col["InferredFrom"] = $vhash[$infcol];
 		}
-		unset($col);
+		if($depthcol && $thiscol != $depthcol)
+			$col["TakenAtDepth"] = $depthcol;
 	}
 	return [$obj, $hash, array()];
 }
 
 function removeDepthProperty($val, $parent=null) {
-	if(array_key_exists("takenAtDepth", $val))
-		unset($val["takenAtDepth"]);
+	if(array_key_exists("TakenAtDepth", $val))
+		unset($val["TakenAtDepth"]);
 	return $val;
 }
-
 
 function createProxySystem($obj, $hash) {
 	$varid = $obj["@id"];
 
 	// Deal with proxies
 	$proxyobs = null;
-	if(array_key_exists("proxy", $obj))
+	$sampleid = null;
+	if(array_key_exists("proxy", $obj)) {
 		$proxyobs = $obj["proxy"];
-	else if(array_key_exists("onProxyObservationProperty", $obj))
-		$proxyobs = $obj["onProxyObservationProperty"];
+		unset($obj["proxy"]);
+	}
+	else if(array_key_exists("OnProxyObservationProperty", $obj)) {
+		$proxyobs = $obj["OnProxyObservationProperty"];
+		unset($obj["OnProxyObservationProperty"]);
+	}
+	else if(array_key_exists("ProxyObservationType", $obj))
+		$proxyobs = $obj["ProxyObservationType"];
 
 	$vartype = $obj["@category"];
 	if($vartype && $vartype == "MeasuredVariable") {
@@ -683,13 +698,25 @@ function createProxySystem($obj, $hash) {
 		if(!$archivetype)
 			$archivetype = getParentProperty($obj, "archive");
 		$archivetype = getArchiveType($archivetype, $latitude);
-		$archiveid = $obj["@parent"]["@id"].".".$archivetype;
 
-		// Create archive
-		if(!array_key_exists($archiveid, $hash)) {
-			$archive = array("@id"=>$archiveid, "@category"=>$archivetype);
-			$archive["name"] = $archivetype;
-			$hash[$archiveid] = $archive;
+		// Create sample (archive)
+		if(array_key_exists("physicalSample", $obj)) {
+			$sample = $obj["physicalSample"];
+			$sampleid = $sample["hasname"];
+			if(array_key_exists("hasidentifier", $sample)) {
+				$sampleid .= ".". $sample["hasidentifier"];
+			}
+			if(!array_key_exists($sampleid, $hash)) {
+				$sampleobj = array("@id"=>$sampleid,
+					"@category"=>"PhysicalSample",
+					"@extracats"=>[$archivetype]);
+
+				foreach($sample as $pkey=>$pval)
+					$sampleobj[$pkey] = $pval;
+
+				$hash[$sampleid] = $sampleobj;
+			}
+			unset($obj["physicalSample"]);
 		}
 
 		$observationid = getObservation($proxyobs); //$obj["proxy"]);
@@ -723,18 +750,27 @@ function createProxySystem($obj, $hash) {
 			$hash[$sensorid] = $sensor;
 		}
 
-		$hash[$archiveid]["sensingWith"] = $sensorid;
+		//$hash[$sampleid]["ProxySensorType"] = $sensorid;
 
 		// Create a proxy
-		$proxyid = $obj["@id"].".$archivetype.$sensorid.ProxySystem";
+		//$proxyid = $obj["@id"].".$archivetype.$sensorid.ProxySystem";
+		$proxyid = "ProxySystem." . $archivetype;
+		if($sensorid)
+			$proxyid .= ".$sensorid";
+		if($observationid)
+			$proxyid .= ".$observationid";
+
+		// TODO: $proxyid .= ".$chronmodel";
+		// TODO: $proxyid .= ".$paleomodel";
+
 		if(!array_key_exists($proxyid, $hash)) {
 			$proxy = array(
 				"@id"=>$proxyid,
 				"@category"=>"ProxySystem",
-				"name"=>$observationid,
-				"hasProxySensor"=>$sensorid,
-				"hasProxyArchive"=>$archiveid,
-				"hasProxyObservation"=>$observationid
+				//"name"=>$observationid,
+				"ProxySensorType"=>$sensorid,
+				"ProxyArchiveType"=>$archivetype,
+				"ProxyObservationType"=>$observationid
 			);
 			if(array_key_exists("proxySystemModel", $obj)) {
 				$proxymodelid = "$proxyid.Model";
@@ -744,7 +780,7 @@ function createProxySystem($obj, $hash) {
 					"@category"=>"ProxySystemModel",
 					"name"=>$observationid,
 					"hasProxySensorModel"=>"$sensorid.Model",
-					"hasProxyArchiveModel"=>"$archiveid.Model",
+					"hasProxyArchiveModel"=>"$archivetype.Model",
 					"hasProxyObservationModel"=>"$observationid.Model"
 				);
 				$proxy["modeledBy"] = $proxymodelid;
@@ -754,12 +790,12 @@ function createProxySystem($obj, $hash) {
 			$hash[$proxyid] = $proxy;
 		}
 
-		$obj["measuredOn"] = $archiveid;
-		$obj["onProxyObservationProperty"] = $observationid;
+		$obj["measuredOn"] = $sampleid;
+		$obj["ProxyObservationType"] = $observationid;
 		$obj["hasProxySystem"] = $proxyid;
 
 		unset($obj["proxy"]);
-		return [$obj, $hash, array($archiveid, $proxyid, $sensorid)];
+		return [$obj, $hash, array($sampleid, $proxyid, $sensorid)];
 	}
 	return [$obj, $hash, array()];
 }
@@ -817,44 +853,6 @@ function wrapUncertainty($obj, $hash) {
 		$hash[$uncid] = $uncertainty;
 
 		return [$obj, $hash, array($uncid)];
-	}
-	return [$obj, $hash, array()];
-}
-
-function wrapInterpretation($obj, $hash) {
-	return wrapKeys($obj, "Interpretation", "InterpretedAs", "ClimateInterpretation", $hash);
-}
-
-function wrapCalibration($obj, $hash) {
-	return wrapKeys($obj, "Calibration", "CalibratedWith", "CalibrationModel", $hash);
-}
-
-function wrapKeys($obj, $objkey, $prop, $category, $hash) {
-	$objid = $obj["@id"];
-
-	// Deal with special keys (convert flat keys to hierarchical)
-	$tpvals = array();
-	foreach($obj as $key=>$value) {
-		if(preg_match("/^$objkey(\d?)_?(.+)$/i", $key, $m)) {
-			$tmpkey = $objkey . $m[1];
-			if(!$tpvals[$tmpkey])
-				$tpvals[$tmpkey] = array();
-			$tpvals[$tmpkey][$m[2]] = $value;
-			unset($obj[$key]);
-		}
-	}
-	if(sizeof($tpvals) > 0) {
-		$obj[$prop] = array();
-		foreach($tpvals as $tmpkey=>$pvals) {
-			$newid = "$objid.$tmpkey";
-			$obj[$prop][] = $newid;
-			$newobj = array("@id"=>$newid, "@category"=>$category);
-			foreach($pvals as $subprop=>$value) {
-				$newobj[$subprop] = $value;
-			}
-			$hash[$newid] = $newobj;
-		}
-		return [$obj, $hash, $obj[$prop]];
 	}
 	return [$obj, $hash, array()];
 }

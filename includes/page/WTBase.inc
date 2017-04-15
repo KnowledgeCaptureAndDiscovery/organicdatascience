@@ -19,8 +19,8 @@ class WTBase {
 	function getContributors($title, $allow_anon=false) {
 		$conds['rev_page'] = $title->getArticleId();
 		$conds[] = 'rev_deleted & ' . Revision::DELETED_USER . ' = 0';
-		if(!$allow_anon) $conds[] = 'rev_user != 0'; 
-	
+		if(!$allow_anon) $conds[] = 'rev_user != 0';
+
 		$contributors = array();
 		$dbr = wfGetDB( DB_SLAVE );
 		$res = $dbr->select(
@@ -54,7 +54,7 @@ class WTBase {
 	}
 
 	public static function compareContributors($a,$b) {
-		if($a[1]==$b[1]) return 0; 
+		if($a[1]==$b[1]) return 0;
 		return ($a[1]<$b[1]) ? 1 : -1;
 	}
 
@@ -68,7 +68,7 @@ class WTBase {
 	}
 
 
-	
+
 	function includeJSHeaders($out, $wgDir) {
 		$out->addModules('WorkflowTasks');
 	}
@@ -105,7 +105,7 @@ class WTBase {
 	function setJavascriptVariables($out, $nofacts=false) {
 		global $wgCore;
 		global $wgUseSimpleTasks, $wgDisableTracking;
-		$out->addHTML("<script>\n"); 
+		$out->addHTML("<script>\n");
 		if(!$nofacts) {
 			list ($error, $facts, $text) = WTFactsAPI::getFacts($this->title->getFullText());
 			$inprops = WTFactsAPI::getInSubjectProperties($this->title->getFullText());
@@ -128,23 +128,29 @@ class WTBase {
 			$out->addHTML("var allwtexplorer = ".json_encode($explorer->getExplorer()).";\n");
 		}
 		$out->addHTML("var wtcategories = [];\n");
-		$out->addHTML("var stdwtprops = [];\n"); 
+		$out->addHTML("var stdwtprops = [];\n");
+		$out->addHTML("var wtnames = [];\n");
 		$cats = $out->getCategories();
 		$props = [];
 		foreach($cats as $cat) {
-			$out->addHTML("wtcategories['$cat'] = true;\n"); 
+			$out->addHTML("wtcategories['$cat'] = true;\n");
 			if(!$nofacts)
- 				$props = array_merge($props, WTFactsAPI::getCategoryProperties($cat)); 
+ 				$props = array_merge($props, WTFactsAPI::getCategoryProperties($cat));
+
+			$wtnaming = new WTPageNaming($cat, $facts, $inprops);
+			$pageid = $wtnaming->getPageId();
+			if($pageid)
+				$out->addHTML("wtnames.push(\"" . addslashes($wtnaming->getPageId()) . "\");\n");
 		}
 		if(!$nofacts)
-			$out->addHTML("stdwtprops = ".json_encode($props).";\n"); 
+			$out->addHTML("stdwtprops = ".json_encode($props).";\n");
 
-		global $wgUser;	 
- 		$out->addHTML("var wtuid = null;\n"); 
- 		if($wgUser->isLoggedIn()){ 
- 			$uid = $wgUser->getName(); 
- 			$out->addHTML("wtuid = '".$uid."';\n"); 
- 		} 
+		global $wgUser;
+ 		$out->addHTML("var wtuid = null;\n");
+ 		if($wgUser->isLoggedIn()){
+ 			$uid = $wgUser->getName();
+ 			$out->addHTML("wtuid = '".$uid."';\n");
+ 		}
 
 		$rightsmap = array();
 		foreach($wgUser->getRights() as $right)
@@ -153,21 +159,24 @@ class WTBase {
 
 		$out->addHTML("var __use_simple_tasks = ".($wgUseSimpleTasks ? 'true' : 'false').";\n");
 		$out->addHTML("var __disable_tracking = ".($wgDisableTracking ? 'true' : 'false').";\n");
-		$out->addHTML("</script>\n"); 
+		$out->addHTML("</script>\n");
 	}
 
 	function modifyWikiPage($out) {
 		$old = $out->getHTML();
 		$out->clearHTML();
-		
-		# -- Add the Standard Properties Table 
-		$this->addStdPropsDiv( $out ); 
+
+		# -- Add the Suggested Page name Div
+		$this->addPageIdSuggestionDiv( $out );
+
+		# -- Add the Standard Properties Table
+		$this->addStdPropsDiv( $out );
 
 		# -- Add Existing Markup Here
 		$out->addHTML( $old );
-				
+
 		# -- Add the Facts Table
-		$this->addMainFactsDiv( $out ); 
+		$this->addMainFactsDiv( $out );
 
 		# -- Add the in-properties Table
 		$this->addInPropsDiv( $out );
@@ -177,9 +186,13 @@ class WTBase {
 
 		# -- Sidebar Div
 		$this->addSidebarDiv( $out );
-		
+
 		# -- Add the Category Changer
 		$this->addCategoryChooserDiv( $out );
+	}
+
+	function addPageIdSuggestionDiv($out) {
+		$out->addHTML("<div id='pageid-suggestion' class='props-table'></div>");
 	}
 
 	function addCategoryChooserDiv($out) {
@@ -194,13 +207,13 @@ class WTBase {
 			$out->addHTML("<div id='main-tree' class='customtree'></div>");
 	}
 
-	function addStdPropsDiv($out) { 
-		$out->addHTML("<div id='main-std-props' class='props-table'></div>"); 
-	} 
+	function addStdPropsDiv($out) {
+		$out->addHTML("<div id='main-std-props' class='props-table'></div>");
+	}
 
-	function addInPropsDiv($out) { 
-		$out->addHTML("<div id='main-in-props' class='props-table'></div>"); 
-	} 	
+	function addInPropsDiv($out) {
+		$out->addHTML("<div id='main-in-props' class='props-table'></div>");
+	}
 
 	function addTimelineDiv($out, $type) {
 		$out->addHTML("<div id='main-timeline' class='props-table'></div>");
@@ -209,7 +222,7 @@ class WTBase {
 	function addTaskMetaDataDiv($out) {
 		$out->addHTML("<div id='main-taskmetadata'></div>");
 	}
-	
+
 	function addFactsDiv($out) {
 		$this->addStdPropsDiv($out);
 		$this->addMainFactsDiv($out);
@@ -264,28 +277,28 @@ class WTBase {
 	function addPersonExpertiseDiv($out) {
 		$out->addHTML("<div id='main-personexpertise'></div>");
 	}
-	
+
 	function addPersonTasksDiv($out) {
 		$out->addHTML("<div id='main-persontasks'></div>");
 	}
-	
+
 	function addDocuDiv($out) {
 		$out->addHTML("<div id='main-docu'></div>");
 	}
-	
+
 	function addAdminDiv($out) {
 		$out->addHTML("<div id='main-admin'></div>");
 	}
-	
+
 	function addComponentDiv($out) {
 		$out->addHTML("<div id='main-comp' class='props-table'></div>");
 	}
-	
+
 	function addYandexMetrica($out) {
 		global $wgUseSimpleTasks;
 		global $wgDisableTracking;
 		global $wgCanonicalServer;
-		global $wgExtensionAssetsPath;		
+		global $wgExtensionAssetsPath;
 		if(!$wgUseSimpleTasks && !$wgDisableTracking) {
 			$url = $wgCanonicalServer.$wgExtensionAssetsPath.'/WorkflowTasks/includes/tracking/YandexMetrica.html';
 			$out->addHTML(file_get_contents($url));

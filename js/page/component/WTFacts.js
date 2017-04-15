@@ -8,7 +8,7 @@ var WTFacts = function(title, wtfacts, stdprops, util, api ) {
 
 WTFacts.prototype.closeAllEdits = function() {
 	var me = this;
-	me.$table.find('.wt-row.edit').each(function(k, row){		
+	me.$table.find('.wt-row.edit').each(function(k, row){
 		$row = $(row);
 		$row.removeClass('edit');
 		var fact = $row.data('fact');
@@ -65,9 +65,10 @@ WTFacts.prototype.getfactrow = function( fact, item, data ) {
 					me.$table.mask('Setting '+pname);
 					me.api.replaceFact(me.title, pname, v, oldv, function(response){
 						me.$table.unmask();
-						if(!response || !response.wtfacts || !response.wtfacts.facts) return; 
+						if(!response || !response.wtfacts || !response.wtfacts.facts) return;
 						if(response.wtfacts.result == 'Success') {
 							me.wtfacts = response.wtfacts.facts;
+							wtnames = response.wtfacts.names;
 							item.children('.wt-table').remove();
 							me.$table = me.getfactstable(item, response.wtfacts.facts);
 							item.append(me.$table);
@@ -80,7 +81,7 @@ WTFacts.prototype.getfactrow = function( fact, item, data ) {
 			$in.focus();
 		}
 		e.stopPropagation();
-	});	
+	});
 
 	// Delete link and event handler
 	var delhref = '';
@@ -95,6 +96,7 @@ WTFacts.prototype.getfactrow = function( fact, item, data ) {
 				if(!resp || !resp.wtfacts || !resp.wtfacts.facts) return;
 				if(resp.wtfacts.result == 'Success') {
 					item.children('.wt-table').remove();
+					wtnames = resp.wtfacts.names;
 					me.$table = me.getfactstable(item, resp.wtfacts.facts);
 					item.append(me.$table);
 					//me.util.showFacts([{p:fact.property, o:fact.value}]);
@@ -131,6 +133,9 @@ WTFacts.prototype.blacklist = ['SubTask', 'Answer', 'Answered', 'Workflow', 'Dat
 WTFacts.prototype.getfactstable = function( item, data ) {
 	var extracls = wtrights["edit-page-metadata"] ? 'editable' : '';
 	var table = $('<div class="wt-table '+extracls+'"></div>');
+
+	if(wtpagesuggest)
+		wtpagesuggest.setNames(wtnames);
 
 	var iprop = $('<input type="text" placeholder="Property"/>');
 	var ival = $('<input type="text"  placeholder="Value"/>');
@@ -184,7 +189,7 @@ WTFacts.prototype.getfactstable = function( item, data ) {
 	ival.keyup(function(e){
 		if(e.keyCode == 13){ localAddFact(); }
 	});
-			
+
 
 	function localAddFact() {
 		var prop = iprop.data('val') ? iprop.data('val') : iprop.val();
@@ -197,9 +202,10 @@ WTFacts.prototype.getfactstable = function( item, data ) {
 			if(!prop || !val) return; // TODO Error message?
 			iprop.val(''); ival.val('');
 			iprop.data('val',''); ival.data('val','');
-			if(!response || !response.wtfacts || !response.wtfacts.facts) return; 
+			if(!response || !response.wtfacts || !response.wtfacts.facts) return;
 			if(response.wtfacts.result == 'Success') {
 				me.wtfacts = response.wtfacts.facts;
+				wtnames = response.wtfacts.names;
 				item.children('.wt-table').remove();
 				me.$table = me.getfactstable(item, response.wtfacts.facts);
 				item.append(me.$table);

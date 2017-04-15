@@ -1,7 +1,7 @@
 <?php
 
 class WTLiPD extends SpecialPage {
-	
+
 	public function __construct() {
 		parent::__construct( 'WTLiPD' );
 	}
@@ -39,6 +39,9 @@ class WTLiPD extends SpecialPage {
 			case "export":
 				$lipdid = $request->getText("lipdid");
 				$this->exportLiPD($lipdid, $request, $out);
+				break;
+			case "exportAll":
+				$this->exportAllLiPD($request, $out);
 				break;
 			case "delete":
 				if(!$wgUser->isAllowedAll("delete"))
@@ -94,6 +97,39 @@ class WTLiPD extends SpecialPage {
 		readfile($lipdfile);
 
 		unlink($lipdfile);
+		exit;
+	}
+
+	function exportAllLiPD($request, $out) {
+		require_once("LiPDWiki.inc");
+
+		$zip = new ZipArchive();
+		$zipfile = sys_get_temp_dir() . "/LiPD-Archive-" . uniqid() . ".zip";
+		if ($zip->open($zipfile, ZipArchive::CREATE)!==TRUE) {
+		    exit("Cannot open <$zipfile>\n");
+		}
+		$pageids = $this->getAllDatasets();
+		$lipdfiles = array();
+		foreach($pageids as $dsid) {
+			$exporter = new LiPDWiki($dsid);
+			$lipdfile = $exporter->export($out);
+			$zip->addFile($lipdfile, basename($lipdfile));
+			$lipdfiles[] = $lipdfile;
+		}
+		$zip->close();
+
+		$request->response()->header('Content-Description: File Transfer');
+		$request->response()->header('Content-Type: application/octet-stream');
+		$request->response()->header('Content-Disposition: attachment; filename="'.basename($zipfile).'"');
+		$request->response()->header('Expires: 0');
+		$request->response()->header('Cache-Control: must-revalidate');
+		$request->response()->header('Pragma: public');
+		$request->response()->header('Content-Length: ' . filesize($zipfile));
+		readfile($zipfile);
+
+		foreach($lipdfiles as $lipdfile)
+			unlink($lipdfile);
+		unlink($zipfile);
 		exit;
 	}
 
@@ -155,6 +191,7 @@ class WTLiPD extends SpecialPage {
 		$out->addHTML("<h3>Current LiPD Datasets</h3>\n");
 		$out->addHTML("<table class='sortable wikitable' width='100%'>\n");
 		$out->addHTML("<tr><th>LiPD Dataset</th><th class='unsortable' style='text-align:left'>");
+		$out->addHTML("<a class='lodbutton x-small' href='?op=exportAll'>Download All</a>");
 		if($del) {
 			$out->addHTML("<a class='lodbutton x-small' onclick='return confirm(\"Are you sure you want to delete all datasets\");' ");
 			$out->addHTML("href='?op=deleteAll'>Delete All</a>");
@@ -165,7 +202,7 @@ class WTLiPD extends SpecialPage {
 			$out->addHTML("<tr>\n");
 			$out->addHTML("<td class='smwtype_wpg'><a href='$id'>$id</a></td>\n");
 			$out->addHTML("<td>\n");
-			$out->addHTML("<a class='lodbutton x-small' href='?op=export&lipdid=$id'>Get LiPD</a>\n");
+			$out->addHTML("<a class='lodbutton x-small' href='?op=export&lipdid=$id'>Download LiPD</a>\n");
 			if($del) {
 				$out->addHTML("<a class='lodbutton x-small' onclick='return confirm(\"Are you sure you want to delete \\n$id\");' ");
 				$out->addHTML("href='?op=delete&lipdid=$id'>Delete</a>\n");
@@ -181,4 +218,3 @@ class WTLiPD extends SpecialPage {
 	}
 
 }
-

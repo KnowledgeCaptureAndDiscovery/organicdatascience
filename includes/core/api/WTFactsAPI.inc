@@ -1,7 +1,7 @@
 <?php
 /**
  * API for adding and removing SMW Property Values to a Title
- * 
+ *
  * @ingroup WorkflowTasks
  * @addtogroup API
  * @author varun
@@ -28,7 +28,7 @@ class WTFactsAPI extends ApiBase {
 		$params = $this->extractRequestParams();
 		$error = '';
 		$text = '';
-		
+
 		$op = $params['operation'];
 		if (is_null($op))
 			$this->dieUsage('Must specify operation', 'unspecified_operation');
@@ -38,6 +38,7 @@ class WTFactsAPI extends ApiBase {
 
 		$property = ucfirst($params['property']);
 		$value = $params['value'];
+		$totitle = $params['totitle'];
 		$oldvalue = $params['oldvalue'];
 		$subobjs = $params['subobjectsjson'] ? json_decode($params['subobjectsjson'], true) : null;
 		$type = $params['type'];
@@ -72,11 +73,28 @@ class WTFactsAPI extends ApiBase {
 			if (is_null($value)) $this->dieUsage('Must specify value', 'unspecified_value');
 			list($error, $text, $data) = WTFactsAPI::replaceFact($title, $property, $value, $oldvalue);
 			list($error2, $this->facts, $text2) = WTFactsAPI::getFacts($title, $data);
+		} elseif ($op === 'move') {
+			if (is_null($totitle)) $this->dieUsage('Must specify "to" page title', 'unspecified_property');
+			list($error, $text, $data) = WTFactsAPI::moveWikiPage($title, $totitle);
+			list($error, $this->facts, $text) = WTFactsAPI::getFacts($title, $data);
+		}
+
+		// Get suggested names
+		global $wgTitle;
+		$wgTitle = $title;
+		$names = array();
+		$inprops = WTFactsAPI::getInSubjectProperties($title);
+		$cats = WTFactsAPI::getPageCategories($title);
+		foreach($cats as $cat) {
+			$wtnaming = new WTPageNaming($cat, $this->facts, $inprops);
+			$pageid = $wtnaming->getPageId();
+			if($pageid)
+				$names[] = $pageid;
 		}
 
 		if ($error === '')
 			$error = 'UnknownOperation';
-		
+
 		// Execute any event handlers
 		if($op && $title && $property)
 			WTFactsAPI::triggerEvents($op, $title, $property, $value);
@@ -90,6 +108,7 @@ class WTFactsAPI extends ApiBase {
 			$this->getResult()->setIndexedTagName( $this->facts[$prop], 'value');
 		}
 		$result['facts'] = $this->facts;
+		$result['names'] = $names;
 
 		if($this->newdetails) {
 			$result['newdetails'] = $this->newdetails;
@@ -102,7 +121,7 @@ class WTFactsAPI extends ApiBase {
 		$prop = SMWDIProperty::newFromUserLabel( $propid );
 		$propid = $prop->getKey();
 		if(array_key_exists($propid, WTFactsAPI::$eventHandlers)) {
-			if(array_key_exists($type, WTFactsAPI::$eventHandlers[$propid])) 
+			if(array_key_exists($type, WTFactsAPI::$eventHandlers[$propid]))
 				WTFactsAPI::$eventHandlers[$propid][$type][] = $callback;
 			else
 				WTFactsAPI::$eventHandlers[$propid][$type] = [$callback];
@@ -132,7 +151,7 @@ class WTFactsAPI extends ApiBase {
 			}
 		}
 	}
-	
+
 	public static function getDVText($dataValue) {
 		$text = $dataValue->getShortText(null);
 		return $text;
@@ -168,7 +187,7 @@ class WTFactsAPI extends ApiBase {
 				return $di->getSerialization();
 		}
 	}
-	
+
 	public static function getDVDetails($dv, $di) {
 		$text = WTFactsAPI::getDVText($dv);
 		$val = WTFactsAPI::getDIText($di);
@@ -208,7 +227,7 @@ class WTFactsAPI extends ApiBase {
 						$val = preg_replace("/\/$/", "", $val);
 						$val = preg_replace("/ /", "_", $val);
 						$val = md5($val);
-						if(array_key_exists("$sprop||$val", $auths) && $auths["$sprop||$val"]) 
+						if(array_key_exists("$sprop||$val", $auths) && $auths["$sprop||$val"])
 							continue;
 						$user = $row->rev_user > 0 ? $row->rev_user_text : 'Anonymous';
 						$auths["$sprop||$val"] = $user;
@@ -245,17 +264,17 @@ class WTFactsAPI extends ApiBase {
 	public static function getFacts($title, $data=null) {
 		global $wgUseSimpleTasks, $wgCore;
 		$blacklist = array(
-				"Answer", "SubTask", "Answered", "Workflow", 
+				"Answer", "SubTask", "Answered", "Workflow",
 				"WorkflowDataVariable", "WorkflowParamVariable", "WorkflowProcessVariable",
-				"WorkflowContributor", "WorkflowDataArtifact", "WorkflowInputDataArtifact", 
-				"WorkflowParamArtifact", "WorkflowProcess", "ExecutedWorkflow", "WorkflowCreatedIn", 
+				"WorkflowContributor", "WorkflowDataArtifact", "WorkflowInputDataArtifact",
+				"WorkflowParamArtifact", "WorkflowProcess", "ExecutedWorkflow", "WorkflowCreatedIn",
 				"WorkflowEndTime", "WorkflowExecutedIn", "WorkflowStartTime", "WorkflowStatus",
 				"WorkflowTemplate", "WorkflowWingsTemplate", "WorkflowWingsExecution",
 				"WorkflowUser", "WorkflowRunImage", "WorkflowTemplateImage", "DataHasLocation",
 				"DataHasPubbyLink", "DataHasType", "DataUsedForVariable");
 
 		if(!$wgUseSimpleTasks)
-				$blacklist = array_merge($blacklist, 
+				$blacklist = array_merge($blacklist,
 					array("Type", "Progress", "Owner", "Participants", "Expertise", "StartDate", "TargetDate"));
 
 		if(!$data) {
@@ -321,7 +340,7 @@ class WTFactsAPI extends ApiBase {
 		// Get parent category properties
 		/*$article = new Article($titObj);
 		foreach($article->getCategories() as $parentcat) {
-			$pprops = WTFactsAPI::getCategoryProperties($parentcat->getDbKey());	
+			$pprops = WTFactsAPI::getCategoryProperties($parentcat->getDbKey());
 			$props = array_merge($props, $pprops);
 		}*/
 
@@ -419,7 +438,7 @@ class WTFactsAPI extends ApiBase {
 
 	public static function addFact($title, $property, $value, $type=null, $create_prop=true, $subobjs=null) {
 		global $wgCore;
-		if($property == "SubTask") 
+		if($property == "SubTask")
 			$value = WTFactsAPI::replaceSpecialCharacters($value);
 		$ptitle = Title::newFromText("Property:".$property);
 		if(!$ptitle->exists() && $create_prop) {
@@ -467,7 +486,7 @@ class WTFactsAPI extends ApiBase {
 
 			if($property == "SubTask") {
 				$subcat = "";
-				foreach($data->getPropertyValues(SMWDIProperty::newFromUserLabel("_INST")) as $catobj) 
+				foreach($data->getPropertyValues(SMWDIProperty::newFromUserLabel("_INST")) as $catobj)
 					$subcat = $catobj->getDbKey();
 				$valtitle = Title::newFromText($value);
 				if(!$valtitle->exists() && $subcat)
@@ -479,8 +498,8 @@ class WTFactsAPI extends ApiBase {
 				$antitle = Title::newFromText($value);
 				if(!$antitle->exists())
 					WTFactsAPI::createPageWithCategory($value, "Answer");
-				$item = array("text"=>$antitle->getText(), 
-							"exists"=>$antitle->exists(), 
+				$item = array("text"=>$antitle->getText(),
+							"exists"=>$antitle->exists(),
 							"_BC_bools"=>array("exists"),
 							"key"=>$antitle->getDbKey());
 				$ret[] = array("item"=>$item);
@@ -520,7 +539,7 @@ class WTFactsAPI extends ApiBase {
 		$valDI = $valDV->getDataItem();
 
 		if($property == "Workflow") {
-			$props = array("Workflow", "WorkflowDataVariable", "WorkflowParamVariable", 
+			$props = array("Workflow", "WorkflowDataVariable", "WorkflowParamVariable",
 				"WorkflowContributor", "WorkflowProcessVariable", "WorkflowTemplateImage",
 				"WorkflowWingsTemplate", "WorkflowCreatedIn");
 			foreach($props as $prop) {
@@ -531,8 +550,8 @@ class WTFactsAPI extends ApiBase {
 			return WTFactsAPI::updateWiki($title, $summary, $data);
 		}
 		if($property == "ExecutedWorkflow") {
-			$props = array("ExecutedWorkflow", "WorkflowEndTime", "WorkflowExecutedIn", 
-				"WorkflowStartTime", "WorkflowStatus", "WorkflowTemplate", 
+			$props = array("ExecutedWorkflow", "WorkflowEndTime", "WorkflowExecutedIn",
+				"WorkflowStartTime", "WorkflowStatus", "WorkflowTemplate",
 				"WorkflowWingsExecution", "WorkflowUser", "WorkflowDataArtifact", "WorkflowInputDataArtifact",
 				"WorkflowParamArtifact", "WorkflowProcess", "WorkflowTemplateImage", "WorkflowRunImage");
 
@@ -565,12 +584,12 @@ class WTFactsAPI extends ApiBase {
 			return WTFactsAPI::updateWiki($title, $summary, $data);
 		}
 	}
-	
+
 
 	public static function setPropertyValue($title, $property, $value) {
 		return WTFactsAPI::setFactsHelper($title, $property, $value, true);
 	}
-	
+
 	public static function replaceFact($title, $property, $value, $oldvalue) {
 		return WTFactsAPI::setFactsHelper($title, $property, $value, false, $oldvalue);
 	}
@@ -592,7 +611,7 @@ class WTFactsAPI extends ApiBase {
 	}
 
 	public static function setFactsHelper($title, $property, $value, $replaceAll, $oldvalue=null) {
-		if($property == "SubTask") 
+		if($property == "SubTask")
 			$value = WTFactsAPI::replaceSpecialCharacters($value);
 		$subTitle = Title::newFromText($title);
 		$subject = SMWDIWikiPage::newFromTitle( $subTitle );
@@ -602,7 +621,7 @@ class WTFactsAPI extends ApiBase {
 		return WTFactsAPI::updateWiki($title, $summary, $data);
 	}
 
-	
+
 	public static function addFactsMultiple($title, $pvarray, $create_prop=true) {
 		$subTitle = Title::newFromText($title);
 		$subject = SMWDIWikiPage::newFromTitle( $subTitle );
@@ -684,7 +703,7 @@ class WTFactsAPI extends ApiBase {
 		$subobjpoms = array_key_exists('#subobject', $doc->templates) ? $doc->templates['#subobject'] : array();
 		$nchildren = array();
 		for($i=0; $i<sizeof($doc->children);$i++) {
-			if(!in_array($doc->children[$i], $subobjpoms)) 
+			if(!in_array($doc->children[$i], $subobjpoms))
 				$nchildren[] = $doc->children[$i];
 		}
 		$doc->children = $nchildren;
@@ -716,7 +735,7 @@ class WTFactsAPI extends ApiBase {
 		if(is_array($summary)) {
 			foreach($summary as $sum) {
 				$status = $article->doEdit($newtext, $sum);
-				if (!$status->isOK()) 
+				if (!$status->isOK())
 					return array( "Error", "Something went wrong: " . $status->getWikiText(), $data );
 			}
 			return array( "Success", $summary, $data );
@@ -770,18 +789,31 @@ class WTFactsAPI extends ApiBase {
 		$article->doDelete($reason);
 	}
 
+	public static function moveWikiPage($from, $to) {
+		$fromtitle = Title::newFromText($from);
+		$totitle = Title::newFromText($to);
+		// Get Incoming properties
+		$inprops = WTFactsAPI::getInSubjectProperties($from);
+		// TODO: Move without redirect
+		$fromtitle->moveTo($totitle, true, 'Moved via suggestion', false);
+		// Replace incomping property values to the new page id
+		foreach($inprops as $inprop) {
+			WTFactsAPI::replaceFact($inprop["subject"], $inprop["property"], $to, $from);
+		}
+	}
+
 	public static function getInSubjectProperties($object) {
 		$store = &smwfGetStore();
-        $title = Title::newFromText($object);
-        $valpage = SMWDIWikiPage::newFromTitle($title);
-        $inproperties = $store->getInProperties($valpage);
-        $propsubjects = array();
-        foreach ( $inproperties as $propDI ) {
-            $values = $store->getPropertySubjects( $propDI, $valpage );
-            foreach ( $values as $value ) 
-                $propsubjects[] = array("subject"=>$value->getDbKey(), "property"=>$propDI->getLabel());
-        }
-        return $propsubjects;
+    $title = Title::newFromText($object);
+    $valpage = SMWDIWikiPage::newFromTitle($title);
+    $inproperties = $store->getInProperties($valpage);
+    $propsubjects = array();
+    foreach ( $inproperties as $propDI ) {
+        $values = $store->getPropertySubjects( $propDI, $valpage );
+        foreach ( $values as $value )
+            $propsubjects[] = array("subject"=>$value->getDbKey(), "property"=>$propDI->getLabel());
+    }
+    return $propsubjects;
 	}
 
 	/* --- private methods --- */
@@ -835,9 +867,9 @@ class WTFactsAPI extends ApiBase {
 		if($valDI->getDIType() != SMWDataItem::TYPE_URI) return $valDI;
 		if($valDI->getScheme() == "http" || $valDI->getScheme() == "https") {
 			$hierpart = preg_replace('/^\/\//', '', $valDI->getHierpart());
-			$valDI = new SMWDIUri($valDI->getScheme(), 
-							$hierpart, 
-							$valDI->getQuery(), 
+			$valDI = new SMWDIUri($valDI->getScheme(),
+							$hierpart,
+							$valDI->getQuery(),
 							$valDI->getFragment());
 		}
 		return $valDI;
@@ -850,12 +882,12 @@ class WTFactsAPI extends ApiBase {
 	}
 
 	private static function setPropValInData($data, $propDI, $valDI, $replaceAll, $oldValDI) {
-		if($replaceAll) 
+		if($replaceAll)
 			$data = WTFactsAPI::removePropValsFromData($data, $propDI);
 		else if($oldValDI)
 			$data = WTFactsAPI::removePropValFromData($data, $propDI, $oldValDI);
 
-		if($valDI) 
+		if($valDI)
 			$data = WTFactsAPI::addPropValToData($data, $propDI, $valDI);
 
 		return $data;
@@ -896,14 +928,14 @@ class WTFactsAPI extends ApiBase {
 		$tfile = $tfiles ? $tfiles[0] : null;
 		$csys = WTFactsAPI::getPValue($pvals, $ontNS."createdInWorkflowSystem");
 
-		foreach($contributors as $uri) 
+		foreach($contributors as $uri)
 			$data = WTFactsAPI::addPV($subject, $data, "WorkflowContributor", "_uri", $uri, true);
-		foreach ($timages as $timage) 
+		foreach ($timages as $timage)
 			$data = WTFactsAPI::addPV($subject, $data, "WorkflowTemplateImage", "_uri", $timage, true);
 		if($tfile)
 			$data = WTFactsAPI::addPV($subject, $data, "WorkflowWingsTemplate", "_uri", $tfile, true);
-		if($csys) 
-			foreach ($csys as $cs) 
+		if($csys)
+			foreach ($csys as $cs)
 				$data = WTFactsAPI::addPV($subject, $data, "WorkflowCreatedIn", "_uri", $cs, true);
 
 		//print_r($index);
@@ -971,18 +1003,18 @@ class WTFactsAPI extends ApiBase {
 		if($tpage)
 			$data = WTFactsAPI::addPV($subject, $data, "WorkflowTemplate", "_uri", $tpage, true);
 		if($esys)
-			foreach ($esys as $es) 
+			foreach ($esys as $es)
 				$data = WTFactsAPI::addPV($subject, $data, "WorkflowExecutedIn", "_uri", $es, true);
 		if($timages)
-			foreach ($timages as $timage) 
+			foreach ($timages as $timage)
 				$data = WTFactsAPI::addPV($subject, $data, "WorkflowTemplateImage", "_uri", $timage, true);
 		if($rimages)
-			foreach ($rimages as $rimage) 
+			foreach ($rimages as $rimage)
 				$data = WTFactsAPI::addPV($subject, $data, "WorkflowRunImage", "_uri", $rimage, true);
 		#if($tfile)
 		#	$data = WTFactsAPI::addPV($subject, $data, "WorkflowWingsTemplate", "_uri", $tfile);
-		#if($csys) 
-		#	foreach ($csys as $cs) 
+		#if($csys)
+		#	foreach ($csys as $cs)
 		#		$data = WTFactsAPI::addPV($subject, $data, "WorkflowCreatedIn", "_uri", $cs);
 
 		$ip_datasets = array();
@@ -993,7 +1025,7 @@ class WTFactsAPI extends ApiBase {
 		foreach($index as $key=>$val) {
 			//$accounts = $val["http://openprovenance.org/model/opmo#account"];
 			//if($accounts && in_array($objuri, $accounts)) {
-				if(!array_key_exists("http://www.w3.org/1999/02/22-rdf-syntax-ns#type", $val)) 
+				if(!array_key_exists("http://www.w3.org/1999/02/22-rdf-syntax-ns#type", $val))
 					continue;
 				$types = $val["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"];
 				if(!$types) continue;
@@ -1052,11 +1084,11 @@ class WTFactsAPI extends ApiBase {
 				if($purl == "http://www.w3.org/1999/02/22-rdf-syntax-ns#type") {
 					foreach($vals as $val) {
 						$vname = preg_replace("/.+(#|\/)/", "", $val);
-						if($vname != "WorkflowExecutionArtifact" && $vname != "Artifact") 
+						if($vname != "WorkflowExecutionArtifact" && $vname != "Artifact")
 							$pvals[] = array("prop"=>"DataHasType", "value"=>$vname);
 					}
 				}
-				else if($purl == $ontNS."hasLocation") 
+				else if($purl == $ontNS."hasLocation")
 					$pvals[] = array("prop"=>"DataHasLocation", "value"=>$vals[0]);
 				else if($purl == $ontNS."correspondsToTemplateArtifact") {
 					foreach($vals as $val) {
@@ -1067,11 +1099,11 @@ class WTFactsAPI extends ApiBase {
 				}
 				else if($purl == $ontNS."hasFileName")
 					$dsfile = preg_replace("/.+(#|\/)/", "", $vals[0]);
-				else if(strpos($purl, "wasGeneratedByAs_") !== FALSE) 
+				else if(strpos($purl, "wasGeneratedByAs_") !== FALSE)
 					continue;
 				else if(!in_array($purl, $import_blacklist)) {
 					$pname = preg_replace("/.+(#|\/)/", "", $purl);
-					foreach($vals as $val) 
+					foreach($vals as $val)
 						$pvals[] = array("prop"=>$pname, "value"=>$val);
 				}
 			}
@@ -1132,13 +1164,13 @@ class WTFactsAPI extends ApiBase {
 						$pvals[] = array("prop"=>"usedDataset", "value"=>$dsname);
 					}
 				}
-				else if($purl == "http://www.w3.org/2000/01/rdf-schema#label") 
+				else if($purl == "http://www.w3.org/2000/01/rdf-schema#label")
 					$proclabel = $vals[0];
-				else if(strpos($purl, "ontology/used_") !== FALSE) 
+				else if(strpos($purl, "ontology/used_") !== FALSE)
 					continue;
 				else if(!in_array($purl, $import_blacklist)) {
 					$pname = preg_replace("/.+(#|\/)/", "", $purl);
-					foreach($vals as $val) 
+					foreach($vals as $val)
 						$pvals[] = array("prop"=>$pname, "value"=>$val);
 				}
 			}
@@ -1167,17 +1199,17 @@ class WTFactsAPI extends ApiBase {
 	}
 
 	public static function getPropertyTypeFromDIType($type) {
-		if($type == "_num") 
+		if($type == "_num")
 			return "Number";
-		if($type == "_bool") 
+		if($type == "_bool")
 			return "Boolean";
-		if($type == "_uri") 
+		if($type == "_uri")
 			return "URL";
-		if($type == "_str") 
+		if($type == "_str")
 			return "String";
-		if($type == "_txt") 
+		if($type == "_txt")
 			return "Text";
-		if($type == "_wpg") 
+		if($type == "_wpg")
 			return "Page";
 		return "Page";
 	}
@@ -1209,6 +1241,7 @@ class WTFactsAPI extends ApiBase {
 			'categories' => null,
 			'property' => null,
 			'value' => null,
+			'totitle' => null,
 			'oldvalue' => null,
 			'subobjectsjson' => null,
 			'type' => null
@@ -1221,6 +1254,7 @@ class WTFactsAPI extends ApiBase {
 			'title' => 'Title of the page (required)',
 			'property' => 'Property of the page (required for add, del)',
 			'value' => 'Value of the page Property (required for add)',
+			'totitle' => 'New Title of the page (required for move)',
 			'oldvalue' => 'Old Value of the page Property (optional for set)',
 			'subobjectsjson' => 'Json encoded Subobjects information to add '.
 								'[{id:<subobjname>, properties:[{<propname>:<propval>}..] ]',

@@ -4,8 +4,8 @@ use SMW\ContentParser;
 $wgExtensionCredits['validextensionclass'][] = array(
 	'path' => __FILE__,
 	'name' => 'WorkflowTasks',
-	'author' =>'Varun Ratnakar', 
-	'url' => 'http://www.isi.edu/~varunr/wiki/WorkflowTasks', 
+	'author' =>'Varun Ratnakar',
+	'url' => 'http://www.isi.edu/~varunr/wiki/WorkflowTasks',
 	'description' => 'Uses Semantic Media Wiki. Handles Categories: Task, Answer, Workflow, ExecutedWorkflow, Data, Component',
 	'version'  => 0.1,
 	);
@@ -45,6 +45,8 @@ $wgAutoloadClasses['WTDocumentation'] 		= $wgAbsDir . '/includes/core/init/docu/
 $wgAutoloadClasses['WTTraining'] 			= $wgAbsDir . '/includes/core/init/training/WTTraining.inc';
 $wgAutoloadClasses['WTSample'] 				= $wgAbsDir . '/includes/core/init/sample/WTSample.inc';
 
+$wgAutoloadClasses['WTPageNaming'] 				= $wgAbsDir . '/includes/core/util/WTPageNaming.inc';
+
 $wgAutoloadClasses['WTDocu'] 				= $wgAbsDir . '/includes/page/category/special/WTDocu.inc';
 $wgAutoloadClasses['WTAdmin'] 				= $wgAbsDir . '/includes/page/category/special/WTAdmin.inc';
 $wgAutoloadClasses['WTBatchTasks'] 			= $wgAbsDir . '/includes/page/category/special/WTBatchTasks.inc';
@@ -82,7 +84,7 @@ $wgResourceModules['WorkflowTasks.extra'] = array(
 	'styles' => array(
 		'css/font-awesome/css/font-awesome.min.css',
 		'css/academicons/css/academicons.min.css',
-		'css/jquery/jquery.loadmask.css',		
+		'css/jquery/jquery.loadmask.css',
 		'css/jquery/jquery.autocomplete.css',
 		'css/jquery/jquery.tooltipster.css',
 		'css/jquery/jquery.tooltipster.custom.css',
@@ -120,6 +122,7 @@ $wgResourceModules['WorkflowTasks'] = array(
 		'js/core/ui/WTDialog.js',
 		'js/page/component/WTFacts.js',
 		'js/page/component/WTStdProperties.js',
+		'js/page/component/WTPageIdSuggestions.js',
 		'js/page/component/WTInProperties.js',
 		'js/page/component/WTCredits.js',
 		'js/page/component/WTCategoryChooser.js',
@@ -187,7 +190,8 @@ $wgSpecialPageGroups['WTBootstrapLE']  = 'ODSGroup';
 $wgHooks['BeforePageDisplay'][] = 'WTRender';
 
 global $wgCore;
-$wgCore = "©";
+#$wgCore = "©";
+$wgCore = "(L)";
 
 function WTRender (&$out, &$skin) {
 	global $wgRequest, $wgDir, $wgUseSimpleTasks, $wgCore;
@@ -200,7 +204,7 @@ function WTRender (&$out, &$skin) {
 
 	$action = $wgRequest->getText( 'action' );
 
-	if ( (($ns !== NS_MAIN) && ($ns !== NS_USER) && ($ns !== SMW_NS_PROPERTY) && ($ns != NS_CATEGORY)) 
+	if ( (($ns !== NS_MAIN) && ($ns !== NS_USER) && ($ns !== SMW_NS_PROPERTY) && ($ns != NS_CATEGORY))
 			|| (($action !== 'view') && ($action !== 'purge') && ($action !== '')) ) {
 		$item = new WTBase($title);
 		$item->addPageHeader($out);
@@ -215,8 +219,8 @@ function WTRender (&$out, &$skin) {
 	else if ($ns === SMW_NS_PROPERTY) {
 		$item = new WTProperty($title);
 	}
-	else if ($ns === NS_CATEGORY) { 
-		if(WTWorkingGroup::isWorkingGroup($title->getDbKey())) 
+	else if ($ns === NS_CATEGORY) {
+		if(WTWorkingGroup::isWorkingGroup($title->getDbKey()))
 			$item = new WTWorkingGroup($title);
 		else {
 			$item = new WTBase($title);
@@ -317,11 +321,11 @@ function diffSemanticData($curdata, $newdata, &$summary) {
 	$curprops = [];
 	$newprops = [];
 	if($curdata) {
-		foreach ( $curdata->getProperties() as $curprop ) 
+		foreach ( $curdata->getProperties() as $curprop )
 			$curprops[$curprop->getKey()] = $curprop;
 	}
 	if($newdata) {
-		foreach ( $newdata->getProperties() as $newprop ) 
+		foreach ( $newdata->getProperties() as $newprop )
 			$newprops[$newprop->getKey()] = $newprop;
 	}
 
@@ -337,9 +341,9 @@ function diffSemanticData($curdata, $newdata, &$summary) {
 			// Modified
 			$newvals = [];
 			$curvals = [];
-			foreach ( array_unique($newdata->getPropertyValues($newprop), SORT_REGULAR) as $dataItem ) 
+			foreach ( array_unique($newdata->getPropertyValues($newprop), SORT_REGULAR) as $dataItem )
 				$newvals[] = WTFactsAPI::getDIText($dataItem);
-			foreach ( array_unique($curdata->getPropertyValues($newprop), SORT_REGULAR) as $dataItem ) 
+			foreach ( array_unique($curdata->getPropertyValues($newprop), SORT_REGULAR) as $dataItem )
 				$curvals[] = WTFactsAPI::getDIText($dataItem);
 
 			$diff1 = array_diff($newvals, $curvals);
@@ -387,8 +391,8 @@ function getPageCreator($wikiPage) {
 }
 
 $wgHooks['PageContentSave'][] = 'checkUserPermissions';
-function checkUserPermissions( &$wikiPage, &$user, &$content, &$summary, 
-		$isMinor, $isWatch, $section, &$flags, &$status ) { 
+function checkUserPermissions( &$wikiPage, &$user, &$content, &$summary,
+		$isMinor, $isWatch, $section, &$flags, &$status ) {
 	global $wgCore;
 
 	$ns = $wikiPage->getTitle()->getNamespace();
@@ -426,7 +430,7 @@ function checkUserPermissions( &$wikiPage, &$user, &$content, &$summary,
 	$errorMessage = null;
 	$rightNeededCreator = "$rightNeeded-creator";
 	if(!$user->isAllowed($rightNeeded)) {
-		if($user->isAllowed($rightNeededCreator) && !$isCreator) 
+		if($user->isAllowed($rightNeededCreator) && !$isCreator)
 			$errorMessage = wfMessage("right-$rightNeeded")->text(). " created by someone else";
 		else
 			$errorMessage = wfMessage("right-$rightNeeded")->text();
@@ -449,15 +453,15 @@ function getRevisionCategories($title, $rev, $parseTimestamp ) {
 }
 
 $wgHooks['PageContentSaveComplete'][] = 'updateWorkingGroupsWatchlist';
-function updateWorkingGroupsWatchlist( &$article, &$user, $content, $summary, 
-		$isMinor, $isWatch, $section, &$flags, $revision, &$status ) { 
+function updateWorkingGroupsWatchlist( &$article, &$user, $content, $summary,
+		$isMinor, $isWatch, $section, &$flags, $revision, &$status ) {
 	if($revision == null)
 		return;
 	$prevision = $revision->getPrevious();
 	$ts = $revision->getTimestamp();
 	$newcats = getRevisionCategories($article->getTitle(), $revision, $ts);
 	$oldcats = $prevision ? getRevisionCategories($article->getTitle(), $prevision, $ts) : [];
-	
+
 	$added_cats = array_diff($newcats, $oldcats);
 	$removed_cats = array_diff($oldcats, $newcats);
 
@@ -490,14 +494,14 @@ function renameDatasetDependencies($title, $newTitle ) {
 		$cats[$cur->getText()] = 1;
 		$catarray->next();
 	}
-	if(!array_key_exists("Dataset $wgCore", $cats)) 
+	if(!array_key_exists("Dataset $wgCore", $cats))
 		return;
 
 	$dsname = $title->getText();
 	$newdsname = $newTitle->getText();
 	renameSemanticAssertions($newdsname, $dsname, $newdsname, array());
 
-	// Semantic assertions don't fire up on a redirect. Shall we Re-save page to fix it ? 
+	// Semantic assertions don't fire up on a redirect. Shall we Re-save page to fix it ?
 }
 
 function renameSemanticAssertions($pagename, $oldprefix, $newprefix, $pages) {

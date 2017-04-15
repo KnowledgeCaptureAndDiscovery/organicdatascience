@@ -8,7 +8,7 @@ WTAPI.prototype.setType = function( task, type, callbackfunction ) {
 	this.setTaskMetaFact( task, "Type", type, callbackfunction );
 };
 
-WTAPI.prototype.setStart = function( task, start, callbackfunction ) {	
+WTAPI.prototype.setStart = function( task, start, callbackfunction ) {
 	this.setTaskMetaFact( task, "StartDate", start, callbackfunction );
 };
 
@@ -49,8 +49,8 @@ WTAPI.prototype.setTaskMetaFact = function( title, property, value, callbackfunc
 		"action"   	: "wttasks",
 		"operation"	: "setmeta",
 		"title"	   	: title,
-		"property" 	: property,		
-		"value" 	: value,	
+		"property" 	: property,
+		"value" 	: value,
 		"format"   	: "json"
 	}, callbackfunction, "json");
 };
@@ -60,8 +60,8 @@ WTAPI.prototype.addTaskMetaFact = function( title, property, value, callbackfunc
 		"action"   	: "wttasks",
 		"operation"	: "addmeta",
 		"title"	   	: title,
-		"property" 	: property,		
-		"value" 	: value,	
+		"property" 	: property,
+		"value" 	: value,
 		"format"   	: "json"
 	}, callbackfunction, "json");
 };
@@ -71,8 +71,8 @@ WTAPI.prototype.delTaskMetaFact = function( title, property, value, callbackfunc
 		"action"   	: "wttasks",
 		"operation"	: "delmeta",
 		"title"	   	: title,
-		"property" 	: property,		
-		"value" 	: value,	
+		"property" 	: property,
+		"value" 	: value,
 		"format"   	: "json"
 	}, callbackfunction, "json");
 };
@@ -82,7 +82,7 @@ WTAPI.prototype.addTask = function( title, subtitle, isRoot, owner, expertise, c
 		"action"   : "wttasks",
 		"operation": "add",
 		"title"	   : title,
-		"subtitle" : subtitle,	
+		"subtitle" : subtitle,
 		"isroot"   : isRoot,
 		"owner"	   : owner,
 		"expertise": expertise,
@@ -96,7 +96,7 @@ WTAPI.prototype.moveTask = function( souceTask, targetTask, selectedTaskId, call
 		"operation"	: "move",
 		"title"		: selectedTaskId,
 		"source"   	: souceTask,
-		"target"   	: targetTask,		
+		"target"   	: targetTask,
 		"format"   	: "json"
 	}, callbackfunction, "json");
 };
@@ -106,7 +106,7 @@ WTAPI.prototype.moveTaskToRoot = function( souceTask, selectedTaskId, callbackfu
 		"action"   	: "wttasks",
 		"operation"	: "toroot",
 		"title"		: selectedTaskId,
-		"source"   	: souceTask,		
+		"source"   	: souceTask,
 		"format"   	: "json"
 	}, callbackfunction, "json");
 };
@@ -116,8 +116,8 @@ WTAPI.prototype.renameTask = function( oldtitle, newtitle, selectedTaskId, callb
 		"action"   	: "wttasks",
 		"operation"	: "rename",
 		"title"		: selectedTaskId,
-		"oldtitle"  : oldtitle,		
-		"newtitle"  : newtitle,		
+		"oldtitle"  : oldtitle,
+		"newtitle"  : newtitle,
 		"format"   	: "json"
 	}, callbackfunction, "json");
 };
@@ -127,7 +127,7 @@ WTAPI.prototype.deleteTask = function( task, selectedTaskId, callbackfunction ) 
 		"action"   	: "wttasks",
 		"operation"	: "del",
 		"title"		: selectedTaskId,
-		"delId"    	: task,	
+		"delId"    	: task,
 		"format"   	: "json"
 	}, callbackfunction, "json");
 };
@@ -201,21 +201,21 @@ WTAPI.prototype.removeDataExtractedFrom = function( title, url, callbackfunction
 
 WTAPI.prototype.addDataColumn = function( title, col, newlist, callbackfunction ) {
 	var subobjs = [];
-	for(var i=0; i<newlist.length; i++) 
+	for(var i=0; i<newlist.length; i++)
 		subobjs.push({id:newlist[i], properties: {'Index':i}});
 	this.addFactComplex( title, 'Columns', col, subobjs, callbackfunction );
 };
 
 WTAPI.prototype.removeDataColumn = function( title, col, newlist, callbackfunction ) {
 	var subobjs = [];
-	for(var i=0; i<newlist.length; i++) 
+	for(var i=0; i<newlist.length; i++)
 		subobjs.push({id:newlist[i], properties: {'Index':i}});
 	this.removeFactComplex( title, 'Columns', col, subobjs, callbackfunction );
 };
 
 WTAPI.prototype.moveDataColumn = function( title, newlist, callbackfunction ) {
 	var subobjs = [];
-	for(var i=0; i<newlist.length; i++) 
+	for(var i=0; i<newlist.length; i++)
 		subobjs.push({id:newlist[i], properties: {'Index':i}});
 	this.updateSubobjects( title, JSON.stringify(subobjs), callbackfunction );
 };
@@ -372,6 +372,17 @@ WTAPI.prototype.getFacts = function( subject, predicate, object, callbackfunctio
 	}, callbackfunction, "json");
 };
 
+
+WTAPI.prototype.movePage = function( from, to, callbackfunction ) {
+	$.post(this.apiuri, {
+		"action"   	: "wtfacts",
+		"operation"	: "move",
+		"title"			: from,
+		"totitle"		: to,
+		"format"   : "json"
+	}, callbackfunction, "json");
+};
+
 WTAPI.prototype.getSuggestions = function( search, type, callbackfunction ) {
 	$.post(this.apiuri, {
 		"action"   : "wtsuggest",
@@ -431,4 +442,3 @@ WTAPI.prototype.setToken = function() {
 			me.editToken =  result.query.pages[i].edittoken;
 	});
 };
-

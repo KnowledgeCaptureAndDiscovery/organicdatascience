@@ -28,11 +28,11 @@ class WTWorkingGroup extends WTBase {
 			$out->addHTML('<p>This working group has no members.</p>');
 		else if(sizeof($users) == 1)
 			$out->addHTML('<p>This working group contains only the following member.</p>');
-		else 
+		else
 			$out->addHTML('<p>This working group has '.sizeof($users).' members.</p>');
 
 		$ausers = array();
-		foreach($users as $user) { 
+		foreach($users as $user) {
 			$letter = $user[0];
 			if(array_key_exists($letter, $ausers))
 				$ausers[$letter][] = $user;
@@ -66,18 +66,18 @@ class WTWorkingGroup extends WTBase {
 			array(
 				'categorylinks' => array( 'LEFT JOIN', array('page_id=cl_from') )
 			)
-		);  
-		$groups = array(); 
+		);
+		$groups = array();
 		if( $res && $dbr->numRows( $res ) > 0 ) {
 			while($row = $dbr->fetchObject( $res ))
 				$groups[] = Title::makeName($row->page_namespace, $row->page_title);
-		}           
+		}
 		return $groups;
-    } 
+  }
 
 	public static function addWorkingGroupToWatchlist($person, $propid, $group) {
 		$ptitle = Title::newFromText($person);
-		$gtitle = Title::newFromText($group);
+		$gtitle = Title::newFromText($group, NS_CATEGORY);
 		$userid = WTPerson::getUserId($ptitle);
 		$user = User::newFromName($userid);
 		if(!$user)
@@ -99,7 +99,7 @@ class WTWorkingGroup extends WTBase {
 
 	public static function removeWorkingGroupFromWatchlist($person, $propid, $group) {
 		$ptitle = Title::newFromText($person);
-		$gtitle = Title::newFromText($group);
+		$gtitle = Title::newFromText($group, NS_CATEGORY);
 		$userid = WTPerson::getUserId($ptitle);
 		$user = User::newFromName($userid);
 		if(!$user)
@@ -137,6 +137,6 @@ class WTWorkingGroup extends WTBase {
 			return true;
 		return false;
 	}
-	
+
 }
 ?>

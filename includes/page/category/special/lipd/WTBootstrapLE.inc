@@ -1,7 +1,7 @@
 <?php
 
 class WTBootstrapLE extends SpecialPage {
-	
+
 	public function __construct() {
 		parent::__construct( 'WTBootstrapLE', 'edit-core-ontology' );
 	}
@@ -23,8 +23,11 @@ class WTBootstrapLE extends SpecialPage {
 			return;
 		}
 
-		$this->handleOperation($request, $out);
-		$this->showBootstrapForm($out);
+		$items = $this->getOntologyItems();
+
+		$this->handleOperation($request, $items, $out);
+		$this->showBootstrapForm($items, $out);
+		$this->showOntologyItems($items, $out);
 	}
 
 	function getItemDetails($item, $unionprops, $objprops, $dataprops) {
@@ -86,7 +89,7 @@ class WTBootstrapLE extends SpecialPage {
 			if($cls && !$cls->isBNode()) {
 				$clsid = $cls->getUri();
 				$class = array("id"=>$clsid, "name"=>$this->localName($cls));
-				$class["details"] = $this->getItemDetails($cls, 
+				$class["details"] = $this->getItemDetails($cls,
 					array("rdfs:subClassOf", "owl:disjointWith"),
 					array(),
 					array("rdfs:comment", "rdfs:isDefinedBy"));
@@ -97,7 +100,9 @@ class WTBootstrapLE extends SpecialPage {
 	}
 
 	function isCrowdClass($cls, $allcls, $parent=false) {
-		if($parent && preg_match("/^Proxy(Archive|Observation|Sensor)$/", $cls["name"])) 
+		if($parent && preg_match("/^Proxy(Archive|Observation|Sensor)$/", $cls["name"]))
+			return true;
+		if($parent && preg_match("/^(Instrument|InferredVariable)$/", $cls["name"]))
 			return true;
 		if(array_key_exists("rdfs:subClassOf", $cls["details"]))
 			foreach($cls["details"]["rdfs:subClassOf"] as $subclsid)
@@ -119,7 +124,7 @@ class WTBootstrapLE extends SpecialPage {
 				if($inst && !$inst->isBNode()) {
 					$instid = $inst->getUri();
 					$instance = array("id"=>$instid, "name"=>$this->localName($inst));
-					$instance["details"] = $this->getItemDetails($inst, 
+					$instance["details"] = $this->getItemDetails($inst,
 						array(),
 						array(),
 						array("rdfs:comment", "rdfs:isDefinedBy"));
@@ -145,7 +150,7 @@ class WTBootstrapLE extends SpecialPage {
 			if($prop && !$prop->isBNode()) {
 				$propid = $prop->getUri();
 				$property = array("id"=>$propid, "name"=>$this->localName($prop));
-				$property["details"] = $this->getItemDetails($prop, 
+				$property["details"] = $this->getItemDetails($prop,
 					array("rdfs:subPropertyOf", "rdfs:domain", "rdfs:range", "owl:propertyDisjointWith"),
 					array("rdf:type"),
 					array("rdfs:comment", "rdfs:isDefinedBy"));
@@ -155,12 +160,18 @@ class WTBootstrapLE extends SpecialPage {
 		return $properties;
 	}
 
-	function handleOperation($request, $out) {
+	function handleOperation($request, $items, $out) {
 		$op = $request->getText("op");
 		$onturl = $request->getText("onturl");
+		$loc = preg_replace("/\?.*$/", "", $request->getFullRequestURL());
 		switch($op) {
 			case "bootstrap":
 				$this->bootstrapOntology($onturl, $out);
+				$request->response()->header("Location: $loc");
+				break;
+			case "delete":
+				$this->deleteOntology($items, $out);
+				$request->response()->header("Location: $loc");
 				break;
 		}
 	}
@@ -183,7 +194,7 @@ class WTBootstrapLE extends SpecialPage {
 		// Fill in the ontologies
 		$ontologies = array(
 			"core"=>array(
-				"ns"=>"http://linked.earth/ontology#", 
+				"ns"=>"http://linked.earth/ontology#",
 				"name"=>"Linked Earth Core",
 				"terms"=>array()
 			),
@@ -247,9 +258,10 @@ class WTBootstrapLE extends SpecialPage {
 			$name = $details["name"];
 			$pageid = "MediaWiki:Smw_import_$pfx";
 			$text = "$ns|[$ns $name]\n";
-			foreach($details["terms"] as $term) 
+			foreach($details["terms"] as $term)
 				$text .= " ".$term["name"]."|".$term["type"]."\n";
-			//$out->addWikiText($text);
+
+			// $out->addWikiText($text);
 			$ret = WTFactsAPI::createWikiPage($pageid, $text, "WTBootstrapLE: Creating $name ontology imports page");
 			$out->addHTML("<pre>".print_r($ret, true)."</pre>");
 		}
@@ -301,6 +313,7 @@ class WTBootstrapLE extends SpecialPage {
 
 			// Keep only more specific properties in the list (if we have parent/child properties)
 			$newprops = [];
+			$propids = array();
 			foreach($catprops[$cat] as $prop1) {
 				$ignoreProp = false;
 				foreach($catprops[$cat] as $prop2) {
@@ -309,8 +322,13 @@ class WTBootstrapLE extends SpecialPage {
 						break;
 					}
 				}
-				if(!$ignoreProp)
+				if($propids[$prop1["id"]])
+					$ignoreProp = true;
+
+				if(!$ignoreProp) {
 					$newprops[] = $prop1;
+					$propids[$prop1["id"]] = true;
+				}
 			}
 			$catprops[$cat] = $newprops;
 		}
@@ -325,6 +343,70 @@ class WTBootstrapLE extends SpecialPage {
 		}
 	}
 
+	private function getOntologyItems() {
+		$query = "[[imported from::+]] | ?Imported_from";
+		$rawparams = array("[[imported from::+]]", "?Imported_from", "limit=5000");
+
+		SMWQueryProcessor::processFunctionParams( $rawparams, $query, $params, $printouts );
+		SMWQueryProcessor::addThisPrintout( $printouts, $params );
+		$m_params = SMWQueryProcessor::getProcessedParams( $params, $printouts );
+		$queryobj = SMWQueryProcessor::createQuery( $query, $m_params, null, 'list', $printouts);
+		$results = smwfGetStore()->getQueryResult( $queryobj );
+
+		$items = array();
+		$nsToDelete = array();
+		$res = $results->getNext();
+		while($res != null) {
+			$itemid = null;
+			while($item = $res[0]->getNextObject()) {
+				$itemid = $item->getTitle()->getFullText();
+				while($nsitem = $res[1]->getNextObject()) {
+					$ns = $nsitem->getNSID();
+					$ref = $nsitem->getNS() . $nsitem->getLocalName();
+					$items[$itemid] = array("ns"=>$ns, "ref"=>$ref);
+				}
+			}
+			$res = $results->getNext();
+		}
+		return $items;
+	}
+
+	function showOntologyItems( $items, $out ) {
+		$out->addHTML("<h3>Classes</h3>\n");
+		$out->addHTML("<table class='sortable wikitable' width='100%'>\n");
+		$out->addHTML("<tr><th>Wiki page</th><th>Ontological term</th></tr>");
+		foreach($items as $id=>$det) {
+			if(preg_match("/^Category:/", $id)) {
+				$out->addHTML("<tr><td><a href='./$id'>$id</a></td>");
+				$out->addHTML("<td><a href='${det['ref']}'>${det['ref']}</td></tr>");
+			}
+		}
+		$out->addHTML("</table>\n");
+		$out->addHTML("<h3>Properties</h3>\n");
+		$out->addHTML("<table class='sortable wikitable' width='100%'>\n");
+		$out->addHTML("<tr><th>Wiki page</th><th>Ontological term</th></tr>");
+		foreach($items as $id=>$det) {
+			if(preg_match("/^Property:/", $id)) {
+				$out->addHTML("<tr><td><a href='$id'>$id</a></td>");
+				$out->addHTML("<td><a href='${det['ref']}'>${det['ref']}</td></tr>");
+			}
+		}
+		$out->addHTML("</table>\n");
+	}
+
+	private function deleteOntology($items, $out) {
+		$nsToDelete = array();
+		foreach($items as $itemid=>$details) {
+			$ns = $details["ns"];
+			if(!in_array($ns, $nsToDelete))
+				$nsToDelete[] = $ns;
+			WTFactsAPI::deleteWikiPage($itemid, "Removing as the existing ontology was deleted");
+		}
+		foreach($nsToDelete as $ns) {
+			WTFactsAPI::deleteWikiPage("MediaWiki:Smw_import_$ns", "Removing as the existing ontology was deleted");
+		}
+	}
+
 	private function isSubPropertyOf($prop, $parentid) {
 		if(array_key_exists("rdfs:subPropertyOf", $prop["details"]))
 			foreach($prop["details"]["rdfs:subPropertyOf"] as $pid)
@@ -333,76 +415,83 @@ class WTBootstrapLE extends SpecialPage {
 		return false;
 	}
 
+	private function commentsToWiki($details) {
+		$comment = $details["rdfs:comment"][0];
+		return preg_replace(
+			"/<a .+? href=\"(.+?)\">(.+?)<\/a>/", "[$1 $2]", $comment);
+	}
+
 	private function createCategory( $category, $properties, $allcats, $out ) {
 		$catname = $category["wikiname"];
 		$pageid = "Category:$catname";
 
 		$title = Title::newFromText($pageid);
-        if($title->exists())
+    if($title->exists())
 			WTFactsAPI::deleteWikiPage($pageid, "Re-import");
 
-		//if(!$title->exists()) {
-			$text = "===Category: $catname [".$category["id"]."]===\n\n";
-			$text .= "Imported from: [[imported from::" . $category["importid"] . "]]\n\n";
-			if(array_key_exists("rdfs:comment", $category["details"]))
-				$text .= "''".$category["details"]["rdfs:comment"][0]."''\n\n";
-			$text .= "<!-- Do not edit below this unless you know what you are doing -->\n";
-			$text .= "\nCategory Semantics\n";
-            $pcat_text = "\n";
-			if(array_key_exists("rdfs:isDefinedBy", $category["details"]))
-				$text .= "* Defined by: [[is defined by::".$category["details"]["rdfs:isDefinedBy"][0]. "]]\n";
-			if(sizeof($properties) > 0) {
-				$text .= "* Standard Properties:\n";
-				foreach($properties as $propid=>$prop)
-					$text .= "** [[has property::Property:".$this->getCoreWikiName($prop["name"])."]]\n";
-			}
-			if(array_key_exists("rdfs:subClassOf", $category["details"])) {
-				$text .= "* Sub-Class of\n";
-				foreach($category["details"]["rdfs:subClassOf"] as $parent)
-					if(array_key_exists($parent, $allcats)) {
-						$parentname = $allcats[$parent]["wikiname"];
-						$text .= "** [[subcategory of::$parentname]]\n";
-						$pcat_text .= "[[Category:$parentname]]\n";
-					}
-			}
-			if(array_key_exists("owl:disjointWith", $category["details"])) {
-				$text .= "* Disjoint with\n";
-				foreach($category["details"]["owl:disjointWith"] as $peer)
-					if(array_key_exists($peer, $allcats))
-						$text .= "** [[disjoint with::".$allcats[$peer]["wikiname"]."]]\n";
-			}
-			$text .= $pcat_text;
-			//$out->addWikiText($text);
-            $summary = "WTBootstrapLE: New Category $catname";
-            $ret = WTFactsAPI::createWikiPage($pageid, $text, $summary);
-			$out->addHTML("<pre>".print_r($ret, true)."</pre>");
-        //}
+		$text = "===Category: $catname [".$category["id"]."]===\n\n";
+		$text .= "Imported from: [[imported from::" . $category["importid"] . "]]\n\n";
+		if(array_key_exists("rdfs:comment", $category["details"]))
+			$text .= $this->commentsToWiki($category["details"])."\n\n";
+
+		$text .= "<!-- Do not edit below this unless you know what you are doing -->\n";
+		$text .= "\nCategory Semantics\n";
+    $pcat_text = "\n";
+		if(array_key_exists("rdfs:isDefinedBy", $category["details"]))
+			$text .= "* Defined by: [[is defined by::".$category["details"]["rdfs:isDefinedBy"][0]. "]]\n";
+
+		if(sizeof($properties) > 0) {
+			$text .= "* Standard Properties:\n";
+			foreach($properties as $propid=>$prop)
+				$text .= "** [[has property::Property:".$this->getCoreWikiName($prop["name"])."]]\n";
+		}
+		if(array_key_exists("rdfs:subClassOf", $category["details"])) {
+			$text .= "* Sub-Class of\n";
+			foreach($category["details"]["rdfs:subClassOf"] as $parent)
+				if(array_key_exists($parent, $allcats)) {
+					$parentname = $allcats[$parent]["wikiname"];
+					$text .= "** [[subcategory of::Category:$parentname]]\n";
+					$pcat_text .= "[[Category:$parentname]]\n";
+				}
+		}
+		if(array_key_exists("owl:disjointWith", $category["details"])) {
+			$text .= "* Disjoint with\n";
+			foreach($category["details"]["owl:disjointWith"] as $peer)
+				if(array_key_exists($peer, $allcats))
+					$text .= "** [[disjoint with::Category:".$allcats[$peer]["wikiname"]."]]\n";
+		}
+		$text .= $pcat_text;
+		// $out->addWikiText($text);
+		// $out->addHTML(print_r($properties, true));
+    $summary = "WTBootstrapLE: New Category $catname";
+    $ret = WTFactsAPI::createWikiPage($pageid, $text, $summary);
+		$out->addHTML("<pre>".print_r($ret, true)."</pre>");
 	}
 
 	private function createInstance($inst, $allcats, $out) {
 		$pageid = $inst["name"];
 
 		$title = Title::newFromText($pageid);
-        if($title->exists())
+    if($title->exists())
 			WTFactsAPI::deleteWikiPage($pageid, "Re-import");
 
-		//if(!$title->exists()) {
-			$text = "=== $pageid ===\n\n";
-			if(array_key_exists("rdfs:comment", $inst["details"]))
-				$text .= "''".$inst["details"]["rdfs:comment"][0]."''\n\n";
-			$text .= "<!-- Do not edit below this unless you know what you are doing -->\n";
-			if(array_key_exists("rdfs:isDefinedBy", $inst["details"]))
-				$text .= "* Defined by: [[is defined by::".$inst["details"]["rdfs:isDefinedBy"][0]. "]]\n";
-			if(array_key_exists("rdf:type", $inst["details"])) {
-				$cat = $inst["details"]["rdf:type"];
-				if(array_key_exists($cat, $allcats))
-					$text .= "[[Category:". $allcats[$cat]["wikiname"]."]]\n";
-			}
-			//$out->addWikiText($text);
-            $summary = "WTBootstrapLE: New Instance $pageid";
-            $ret = WTFactsAPI::createWikiPage($pageid, $text, $summary);
-			$out->addHTML("<pre>".print_r($ret, true)."</pre>");
-        //}
+		$text = "=== $pageid ===\n\n";
+		if(array_key_exists("rdfs:comment", $inst["details"]))
+			$text .= $this->commentsToWiki($inst["details"])."\n\n";
+
+		$text .= "<!-- Do not edit below this unless you know what you are doing -->\n";
+		if(array_key_exists("rdfs:isDefinedBy", $inst["details"]))
+			$text .= "* Defined by: [[is defined by::".$inst["details"]["rdfs:isDefinedBy"][0]. "]]\n";
+
+		if(array_key_exists("rdf:type", $inst["details"])) {
+			$cat = $inst["details"]["rdf:type"];
+			if(array_key_exists($cat, $allcats))
+				$text .= "[[Category:". $allcats[$cat]["wikiname"]."]]\n";
+		}
+		// $out->addWikiText($text);
+    $summary = "WTBootstrapLE: New Instance $pageid";
+    $ret = WTFactsAPI::createWikiPage($pageid, $text, $summary);
+		$out->addHTML("<pre>".print_r($ret, true)."</pre>");
 	}
 
 	function getPropertyWikiType($pdetails) {
@@ -416,15 +505,15 @@ class WTBootstrapLE extends SpecialPage {
 				$pos1 = strpos($range, $xsd);
 				if($pos1 !== false && $pos1 == 0) {
 					$xsdtype = str_replace($xsd, "", $range);
-					if($xsdtype == "float" || $xsdtype == "int") 
+					if($xsdtype == "float" || $xsdtype == "int")
 						$type = "Number";
-					else if($xsdtype == "string") 
+					else if($xsdtype == "string")
 						$type = "Text";
-					else if($xsdtype == "anyURI") 
+					else if($xsdtype == "anyURI")
 						$type = "URL";
-					else if($xsdtype == "boolean") 
+					else if($xsdtype == "boolean")
 						$type = "Boolean";
-					else if($xsdtype == "dateTime") 
+					else if($xsdtype == "dateTime")
 						$type = "Date";
 				}
 				else if($range == $literal)
@@ -448,7 +537,7 @@ class WTBootstrapLE extends SpecialPage {
 		$text .= "* Property has type [[has type::$type]]";
 		if(sizeof($cats) > 0) {
 			$text .= " of Category ";
-			$text .= implode (", or " , 
+			$text .= implode (", or " ,
 				array_map(function($c) use ($allcats, $me) {
 					if(array_key_exists($c, $allcats))
 						return "[[has page category::Category:".$allcats[$c]["wikiname"]."]]";
@@ -481,32 +570,37 @@ class WTBootstrapLE extends SpecialPage {
 		$pageid = "Property:$propname";
         $ptitle = Title::newFromText($pageid);
 
-        if($ptitle->exists())
+    if($ptitle->exists())
 			WTFactsAPI::deleteWikiPage($pageid, "Re-import");
 
-        //if(!$ptitle->exists()) {
-			$text = "===Property: $propname [".$prop["id"]."]===\n";
-			$text .= "Imported from: [[imported from::" . $prop["importid"] . "]]\n\n";
-			if(array_key_exists("rdfs:comment", $prop["details"]))
-				$text .= "''".$prop["details"]["rdfs:comment"][0]."''\n\n";
-			$text .= "<!-- Do not edit below this unless you know what you are doing -->\n";
-			$text .= "\nProperty Semantics\n";
-			$text .= $this->getPropertyTypeWikiText($prop["details"], $allprops, $allcats);
-			//$out->addWikiText($text);
-            $summary = "WTBootstrapLE: New Property $propname";
-            $ret = WTFactsAPI::createWikiPage($pageid, $text, $summary);
-			$out->addHTML("<pre>".print_r($ret, true)."</pre>");
-        //}
+		$text = "===Property: $propname [".$prop["id"]."]===\n";
+		$text .= "Imported from: [[imported from::" . $prop["importid"] . "]]\n\n";
+		if(array_key_exists("rdfs:comment", $prop["details"]))
+			$text .= $this->commentsToWiki($prop["details"])."\n\n";
+		$text .= "<!-- Do not edit below this unless you know what you are doing -->\n";
+		$text .= "\nProperty Semantics\n";
+		$text .= $this->getPropertyTypeWikiText($prop["details"], $allprops, $allcats);
+		// $out->addWikiText($text);
+    $summary = "WTBootstrapLE: New Property $propname";
+    $ret = WTFactsAPI::createWikiPage($pageid, $text, $summary);
+		$out->addHTML("<pre>".print_r($ret, true)."</pre>");
 	}
 
-	function showBootstrapForm( $out ) {
+	function showBootstrapForm( $items, $out ) {
 		// Show the form
-		$html  = "<h3>Bootstrap Ontology</h3>\n";
-		$html .= "<form method='post'>\n";
-		$html .= "<input type='hidden' name='op' value='bootstrap' />\n";
-		$html .= "<input size='80' name='onturl'/> \n";
-		$html .= "<input type='submit' />\n";
-		$html .= "</form>\n";
+		if(sizeof($items) == 0) {
+			$html  = "<h3>Load Ontology</h3>\n";
+			$html .= "<form method='post'>\n";
+			$html .= "<input type='hidden' name='op' value='bootstrap' />\n";
+			$html .= "<input size='80' name='onturl'/> \n";
+			$html .= "<input type='submit' />\n";
+			$html .= "</form>\n";
+		}
+		else {
+			$html = "<a class='lodbutton x-small' ";
+			$html .= "onclick='return confirm(\"Are you sure you want to remove all ontological terms from the wiki ?\");' ";
+			$html .= "href='?op=delete'>Delete all terms</a>";
+		}
 		$out->addHtml($html);
 	}
 
@@ -515,4 +609,3 @@ class WTBootstrapLE extends SpecialPage {
 	}
 
 }
-

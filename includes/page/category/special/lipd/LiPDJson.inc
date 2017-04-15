@@ -100,11 +100,13 @@ class LiPDJson {
 			foreach($schema["@fromJson"] as $func) {
 				list($obj, $hash, $newids) = call_user_func($func, $obj, $hash);
 				foreach($newids as $newid) {
-					$newobj = $hash[$newid];
-					if(array_key_exists("@category", $newobj)) {
-						$newschid = $newobj["@category"];
-						$newschema = array_key_exists($newschid, $SCHEMA) ? $SCHEMA[$newschid] : [];
-						list($hash[$newid], $hash) = $this->modifyStructureIfNeeded($newobj, $hash, $newschema);
+					if(array_key_exists($newid, $hash)) {
+						$newobj = $hash[$newid];
+						if(is_array($newobj) && array_key_exists("@category", $newobj)) {
+							$newschid = $newobj["@category"];
+							$newschema = array_key_exists($newschid, $SCHEMA) ? $SCHEMA[$newschid] : [];
+							list($hash[$newid], $hash) = $this->modifyStructureIfNeeded($newobj, $hash, $newschema);
+						}
 					}
 				}
 			}
@@ -222,6 +224,7 @@ class LiPDJson {
 	private function createWikiItem($obj, $out) {
 		global $SCHEMA;
 		$category = $obj["@category"];
+		$extracats = array_key_exists("@extracats", $obj) ? $obj["@extracats"] : [];
 		$schemaname = array_key_exists("@schema", $obj) ? $obj["@schema"] : $category;
 		$schema = array_key_exists($schemaname, $SCHEMA) ? $SCHEMA[$schemaname] : [];
 		$objid = $obj["@id"];
@@ -233,7 +236,7 @@ class LiPDJson {
 			$category = $this->createCategory( $category, $schema, $out );
 
 		// Create Page
-		$data = $this->createPage($objid, $category, $out);
+		$data = $this->createPage($objid, $category, $extracats, $out);
 
 		foreach($obj as $key=>$value) {
 			if($key[0] == "@") continue;
@@ -267,8 +270,10 @@ class LiPDJson {
 			}
 			else if($type == "File") {
 				$fileid = $this->uploadFile( $value, $out );
-				if($fileid)
+				if($fileid) {
+					$this->protectPage($fileid);
 					$data = $this->setProperty( $data, $propDI, $fileid);
+				}
 			}
 			else {
 				$data = $this->setProperty( $data, $propDI, $value );
@@ -278,6 +283,15 @@ class LiPDJson {
 		$this->savePage( $objid, $data, $out );
 	}
 
+	private function protectPage( $title ) {
+		global $wgUser;
+		$protection = "sysop";
+		$restrictions = [ 'edit' => $protection, 'move' => $protection, 'upload' => $protection ];
+		$titleobj = Title::newFromText($title);
+		$page = WikiPage::factory( $titleobj );
+		$status = $page->doUpdateRestrictions( $restrictions, [], $cascade, "Dataset restrictions", $wgUser );
+		return $status->isOK();
+	}
 
 	private function setProperty( $data, $propDI, $value ) {
 		$objid = $data->getSubject()->getTitle();
@@ -333,7 +347,7 @@ class LiPDJson {
 		return $data;
 	}
 
-	private function createPage($objid, $category, $out) {
+	private function createPage($objid, $category, $extracats, $out) {
 		// Delete current page if one currently exists
 		$title = Title::newFromText($objid);
         /*if($title->exists())
@@ -342,6 +356,9 @@ class LiPDJson {
 		$subject = SMWDIWikiPage::newFromTitle( $title );
         if(!$title->exists()) {
 			$text = $category ? "[[Category:$category]]\n" : "";
+			foreach($extracats as $ecat) {
+				$text .= "[[Category:$ecat]]\n";
+			}
 			$summary = "WTLiPD: New page $objid" . ($category ? " with Category: $category" : "");
 			$ret = WTFactsAPI::createWikiPage($objid, $text, $summary);
 			if($ret[0] != "Success")

@@ -58,6 +58,8 @@ class LiPDWiki {
 						if(($value["type"] == "WikiPage") &&
 								!in_array($value["key"], $deletionPageList))
 							$deletionQ[] = $value["key"];
+						else if(preg_match("/^File:(.+)/", $value["text"]))
+							$deletionPageList[] = $value["text"];
 		}
 
 		foreach($deletionPageList as $delpageid) {
@@ -109,7 +111,7 @@ class LiPDWiki {
 
 	private function deleteFileFromWiki($fileid) {
 		$repo = RepoGroup::singleton()->getLocalRepo();
-        $file = new LocalFile($fileid, $repo);
+    $file = new LocalFile($fileid, $repo);
 		$file->delete($this->id." LiPD Dataset was deleted");
 	}
 
@@ -348,5 +350,5 @@ class LiPDWiki {
 			file_put_contents($this->tmpdir."/$filename", $contents);
 		}
 		return null;
-    }
+  }
 }
