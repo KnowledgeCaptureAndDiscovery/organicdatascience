@@ -230,6 +230,8 @@ class LiPDJson {
 		$schemaname = array_key_exists("@schema", $obj) ? $obj["@schema"] : $category;
 		$schema = array_key_exists($schemaname, $SCHEMA) ? $SCHEMA[$schemaname] : [];
 		$objid = $obj["@id"];
+		if(!$objid)
+			return;
 
 		$subobjects = array();
 

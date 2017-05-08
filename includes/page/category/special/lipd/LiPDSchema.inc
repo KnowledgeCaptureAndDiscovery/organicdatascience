@@ -373,7 +373,6 @@ function addExtraDatasetProperties($obj, $hash) {
 	foreach($_REQUEST as $key=>$value) {
 		if(preg_match("/^extra_(.+)/", $key, $m)) {
 			$prop = $m[1];
-			print "$prop = $value\n";
 			if(!array_key_exists($prop, $obj)) {
 				$obj[$prop] = $value;
 			}
