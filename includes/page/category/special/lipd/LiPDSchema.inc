@@ -13,8 +13,8 @@ $BLACKLIST = array(
 	'chronData_chronMeasurementTableMD5'=>1,
 	'chronDataMD5'=>1,
 	'chronMeasurementTableMD5'=>1,
-	'earliestsampledate'=>1,
-	'latestsampledate'=>1,
+	'earliestSampleDate'=>1,
+	'latestSampleDate'=>1,
 	'inCompilation'=>1
 );
 
