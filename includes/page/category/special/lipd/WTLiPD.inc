@@ -163,24 +163,12 @@ class WTLiPD extends SpecialPage {
 	}
 
 	function getAllPagesInCategory( $category ) {
-		$query = "[[Category:$category]]";
-		$rawparams = array($query, "limit=500");
-
-		SMWQueryProcessor::processFunctionParams( $rawparams, $query, $params, $printouts );
-		SMWQueryProcessor::addThisPrintout( $printouts, $params );
-
-		$m_params = SMWQueryProcessor::getProcessedParams( $params, $printouts );
-		$queryobj = SMWQueryProcessor::createQuery( $query, $m_params, null, 'list', $printouts);
-
-		$results = smwfGetStore()->getQueryResult( $queryobj );
-
-        $res = $results->getNext();
-		$pageids = array();
-        while($res != null) {
-			$lipdpage = $res[0]->getNextObject();
-			$id = $lipdpage->getDbKey();
-			$pageids[] = $id;
-			$res = $results->getNext();
+		$ctitle = Title::newFromText($category, NS_CATEGORY);
+		$catobj = Category::newFromTitle($ctitle);
+		$members = $catobj->getMembers();
+		while( $members->valid() ) {
+			$pageids[] = $members->current->getDBKey();
+			$members->next();
 		}
 		return $pageids;
 	}
@@ -198,7 +186,7 @@ class WTLiPD extends SpecialPage {
 		}
 		$out->addHTML("</th></tr>\n");
 		$pageids = $this->getAllDatasets();
-        foreach($pageids as $id) {
+    foreach($pageids as $id) {
 			$out->addHTML("<tr>\n");
 			$out->addHTML("<td class='smwtype_wpg'><a href='$id'>$id</a></td>\n");
 			$out->addHTML("<td>\n");

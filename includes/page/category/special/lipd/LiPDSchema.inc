@@ -1,11 +1,27 @@
 <?php
 
-global $SCHEMA;
+global $SCHEMA, $BLACKLIST;
+
+$BLACKLIST = array(
+	'metadataMD5'=>1,
+	'paleoData_paleoDataMD5'=>1,
+	'paleoData_paleoMeasurementTableMD5'=>1,
+	'paleoDataMD5'=>1,
+	'paleoMeasurementTableMD5'=>1,
+	'tagMD5'=>1,
+	'chronData_chronDataMD5'=>1,
+	'chronData_chronMeasurementTableMD5'=>1,
+	'chronDataMD5'=>1,
+	'chronMeasurementTableMD5'=>1,
+	'earliestsampledate'=>1,
+	'latestsampledate'=>1,
+	'inCompilation'=>1
+);
 
 $SCHEMA["Dataset"] = array(
 	"@id" => array("{dataSetName}"),
+	"@fromJson" => array("addExtraDatasetProperties"),
 	"@toJson" => array("getVariableArchiveTypes"),
-
 
 	"dataSetName" => array(
 		"name"=>"Name" ,
@@ -244,6 +260,9 @@ $SCHEMA["Variable"] = array(
 	"hasUncertainty" => array(
 		"schema"=>"Uncertainty",
 		"multiple"=>true
+	),
+	"useInGlobalTemperatureAnalysis" => array(
+		"name"=>"UseInPAGES2kGlobalTemperatureAnalysis"
 	)
 	/*,
 	"proxySystemModel" => array(
@@ -268,6 +287,8 @@ $SCHEMA["PhysicalSample"] = array(
 
 $SCHEMA["Resolution"] = array(
 	"@id" => array("{@parent.@id}", ".Resolution"),
+	"@fromJson" => array("valuesToString"),
+	"@toJson" => array("valuesToArray")
 );
 
 $SCHEMA["Location"] = array(
@@ -345,6 +366,21 @@ $SCHEMA["Person"] = array(
 $SCHEMA["Uncertainty"] = array(
 	"@id" => array("{@parent.@id}", ".Uncertainty", "{@index}")
 );
+
+
+function addExtraDatasetProperties($obj, $hash) {
+	// HACK
+	foreach($_REQUEST as $key=>$value) {
+		if(preg_match("/^extra_(.+)/", $key, $m)) {
+			$prop = $m[1];
+			print "$prop = $value\n";
+			if(!array_key_exists($prop, $obj)) {
+				$obj[$prop] = $value;
+			}
+		}
+	}
+	return [$obj, $hash, array()];
+}
 
 function parsePersonsString($authstring, $parent=null) {
 	$authors = array();
@@ -514,6 +550,14 @@ function setIdentifierProperties($pub, $hash) {
 		unset($pub["identifier"]);
 	}
 	return [$pub, $hash, array()];
+}
+
+function valuesToString($obj, $hash) {
+	if(array_key_exists("values", $obj)) {
+		if(is_array($obj["values"]))
+			$obj["values"] = implode(", ", $obj["values"]);
+	}
+	return [$obj, $hash, array()];
 }
 
 function setVariableCategory($obj, $hash) {
@@ -700,11 +744,18 @@ function createProxySystem($obj, $hash) {
 		$archivetype = getArchiveType($archivetype, $latitude);
 
 		// Create sample (archive)
+		if(!array_key_exists("physicalSample", $obj)) {
+			$cname = getParentProperty($obj, "collectionName");
+			$obj["physicalSample"] = array("name"=>$cname);
+		}
 		if(array_key_exists("physicalSample", $obj)) {
 			$sample = $obj["physicalSample"];
-			$sampleid = $sample["hasname"];
+			$sampleid = array_key_exists("hasname", $sample) ? $sample["hasname"] : $sample["name"];
 			if(array_key_exists("hasidentifier", $sample)) {
 				$sampleid .= ".". $sample["hasidentifier"];
+			}
+			else if(array_key_exists("identifier", $sample)) {
+				$sampleid .= ".". $sample["identifier"];
 			}
 			if(!array_key_exists($sampleid, $hash)) {
 				$sampleobj = array("@id"=>$sampleid,
@@ -738,7 +789,7 @@ function createProxySystem($obj, $hash) {
 			$sensor["sensorGenus"] = $obj["sensorGenus"];
 			$sensorid = ucfirst(strtolower($sensor["sensorGenus"]));
 			unset($obj["sensorGenus"]);
-			if(array_key_exists("archiveSpecies", $obj)) {
+			if(array_key_exists("sensorSpecies", $obj)) {
 				$sensor["sensorSpecies"] = $obj["sensorSpecies"];
 				$sensorid .= " " .strtolower($sensor["sensorSpecies"]);
 				unset($obj["sensorSpecies"]);
@@ -1018,4 +1069,8 @@ function changeSeasonalityType($interp, $parent=null) {
 	return $interp;
 }
 
+function valuesToArray($resolution, $parent=null) {
+	if(array_key_exists("values", $resolution))
+		return explode(",", $resolution["values"]);
+}
 ?>

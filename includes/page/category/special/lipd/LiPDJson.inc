@@ -115,7 +115,7 @@ class LiPDJson {
 	}
 
 	private function mapLipdJson($obj, $parent, $index, $category, $schemaname, &$hash, $out) {
-		global $SCHEMA;
+		global $SCHEMA, $BLACKLIST;
 		$schema = array_key_exists($schemaname, $SCHEMA) ? $SCHEMA[$schemaname] : [];
 		$SCHEMA[$schemaname] = $schema;
 
@@ -146,6 +146,8 @@ class LiPDJson {
 		if(is_array($obj)) {
 			foreach($obj as $propkey=>$value) {
 				if($propkey[0] == "@") continue;
+				if(array_key_exists($propkey, $BLACKLIST))
+					continue;
 
 				$details = [];
 				$pname = $propkey;
@@ -354,7 +356,7 @@ class LiPDJson {
 			WTFactsAPI::deleteWikiPage($objid, "Re-import");*/
 
 		$subject = SMWDIWikiPage::newFromTitle( $title );
-        if(!$title->exists()) {
+    if(!$title->exists()) {
 			$text = $category ? "[[Category:$category]]\n" : "";
 			foreach($extracats as $ecat) {
 				$text .= "[[Category:$ecat]]\n";
@@ -421,7 +423,7 @@ class LiPDJson {
 
 	private function createProperty( $prop, $type, $cat, $icon, $multiple, $out ) {
 		$pname = $this->resolveProperty($prop);
-        if(!$pname) {
+    if(!$pname) {
 			if($type == "File")
 				$type = "Page";
 
@@ -433,10 +435,10 @@ class LiPDJson {
 				$text .= "* Can have multiple values ? [[has multiple values::true]]\n";
 			if($icon)
 				$text .= "* Font-awesome Icon: [[fontawesome icon::$icon]]\n";
-            $summary = "WTLiPD: New Property";
+      $summary = "WTLiPD: New Property";
 			//$out->addWikiText("$summary: $prop\n");
-            WTFactsAPI::createWikiPage("Property:$prop", $text, $summary);
-        }
+      WTFactsAPI::createWikiPage("Property:$prop", $text, $summary);
+    }
 		return SMWDIProperty::newFromUserLabel( $prop );
 	}
 
@@ -604,7 +606,8 @@ class LiPDJson {
 			"Template:LiPDLocation" => array("text"=>"<includeonly>'''[[{{{1}}}]]'''\n\nSite name: {{{2}}}</includeonly>")
 		);
 		foreach($pages as $pageid=>$details) {
-			WTFactsAPI::createWikiPage($pageid, $details["text"], "WTLiPD: Bootstrap");
+			if(!$this->pageExists($pageid))
+				WTFactsAPI::createWikiPage($pageid, $details["text"], "WTLiPD: Bootstrap");
 		}
 
 		// Create Properties

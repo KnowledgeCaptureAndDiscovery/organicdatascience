@@ -775,8 +775,10 @@ class WTFactsAPI extends ApiBase {
 	}
 
 	public static function createWikiPage($title, $text, $summary) {
-		$article = new Article(Title::newFromText($title));
-		$status = $article->doEdit($text, $summary);
+		$titobj = Title::newFromText($title);
+		$content = ContentHandler::makeContent($text, $titobj);
+		$page = new WikiPage($titobj);
+		$status = $page->doEditContent($content, $summary);
 		if ($status->isOK()) {
 			return array( "Success", $summary );
 		} else {

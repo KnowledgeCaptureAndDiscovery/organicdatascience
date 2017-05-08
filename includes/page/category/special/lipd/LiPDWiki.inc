@@ -216,8 +216,8 @@ class LiPDWiki {
 				$type = array_key_exists("type", $details) ? $details["type"] : null;
 				$cat = array_key_exists("category", $details) ? $details["category"] : null;
 				$sch = array_key_exists("schema", $details) ? $details["schema"] : null;
-            	if($cat && !$sch)
-                	$sch = $cat;
+        if($cat && !$sch)
+          $sch = $cat;
 				$toJson = array_key_exists("toJson", $details) ? $details["toJson"] : null;
 				$multiple = array_key_exists("multiple", $details) ? $details["multiple"] : false;
 				$nofollow = array_key_exists("nofollow", $details) ? $details["nofollow"] : false;
@@ -236,6 +236,7 @@ class LiPDWiki {
 							$val = call_user_func($toJson, $val);
 
 						if($type == "File") {
+							print "$val\n";
 							$val =  preg_replace("/^File:/", "", $val);
 							$this->downloadFile($val);
 						}
@@ -335,7 +336,7 @@ class LiPDWiki {
 
 	private function toLipdId($prop) {
 		global $wgCore;
-		$prop = preg_replace("/[\s_].*$wgCore$/", "", $prop);
+		$prop = preg_replace("/[\s_].*" . preg_quote($wgCore). "$/", "", $prop);
 		/*$prop = preg_replace("/_(.?)/e","strtoupper('$1')", $prop);
 		if(!preg_match("/^[A-Z][A-Z]/", $prop))
 			$prop = lcfirst($prop);*/
