@@ -1,6 +1,7 @@
 <?php
 
 require_once("LiPDSchema.inc");
+require_once("LiPDWiki.inc");
 require_once("BagitHelper.inc");
 require_once("Util.inc");
 
@@ -19,8 +20,10 @@ class LiPDJson {
 	public function import($out) {
 		try {
 			if($this->pageExists($this->id)) {
-				$out->addHtml("<br/>LiPD dataset ". $this->id. " already exists. Please delete it before trying to import.<br/>\n");
-				return false;
+            $deleter = new LiPDWiki($this->id);
+            $deleter->delete($out);
+            $out->addHtml("<br/>LiPD dataset ". $this->id. " already exists. Please delete it before trying to import.<br/>\n");
+            return false;
 			}
 
 			$zipfile = dirname($this->lipdfile). "/" .$this->id. ".zip";
@@ -298,6 +301,9 @@ class LiPDJson {
 	}
 
 	private function setProperty( $data, $propDI, $value ) {
+		if(!$data)
+			return $data;
+
 		$objid = $data->getSubject()->getTitle();
 		$prop = $propDI->getLabel();
 
@@ -354,11 +360,13 @@ class LiPDJson {
 	private function createPage($objid, $category, $extracats, $out) {
 		// Delete current page if one currently exists
 		$title = Title::newFromText($objid);
-        /*if($title->exists())
+		if(!$title)
+			return;
+      /*if($title->exists())
 			WTFactsAPI::deleteWikiPage($objid, "Re-import");*/
 
 		$subject = SMWDIWikiPage::newFromTitle( $title );
-    if(!$title->exists()) {
+		if(!$title->exists()) {
 			$text = $category ? "[[Category:$category]]\n" : "";
 			foreach($extracats as $ecat) {
 				$text .= "[[Category:$ecat]]\n";

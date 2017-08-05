@@ -187,13 +187,14 @@ class WTLiPD extends SpecialPage {
 		$out->addHTML("</th></tr>\n");
 		$pageids = $this->getAllDatasets();
     foreach($pageids as $id) {
+			$eid = $id;
 			$out->addHTML("<tr>\n");
-			$out->addHTML("<td class='smwtype_wpg'><a href='$id'>$id</a></td>\n");
+			$out->addHTML("<td class='smwtype_wpg'><a href=\"$eid\">$id</a></td>\n");
 			$out->addHTML("<td>\n");
-			$out->addHTML("<a class='lodbutton x-small' href='?op=export&lipdid=$id'>Download LiPD</a>\n");
+			$out->addHTML("<a class='lodbutton x-small' href=\"?op=export&lipdid=$eid\">Download LiPD</a>\n");
 			if($del) {
-				$out->addHTML("<a class='lodbutton x-small' onclick='return confirm(\"Are you sure you want to delete \\n$id\");' ");
-				$out->addHTML("href='?op=delete&lipdid=$id'>Delete</a>\n");
+				$out->addHTML("<a class='lodbutton x-small' onclick='return confirm(\"Are you sure you want to delete \\n$eid\");' ");
+				$out->addHTML("href=\"?op=delete&lipdid=$eid\">Delete</a>\n");
 			}
 			$out->addHTML("</td>\n");
 			$out->addHTML("</tr>\n");

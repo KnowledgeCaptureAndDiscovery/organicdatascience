@@ -745,7 +745,8 @@ function createProxySystem($obj, $hash) {
 		// Create sample (archive)
 		if(!array_key_exists("physicalSample", $obj)) {
 			$cname = getParentProperty($obj, "collectionName");
-			$obj["physicalSample"] = array("name"=>$cname);
+			if($cname)
+				$obj["physicalSample"] = array("name"=>$cname);
 		}
 		if(array_key_exists("physicalSample", $obj)) {
 			$sample = $obj["physicalSample"];

@@ -51,6 +51,7 @@ class WTUserProvidedData extends WTBase {
 	function getWTUserProvidedData() {
 		$details = array(
 			'location'=>'',
+			#'contents'=>'',
 			'extractedFrom'=>array()
 		);
 
@@ -62,6 +63,11 @@ class WTUserProvidedData extends WTBase {
 		$locations = smwfGetStore()->getPropertyValues( $subject, $locProp );
 		foreach($locations as $loc) {
 			$details["location"] = $this->getUri($loc);
+			#$repo = RepoGroup::singleton()->getLocalRepo();
+			#$file = new LocalFile($details["location"], $repo);
+			#if($file->exists()) {
+			#	$details["contents"] = file_get_contents($file->getFullUrl());
+      	#}
 			break;
 		}
 		$extFroms = smwfGetStore()->getPropertyValues( $subject, $extProp );

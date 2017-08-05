@@ -236,7 +236,7 @@ class LiPDWiki {
 							$val = call_user_func($toJson, $val);
 
 						if($type == "File") {
-							print "$val\n";
+							#print "$val\n";
 							$val =  preg_replace("/^File:/", "", $val);
 							$this->downloadFile($val);
 						}

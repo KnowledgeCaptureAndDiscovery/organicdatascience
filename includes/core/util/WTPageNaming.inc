@@ -138,6 +138,7 @@ class WTPageNaming {
 				$objid .= $key;
 		}
     $objid = preg_replace("/\.+$/", "", $objid);
+    $objid = preg_replace("/\s+/", "_", $objid);
     if($objid != preg_replace("/\s+/", "_", $wgTitle))
 		  return $objid;
     return null;
