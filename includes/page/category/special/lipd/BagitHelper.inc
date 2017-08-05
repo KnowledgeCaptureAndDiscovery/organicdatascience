@@ -40,11 +40,11 @@ class BagitHelper {
 
 	public static function createLiPD( $name, $dir ) {
 		$tmpdir = BagitHelper::tempdir();
-		$basedir = "$tmpdir/$name";
+		$basedir = "$tmpdir/bag";
 		mkdir($basedir);
 
 		$lipdzip = "$basedir.zip";
-		$lipdfile = "$basedir.lpd";
+		$lipdfile = "$tmpdir/$name.lpd";
 
 		$bag = new BagIt($basedir);
 		$bag->setHashEncoding('md5');

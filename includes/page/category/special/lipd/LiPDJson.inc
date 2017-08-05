@@ -26,7 +26,7 @@ class LiPDJson {
             return false;
 			}
 
-			$zipfile = dirname($this->lipdfile). "/" .$this->id. ".zip";
+			$zipfile = dirname($this->lipdfile). "/bag.zip";
 			rename($this->lipdfile, $zipfile);
 
 			$this->lipddir = BagitHelper::extractLiPD($zipfile);
@@ -64,7 +64,7 @@ class LiPDJson {
 	private function getLiPDJson( $datadir ) {
 		$files = array_diff(scandir($datadir), array('.','..'));
 		foreach ($files as $file) {
-			if(preg_match("/\.jsonld$/", $file))
+			if(preg_match("/metadata.jsonld/", $file))
 				return "$datadir/$file";
 		}
 		return null;

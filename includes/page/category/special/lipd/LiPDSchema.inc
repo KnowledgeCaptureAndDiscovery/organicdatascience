@@ -146,7 +146,7 @@ $SCHEMA["PaleoData"] = array(
 	"@id" => array("{@parent.dataSetName}", ".PaleoData", "{@index}"),
 	"paleoDataName" => array("name"=>"Name"),
 
-	"paleoMeasurementTable" => array(
+	"measurementTable" => array(
 		"name"=>"FoundInMeasurementTable",
 		"multiple"=>true,
 		"schema"=>"DataTable"
@@ -162,7 +162,7 @@ $SCHEMA["PaleoData"] = array(
 $SCHEMA["ChronData"] = array(
 	"@id" => array("{@parent.dataSetName}", ".ChronData", "{@index}"),
 
-	"chronMeasurementTable" => array(
+	"measurementTable" => array(
 		"name"=>"FoundInMeasurementTable",
 		"multiple"=>true,
 		"schema"=>"DataTable"
@@ -183,10 +183,12 @@ $SCHEMA["Model"] = array(
 	),
 	"summaryTable" => array(
 		"name"=>"FoundInSummaryTable",
+		"multiple"=>true,
 		"schema"=>"DataTable"
 	),
 	"ensembleTable" => array(
 		"name"=>"FoundInEnsembleTable",
+		"multiple"=>true,
 		"schema"=>"DataTable"
 	),
 	"distributionTable" => array(

@@ -31,7 +31,7 @@ class LiPDWiki {
 			$lipd = $this->postProcessing($lipd, null);
 			$this->cleanUp($lipd);
 
-			file_put_contents($this->tmpdir."/".$this->id.".jsonld", json_encode($lipd, JSON_PRETTY_PRINT));
+			file_put_contents($this->tmpdir."/metadata.jsonld", json_encode($lipd, JSON_PRETTY_PRINT));
 
 			return BagitHelper::createLiPD($this->id, $this->tmpdir);
 		}
