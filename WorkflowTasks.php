@@ -190,8 +190,10 @@ $wgSpecialPageGroups['WTBootstrapLE']  = 'ODSGroup';
 $wgHooks['BeforePageDisplay'][] = 'WTRender';
 
 global $wgCore;
-#$wgCore = "©";
-$wgCore = "(L)";
+if (!$wgCore) {
+	$wgCore = "(L)";
+	#$wgCore = "©";
+}
 
 function WTRender (&$out, &$skin) {
 	global $wgRequest, $wgDir, $wgUseSimpleTasks, $wgCore;

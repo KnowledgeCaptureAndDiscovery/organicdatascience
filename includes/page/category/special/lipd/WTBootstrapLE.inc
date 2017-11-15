@@ -184,8 +184,12 @@ class WTBootstrapLE extends SpecialPage {
 	function bootstrapOntology($onturl, $out) {
 		require 'vendor/autoload.php';
 		$ont = new EasyRdf_Graph();
-		$ont->parse(file_get_contents($onturl));
-		$graph = array();
+		$options = array('http' => array(
+		    'header' => "Accept: application/rdf+xml\r\n"
+		));
+		$context = stream_context_create($options);
+		$data = file_get_contents($onturl, FALSE, $context);
+		$ont->parse($data);
 		$clses = $this->getClasses($ont);
 		$insts = $this->getInstances($ont, $clses);
 		$props = $this->getObjectProperties($ont);
@@ -387,7 +391,7 @@ class WTBootstrapLE extends SpecialPage {
 		$out->addHTML("<tr><th>Wiki page</th><th>Ontological term</th></tr>");
 		foreach($items as $id=>$det) {
 			if(preg_match("/^Property:/", $id)) {
-				$out->addHTML("<tr><td><a href='$id'>$id</a></td>");
+				$out->addHTML("<tr><td><a href='./$id'>$id</a></td>");
 				$out->addHTML("<td><a href='${det['ref']}'>${det['ref']}</td></tr>");
 			}
 		}
