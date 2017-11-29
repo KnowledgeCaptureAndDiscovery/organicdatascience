@@ -199,12 +199,18 @@ class WTFactsAPI extends ApiBase {
 		return array("val"=>$val, "text"=>$text, "type"=>$type, "key"=>$key, "exists"=>$exists, "_BC_bools"=>array("exists"));
 	}
 
+	private static function mres($value) {
+	    $search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
+	    $replace = array("\\\\","\\0","\\n", "\\r", "\'", '\"', "\\Z");
+	    return str_replace($search, $replace, $value);
+	}
+
 	public static function setFactAuthors($title, $facts, $data) {
 		$dbr = wfGetDB( DB_SLAVE );
 		$titObj = Title::newFromText($title);
 		$title = $titObj->getDbKey();
 		$props = $data->getProperties();
-		$title = mysql_escape_string($title);
+		$title =WTFactsAPI::mres($title);
 		$res = $dbr->query(
 			"SELECT rev_user_text, rev_user, rev_comment FROM revision a LEFT JOIN page b ON a.rev_page=b.page_id WHERE page_title='$title' AND (rev_comment LIKE '%Added PropertyValue%' OR rev_comment LIKE '%Set PropertyValue%' OR rev_comment LIKE '%WTLiPD:%' OR rev_comment LIKE '%Bootstrap:%') ORDER BY rev_timestamp DESC"
 		);
@@ -666,8 +672,9 @@ class WTFactsAPI extends ApiBase {
 	}
 
 	public static function updateWiki($title, $summary, $data) {
-		$article = new Article(Title::newFromText($title));
-		$text = $article->getContent();
+		$titobj = Title::newFromText($title);
+		$article = new WikiPage($titobj);
+		$text = $article->getContent()->serialize();
 		$doc = new POMPage($text);
 
 		$facts = null;
@@ -732,16 +739,17 @@ class WTFactsAPI extends ApiBase {
 		}
 
 		// If summary is an array, do multiple edits with all summary items
+		$newcontent = ContentHandler::makeContent($newtext, $titobj);
 		if(is_array($summary)) {
 			foreach($summary as $sum) {
-				$status = $article->doEdit($newtext, $sum);
+				$status = $article->doEditContent($newcontent, $sum);
 				if (!$status->isOK())
 					return array( "Error", "Something went wrong: " . $status->getWikiText(), $data );
 			}
 			return array( "Success", $summary, $data );
 		}
 		else {
-			$status = $article->doEdit($newtext, $summary);
+			$status = $article->doEditContent($newcontent, $summary);
 			if ($status->isOK()) {
 				return array( "Success", $summary, $data );
 			} else {
@@ -765,7 +773,7 @@ class WTFactsAPI extends ApiBase {
 			/*$cats = array();
 			foreach($data->getPropertyValues(SMWDIProperty::newFromUserLabel("_INST")) as $catobj)
 				$cats[] = $catobj->getDbKey();*/
-			$text = (new Article($subTitle))->getContent();
+			$text = (new WikiPage($subTitle))->getContent()->serialize();
 			$text = preg_replace("/\[\[\s*Category:.+?\]\](\\n)?/", "", $text);
 		}
 		$summary = "Setting categories as ". implode(", ", $categories);

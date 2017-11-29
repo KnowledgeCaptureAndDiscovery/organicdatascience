@@ -51,8 +51,9 @@ $wgAutoloadClasses['WTDocu'] 				= $wgAbsDir . '/includes/page/category/special/
 $wgAutoloadClasses['WTAdmin'] 				= $wgAbsDir . '/includes/page/category/special/WTAdmin.inc';
 $wgAutoloadClasses['WTBatchTasks'] 			= $wgAbsDir . '/includes/page/category/special/WTBatchTasks.inc';
 
+$wgAutoloadClasses['WTBootstrap'] 		= $wgAbsDir . '/includes/page/category/special/ontology/WTBootstrap.inc';
+
 $wgAutoloadClasses['WTLiPD'] 				= $wgAbsDir . '/includes/page/category/special/lipd/WTLiPD.inc';
-$wgAutoloadClasses['WTBootstrapLE'] 		= $wgAbsDir . '/includes/page/category/special/lipd/WTBootstrapLE.inc';
 $wgAutoloadClasses['WTDataset'] 				= $wgAbsDir . '/includes/page/category/special/lipd/WTDataset.inc';
 
 $wgAutoloadClasses['WTDashboard'] 			= $wgAbsDir . '/includes/page/category/special/dashboard/WTDashboard.inc';
@@ -78,8 +79,8 @@ $wgResourceModules['WorkflowTasks.extra'] = array(
 		'js/lib/jquery/jquery.picker.date.js',
 		'js/lib/jquery/jquery.lightbox_me.js',
 		'js/lib/moment/moment.min.js',
-		'js/lib/jstree/jstree.js',
-		'js/lib/raphael/raphael-min.js',
+		'js/lib/jstree/jstree.js'
+		//'js/lib/raphael/raphael-min.js',
 	),
 	'styles' => array(
 		'css/font-awesome/css/font-awesome.min.css',
@@ -182,18 +183,25 @@ $wgSpecialPages['WTDashboard']  = 'WTDashboard';
 $wgSpecialPageGroups['WTBatchTasks']  = 'ODSGroup';
 $wgSpecialPageGroups['WTDashboard']  = 'ODSGroup';
 
+$wgSpecialPages['WTBootstrap']  = 'WTBootstrap';
+$wgSpecialPageGroups['WTBootstrap']  = 'ODSGroup';
+
 $wgSpecialPages['WTLiPD']  = 'WTLiPD';
 $wgSpecialPageGroups['WTLiPD']  = 'ODSGroup';
-$wgSpecialPages['WTBootstrapLE']  = 'WTBootstrapLE';
-$wgSpecialPageGroups['WTBootstrapLE']  = 'ODSGroup';
 
 $wgHooks['BeforePageDisplay'][] = 'WTRender';
 
-global $wgCore;
+global $wgCore, $wgOntName, $wgOntNS;
 if (!$wgCore) {
 	$wgCore = "(L)";
-	#$wgCore = "©";
 }
+if (!$wgOntName) {
+	$wgOntName = "Linked Earth Core";
+}
+if (!$wgOntNS) {
+	$wgOntNS = "http://linked.earth/ontology#";
+}
+
 
 function WTRender (&$out, &$skin) {
 	global $wgRequest, $wgDir, $wgUseSimpleTasks, $wgCore;
@@ -297,7 +305,7 @@ function WTRender (&$out, &$skin) {
 	}
 
 	$item->addPageHeader($out);
-	$item->includeJSHeaders($out, $wgDir);
+	$item->includeJSHeaders($out);
 	$item->includeCSSHeaders($out, $wgDir);
 	$item->setJavascriptVariables($out);
 	$item->modifyWikiPage($out);
@@ -450,13 +458,14 @@ function getRevisionCategories($title, $rev, $parseTimestamp ) {
 	$content = $rev->getContent();
 	$options = $content->getContentHandler()->makeParserOptions( 'canonical' );
 	$options->setTimestamp( $parseTimestamp );
-	$output = $content->getParserOutput( $title, $rev->getId(), $options );
+	$titobj = Title::newFromText($title);
+	$output = $content->getParserOutput( $titobj, $rev->getId(), $options );
 	return array_map( 'strval', array_keys( $output->getCategories() ) );
 }
 
 $wgHooks['PageContentSaveComplete'][] = 'updateWorkingGroupsWatchlist';
-function updateWorkingGroupsWatchlist( &$article, &$user, $content, $summary,
-		$isMinor, $isWatch, $section, &$flags, $revision, &$status ) {
+function updateWorkingGroupsWatchlist( $article, $user, $content, $summary,
+		$isMinor, $isWatch, $section, $flags, $revision, $status ) {
 	if($revision == null)
 		return;
 	$prevision = $revision->getPrevious();
