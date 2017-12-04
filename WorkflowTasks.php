@@ -57,6 +57,7 @@ $wgAutoloadClasses['WTLiPD'] 				= $wgAbsDir . '/includes/page/category/special/
 $wgAutoloadClasses['WTDataset'] 				= $wgAbsDir . '/includes/page/category/special/lipd/WTDataset.inc';
 
 $wgAutoloadClasses['AuthorGeneration'] 				= $wgAbsDir . '/includes/page/category/special/enigma/AuthorGeneration.inc';
+$wgAutoloadClasses['CSVImport'] 				= $wgAbsDir . '/includes/page/category/special/enigma/CSVImport.inc';
 
 $wgAutoloadClasses['WTDashboard'] 			= $wgAbsDir . '/includes/page/category/special/dashboard/WTDashboard.inc';
 $wgAutoloadClasses['WTDashboardAnalyze'] 	= $wgAbsDir . '/includes/page/category/special/dashboard/WTDashboardAnalyze.inc';
@@ -193,6 +194,9 @@ $wgSpecialPageGroups['WTLiPD']  = 'ODSGroup';
 
 $wgSpecialPages['AuthorGeneration']  = 'AuthorGeneration';
 $wgSpecialPageGroups['AuthorGeneration']  = 'ODSGroup';
+
+$wgSpecialPages['CSVImport']  = 'CSVImport';
+$wgSpecialPageGroups['CSVImport']  = 'ODSGroup';
 
 $wgHooks['BeforePageDisplay'][] = 'WTRender';
 

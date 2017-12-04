@@ -5,6 +5,7 @@ $messages['en'] = array(
 	'wtbatchtasks'          				=> 'Create Batch tasks for Users',
 	'wtlipd' 		         						=> 'Manage LiPD Data',
 	'authorgeneration' 		         	=> 'Author attribution',
+	'csvimport'				 		         	=> 'Import data from CSV',
 	'wtbootstrap'          					=> 'Bootstrap Ontology',
 	'specialpages-group-ODSGroup'		=> 'Organic Data Science',
 	'right-edit-page-text'					=> 'Edit page text documentation',
