@@ -34,7 +34,9 @@ class CSVImport extends SpecialPage {
 	}
 
 	function importCSV( $out ) {
-		global $wgCore;
+		global $wgCore, $IP;
+		require_once("$IP/maintenance/runJobs.php");
+
 		if(array_key_exists("files", $_FILES)) {
 			$files = $_FILES["files"];
 			$i=0;
@@ -84,8 +86,13 @@ class CSVImport extends SpecialPage {
 						$out->addHTML("<li>[Error] $name: Column $catname doesn't exist");
 					}
 				}
+				$out->addHTML("<li><b>$name processed.</b>");
 				$i++;
 			}
+			$out->addHTML("<br/>Running background jobs to update semantics..");
+			$jobs = new RunJobs();
+			$jobs->execute();
+			$out->addHTML("<br/>..Done");
 		}
 	}
 
