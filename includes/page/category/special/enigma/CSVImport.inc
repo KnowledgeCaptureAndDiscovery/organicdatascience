@@ -42,11 +42,11 @@ class CSVImport extends SpecialPage {
 			$i=0;
 			foreach ($files['tmp_name'] as $file) {
 				$name = $files['name'][$i];
-        $catname = ucfirst(preg_replace("/\.csv$/i", "", $name));
-        $out->addHTML("<h3>Import into Category: $catname</h3>");
+				$catname = ucfirst(preg_replace("/\.csv$/i", "", $name));
+				$out->addHTML("<h3>Import into Category: $catname</h3>");
 
 				$properties = array();
-        $csv = $this->readCSV($file);
+				$csv = $this->readCSV($file);
 				foreach($csv as $row) {
 					if(array_key_exists($catname, $row)) {
 						$id = $row[$catname];
@@ -90,8 +90,14 @@ class CSVImport extends SpecialPage {
 				$i++;
 			}
 			$out->addHTML("<br/>Running background jobs to update semantics..");
+
+			ob_start();
+			print("Executing..");			
 			$jobs = new RunJobs();
 			$jobs->execute();
+			print("Finished Execution..");
+			ob_end_clean();
+
 			$out->addHTML("<br/>..Done");
 		}
 	}
