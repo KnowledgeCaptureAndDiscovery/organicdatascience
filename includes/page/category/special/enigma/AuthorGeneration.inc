@@ -2,22 +2,26 @@
 
 class AuthorGeneration extends SpecialPage {
 
-	public function __construct() {
-		parent::__construct( 'AuthorGeneration' );
-	}
+  var $blocks;
+  var $cache;
 
-	function execute( $par ) {
-		global $wgDir, $wgUser;
-		$request = $this->getRequest();
-		$out = $this->getOutput();
-		$out->addExtensionStyle( $wgDir . '/css/wtree.css' );
-		$this->setHeaders();
-		$this->handleOperation($request, $out);
-	}
+  public function __construct() {
+    parent::__construct( 'AuthorGeneration' );
+    $this->cache = array();
+  }
 
-	function handleOperation($request, $out) {
-		global $wgUser;
-		$project = $request->getText("project");
+  function execute( $par ) {
+    global $wgDir, $wgUser;
+    $request = $this->getRequest();
+    $out = $this->getOutput();
+    $out->addExtensionStyle( $wgDir . '/css/wtree.css' );
+    $this->setHeaders();
+    $this->handleOperation($request, $out);
+  }
+
+  function handleOperation($request, $out) {
+    global $wgUser;
+    $project = $request->getText("project");
     if($project) {
       $html = $this->getAuthorsHTML($project);
       $out->addHTML($html);
@@ -30,192 +34,204 @@ class AuthorGeneration extends SpecialPage {
       ';
       $out->addHTML($html);
     }
-	}
+  }
+
+  function getAuthorBlocks($project) {
+    $rules_page = "AuthorRules:$project";
+    $titobj = Title::newFromText($rules_page);
+    $page = new WikiPage($titobj);
+    $json = null;
+    if(!$titobj->exists()) {
+      $json = '
+      {
+         "properties": [
+            {
+              "id": "HasPJuniorLead (E)",
+              "name": "Junior Lead",
+              "sort": false
+            },
+            {
+              "id": "HasPSpecialContributor (E)",
+              "name": "Special Contributor",
+              "sort": true
+            },
+            {
+              "id": "HasCohort (E).HasInvestigator (E)",
+              "name": "Investigator",
+              "sort": true
+            },
+            {
+              "id": "HasCohort (E).HasPI (E)",
+              "name": "PI",
+              "sort": true
+            },
+            {
+              "id": "HasPSeniorLead (E)",
+              "name": "Senior Lead",
+              "sort": false
+            }
+         ]
+      }';
+      $content = ContentHandler::makeContent($json, $titobj);
+      $status = $page->doEditContent($content, "Initialized default author generation rules");
+      assert($status->isOK());
+    }
+    else {
+      $json = $page->getContent()->serialize();
+    }
+    return json_decode($json, true);
+  }
+
+  function getItemFacts($item, $prop_chain=array(), $filter_props=array()) {
+    # Get facts about the item
+    $facts = array_key_exists($item, $this->cache) ?
+      $facts = $this->cache[$item]:
+      $facts = WTFactsAPI::getFacts($item)[1];
+    $this->cache[$item] = $facts;
+
+    # Pop the first element in the Property chain
+    $prop = array_shift($prop_chain);
+    if($prop) {
+      if(array_key_exists($prop, $facts)) {
+        $subfacts = array();
+        foreach($facts[$prop]["values"] as $val) {
+          $subitem = $val["text"];
+          $subfacts = array_merge(
+            $subfacts,
+            $this->getItemFacts($subitem, $prop_chain, $filter_props)
+          );
+        }
+        return $subfacts;
+      }
+    }
+    else {
+      # No further property. This should be the author, return details
+      $details = array();
+      foreach($filter_props as $key=>$filter_prop) {
+        if(array_key_exists($filter_prop, $facts)) {
+          $values = array();
+          foreach($facts[$filter_prop]["values"] as $val) {
+            $values[] = $val["text"];
+          }
+          $details[$key] = $values;
+        }
+      }
+      return array($item=>$details);
+    }
+  }
 
   function getProjectAuthors($project) {
     global $wgCore;
-    $JuniorLead = "HasPJuniorLead " . $wgCore;
-    $SeniorLead = "HasPSeniorLead " . $wgCore;
-    $SpecialContributor = "HasPSpecialContributor " . $wgCore;
+    $blocks = $this->getAuthorBlocks($project);
+    $props = $blocks["properties"];
 
     $authors = array();
-    $proj_facts = WTFactsAPI::getFacts($project)[1];
-    $authors = $this->extractAuthors($proj_facts, $authors, $JuniorLead, "Junior Lead");
-    $authors = $this->extractAuthors($proj_facts, $authors, $SeniorLead, "Senior Lead");
-    $authors = $this->extractAuthors($proj_facts, $authors, $SpecialContributor, "Special Contributor");
-    $authors = $this->extractCohortAuthors($proj_facts, $authors);
-    $authors = $this->getAuthorDetails($authors);
-
-    return $authors;
-  }
-
-  function extractAuthors($facts, $authors, $roleprop, $role) {
-    global $wgCore;
-    if(array_key_exists($roleprop, $facts)) {
-      foreach($facts[$roleprop]['values'] as $val) {
-        $author_name = $val["text"];
-        $authors = $this->appendAuthor($authors, $author_name, $role);
+    $filter_props = array(
+      "title"=>"HasTitle $wgCore",
+      "affiliations"=>"IsAffiliatedWith $wgCore"
+    );
+    foreach($props as $prop) {
+      $prop_chain = explode(".", $prop["id"]);
+      $group = $this->getItemFacts($project, $prop_chain, $filter_props);
+      if($group) {
+        if($prop["sort"])
+          ksort($group);
+        $group_name = $prop["name"];
+        $authors[$group_name] = $group;
       }
-    }
-    return $authors;
-  }
-
-  function extractCohortAuthors($proj_facts, $authors) {
-    global $wgCore;
-    $PCohort = "HasCohort " . $wgCore;
-    $PI = "HasPI " . $wgCore;
-    $Investigator = "HasInvestigator " . $wgCore;
-
-    if(array_key_exists($PCohort, $proj_facts)) {
-      $cohort_names = array();
-      foreach($proj_facts[$PCohort]['values'] as $citem) {
-        $cohort_names[] = $citem['text'];
-      }
-      foreach($cohort_names as $cohort_name) {
-        $cohort_facts = WTFactsAPI::getFacts($cohort_name)[1];
-        $authors = $this->extractAuthors($cohort_facts, $authors, $PI, "PI");
-        $authors = $this->extractAuthors($cohort_facts, $authors, $Investigator, "Investigator");
-      }
-    }
-    return $authors;
-  }
-
-  function appendAuthor($authors, $author_name, $role) {
-    $author = array_key_exists($author_name, $authors) ?
-        $authors[$author_name] :
-        array("Name"=>$author_name, "Roles"=>array());
-    $author["Roles"][] = $role;
-    $authors[$author_name] = $author;
-    return $authors;
-  }
-
-  function getAuthorDetails($authors) {
-    global $wgCore;
-    $Title = "HasTitle " . $wgCore;
-    $Affiliation = "IsAffiliatedWith " . $wgCore;
-
-    foreach($authors as $author_name=>$author) {
-      $author_facts = WTFactsAPI::getFacts($author_name)[1];
-      $author["Qual"] = "";
-      if(array_key_exists($Title, $author_facts)) {
-        $author["Qual"] = $author_facts[$Title]['values'][0]['text'];
-      }
-      $author["Affiliations"] = [];
-      if(array_key_exists($Affiliation, $author_facts)) {
-        foreach($author_facts[$Affiliation]['values'] as $aff) {
-          $author["Affiliations"][] = $aff['text'];
-        }
-      }
-      $authors[$author_name] = $author;
     }
     return $authors;
   }
 
   function getAuthorsHTML($proj_name) {
-    $author_list = array();
-    $affiliation_list = array();
-    $contributors_list = array();
-
-    // Author list priority/hierarchy
-    $hierarchy = array("Junior Lead", "Special Contributor", "Investigator", "PI", "Senior Lead");
+    $unique_authors = array();
+    $author_hash = array();
+    $affiliations = array();
 
     // Get all project authors
     $authors = $this->getProjectAuthors($proj_name);
 
-    // Create object of empty list for each role type
-    foreach($hierarchy as $hieritem) {
-        $author_list[$hieritem] = array();
-        $contributors_list[$hieritem] = array();
-    }
-
-    // Extract information from authors
-    foreach($authors as $author_name=>$author) {
-      // Gather all affiliations
-      if(array_key_exists('Affiliations', $author)) {
-        foreach($author['Affiliations'] as $aff) {
-          if(!in_array($aff, $affiliation_list)) {
-            $affiliation_list[] = $aff;
+    // Extract unique affiliations and authors
+    foreach($authors as $group_name=>$group_authors) {
+      $unique_authors[$group_name] = array();
+      foreach($group_authors as $author_name=>$author) {
+        // Gather all affiliations
+        if(array_key_exists('affiliations', $author)) {
+          foreach($author['affiliations'] as $aff) {
+            if(!in_array($aff, $affiliations)) {
+              $affiliations[] = $aff;
+            }
           }
         }
-      }
-      //  Get the most important role of the author based on hierarchy in hierarchy list
-      $flag = false;
-      foreach($hierarchy as $hieritem) {
-        if(in_array($hieritem, $author['Roles'])) {
-          $contributors_list[$hieritem][] = $author_name;
-          if (!$flag) {
-            $author['Role'] = $hieritem;
-            $author_list[$hieritem][] = $author;
-            $flag = true;
-          }
+        if(!array_key_exists($author_name, $author_hash)) {
+          $unique_authors[$group_name][$author_name] = $author;
+          $author_hash[$author_name] = $author;
         }
       }
     }
+    // sort($affiliations);
 
-    // Sort affiliation list and display as list
-    sort($affiliation_list);
+    // Create Authors Text
+    $authors_text = "";
+    foreach(array_keys($authors) as $group_name) {
+      // Format the authors in display format
+      foreach($unique_authors[$group_name] as $author_name=>$author) {
+        if($authors_text) {
+          $authors_text .= ", ";
+        }
+        $authors_text .= $author_name;
+        if(array_key_exists("affiliations", $author)) {
+          $affnums = implode(",",
+            array_map(
+              function($a) use ($affiliations){
+                return array_search($a, $affiliations) + 1;
+              },
+              $author['affiliations']
+            ));
+          $authors_text .= "<sup>$affnums</sup>";
+        }
+      }
+    }
+
+    // Create Affiliations Text
     $affiliations_text = "";
-    foreach($affiliation_list as $aff) {
+    foreach($affiliations as $aff) {
       $affiliations_text .= "<li>$aff</li>";
     }
 
-    // Adding contribution section based on the roles as no data is available regarding the exact workof the author
-    $roles_text = "";
+    // Create Contributions Text
+    $contribution_text = "";
 
     $text1 = " are the ";
     $text3 = " is the ";
     $text2 = " of the project";
-    foreach($hierarchy as $hieritem) {
+    foreach($authors as $group_name=>$group_authors) {
       $temp = "";
-      foreach($contributors_list[$hieritem] as $contributor) {
+      foreach($group_authors as $author_name=>$contributor) {
         if($temp) {
           $temp .= ", ";
         }
-        $initials = explode(' ', $contributor);
-        foreach ($initials as $key => $value) {
-            $initials[$key] = $value[0] . '.';
-        }
-        $temp .= implode(" ", $initials);
+        if(preg_match("/^[A-Z0-9]+$/", $author_name))// An acronym
+          $temp .= $author_name;
+        else
+          $temp .= $this->getInitials($author_name);
       }
       if($temp) {
-        if($roles_text) {
-          $roles_text .= ". ";
+        if($contribution_text) {
+          $contribution_text .= ". ";
         }
-        $roles_text = $roles_text . $temp;
-        if(sizeof($contributors_list[$hieritem]) == 1) {
-          $roles_text = $roles_text . $text3 . $hieritem . $text2;
+        $contribution_text = $contribution_text . $temp;
+        if(sizeof($authors[$group_name]) == 1) {
+          $contribution_text .= " is the ". $group_name;
         }
         else {
-          $roles_text = $roles_text . $text1 . $hieritem . 's' . $text2;
-        }
-      }
-    }
-
-    $authors_text = "";
-    foreach($hierarchy as $hieritem) {
-      // The Junior and Senior leads should not be alphabetically sorted
-      if(!preg_match("/(Junior|Senior) Lead/", $hieritem)) {
-        $names = array();
-        foreach ($author_list[$hieritem] as $author) {
-          $names[] = $author['Name'];
-        }
-        array_multisort($names, SORT_ASC, $author_list[$hieritem]);
-      }
-      // Format the authors in display format
-      foreach($author_list[$hieritem] as $author) {
-        $temp = "";
-        foreach($author['Affiliations'] as $aff) {
-          if($temp) {
-            $temp .= ", ";
+          $gtext = $group_name . 's';
+          if(preg_match("/(.+)ium$/i", $group_name, $m)) {
+            $gtext = $m[1] . "ia";
           }
-          $temp .= array_search($aff, $affiliation_list) + 1;
+          $contribution_text .= " are the " . $gtext;
         }
-        if($authors_text) {
-          $authors_text .= ", ";
-        }
-        $qual = $author['Qual'];
-        $qual = $qual ? " $qual" : "";
-        $authors_text .= $author['Name'] . $qual . "<sup>" . $temp . "</sup>";
+        $contribution_text .= " of the project";
       }
     }
 
@@ -233,13 +249,21 @@ class AuthorGeneration extends SpecialPage {
     </div>
     <div class='panel panel-default'>
         <div class='panel-heading'><span style='font-weight: bold;'>Contribution</span></div>
-        <div class='panel-body'>$roles_text</div>
+        <div class='panel-body'>$contribution_text</div>
     </div>
     ";
   }
 
-	function getGroupName() {
-		return "ODSGroup";
-	}
+  function getInitials($name) {
+    $initials = explode(' ', $name);
+    foreach ($initials as $key => $value) {
+        $initials[$key] = $value[0] . '.';
+    }
+    return implode(" ", $initials);
+  }
+
+  function getGroupName() {
+    return "ODSGroup";
+  }
 
 }
