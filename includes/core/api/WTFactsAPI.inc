@@ -199,12 +199,18 @@ class WTFactsAPI extends ApiBase {
 		return array("val"=>$val, "text"=>$text, "type"=>$type, "key"=>$key, "exists"=>$exists, "_BC_bools"=>array("exists"));
 	}
 
+	private static function mres($value) {
+	    $search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
+	    $replace = array("\\\\","\\0","\\n", "\\r", "\'", '\"', "\\Z");
+	    return str_replace($search, $replace, $value);
+	}
+
 	public static function setFactAuthors($title, $facts, $data) {
 		$dbr = wfGetDB( DB_SLAVE );
 		$titObj = Title::newFromText($title);
 		$title = $titObj->getDbKey();
 		$props = $data->getProperties();
-		$title = mysql_escape_string($title);
+		$title =WTFactsAPI::mres($title);
 		$res = $dbr->query(
 			"SELECT rev_user_text, rev_user, rev_comment FROM revision a LEFT JOIN page b ON a.rev_page=b.page_id WHERE page_title='$title' AND (rev_comment LIKE '%Added PropertyValue%' OR rev_comment LIKE '%Set PropertyValue%' OR rev_comment LIKE '%WTLiPD:%' OR rev_comment LIKE '%Bootstrap:%') ORDER BY rev_timestamp DESC"
 		);
