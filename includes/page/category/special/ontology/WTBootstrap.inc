@@ -1,9 +1,9 @@
 <?php
 
-class WTBootstrapLE extends SpecialPage {
+class WTBootstrap extends SpecialPage {
 
 	public function __construct() {
-		parent::__construct( 'WTBootstrapLE', 'edit-core-ontology' );
+		parent::__construct( 'WTBootstrap', 'edit-core-ontology' );
 	}
 
 	function execute( $par ) {
@@ -17,11 +17,6 @@ class WTBootstrapLE extends SpecialPage {
 		$out = $this->getOutput();
 		$out->addExtensionStyle( $wgDir . '/css/wtree.css' );
 		$this->setHeaders();
-
-		if(!$wgUseLiPD) {
-			$out->addHTML("LiPD extension is not supported on this wiki. Set \$wgUseLiPD to true");
-			return;
-		}
 
 		$items = $this->getOntologyItems();
 
@@ -182,10 +177,15 @@ class WTBootstrapLE extends SpecialPage {
 	}
 
 	function bootstrapOntology($onturl, $out) {
+		global $wgOntName, $wgOntNS;
 		require 'vendor/autoload.php';
 		$ont = new EasyRdf_Graph();
-		$ont->parse(file_get_contents($onturl));
-		$graph = array();
+		$options = array('http' => array(
+		    'header' => "Accept: application/rdf+xml\r\n"
+		));
+		$context = stream_context_create($options);
+		$data = file_get_contents($onturl, FALSE, $context);
+		$ont->parse($data);
 		$clses = $this->getClasses($ont);
 		$insts = $this->getInstances($ont, $clses);
 		$props = $this->getObjectProperties($ont);
@@ -194,8 +194,8 @@ class WTBootstrapLE extends SpecialPage {
 		// Fill in the ontologies
 		$ontologies = array(
 			"core"=>array(
-				"ns"=>"http://linked.earth/ontology#",
-				"name"=>"Linked Earth Core",
+				"ns"=>$wgOntNS,
+				"name"=>$wgOntName,
 				"terms"=>array()
 			),
 			"dcterms"=>array(
@@ -262,7 +262,7 @@ class WTBootstrapLE extends SpecialPage {
 				$text .= " ".$term["name"]."|".$term["type"]."\n";
 
 			// $out->addWikiText($text);
-			$ret = WTFactsAPI::createWikiPage($pageid, $text, "WTBootstrapLE: Creating $name ontology imports page");
+			$ret = WTFactsAPI::createWikiPage($pageid, $text, "WTBootstrap: Creating $name ontology imports page");
 			$out->addHTML("<pre>".print_r($ret, true)."</pre>");
 		}
 
@@ -322,7 +322,7 @@ class WTBootstrapLE extends SpecialPage {
 						break;
 					}
 				}
-				if($propids[$prop1["id"]])
+				if(array_key_exists($prop1["id"], $propids))
 					$ignoreProp = true;
 
 				if(!$ignoreProp) {
@@ -387,7 +387,7 @@ class WTBootstrapLE extends SpecialPage {
 		$out->addHTML("<tr><th>Wiki page</th><th>Ontological term</th></tr>");
 		foreach($items as $id=>$det) {
 			if(preg_match("/^Property:/", $id)) {
-				$out->addHTML("<tr><td><a href='$id'>$id</a></td>");
+				$out->addHTML("<tr><td><a href='./$id'>$id</a></td>");
 				$out->addHTML("<td><a href='${det['ref']}'>${det['ref']}</td></tr>");
 			}
 		}
@@ -463,7 +463,7 @@ class WTBootstrapLE extends SpecialPage {
 		$text .= $pcat_text;
 		// $out->addWikiText($text);
 		// $out->addHTML(print_r($properties, true));
-    $summary = "WTBootstrapLE: New Category $catname";
+    $summary = "WTBootstrap: New Category $catname";
     $ret = WTFactsAPI::createWikiPage($pageid, $text, $summary);
 		$out->addHTML("<pre>".print_r($ret, true)."</pre>");
 	}
@@ -489,7 +489,7 @@ class WTBootstrapLE extends SpecialPage {
 				$text .= "[[Category:". $allcats[$cat]["wikiname"]."]]\n";
 		}
 		// $out->addWikiText($text);
-    $summary = "WTBootstrapLE: New Instance $pageid";
+    $summary = "WTBootstrap: New Instance $pageid";
     $ret = WTFactsAPI::createWikiPage($pageid, $text, $summary);
 		$out->addHTML("<pre>".print_r($ret, true)."</pre>");
 	}
@@ -560,7 +560,7 @@ class WTBootstrapLE extends SpecialPage {
 			$text .= "* Disjoint with\n";
 			foreach($pdetails["owl:propertyDisjointWith"] as $peer)
 				if(array_key_exists($peer, $allprops))
-					$text .= "** [[disjoint with::".$this->getCoreWikiName($allprops[$peer]["name"])."]]\n";
+					$text .= "** [[disjoint with::Property:".$this->getCoreWikiName($allprops[$peer]["name"])."]]\n";
 		}
 		return $text;
 	}
@@ -581,7 +581,7 @@ class WTBootstrapLE extends SpecialPage {
 		$text .= "\nProperty Semantics\n";
 		$text .= $this->getPropertyTypeWikiText($prop["details"], $allprops, $allcats);
 		// $out->addWikiText($text);
-    $summary = "WTBootstrapLE: New Property $propname";
+    $summary = "WTBootstrap: New Property $propname";
     $ret = WTFactsAPI::createWikiPage($pageid, $text, $summary);
 		$out->addHTML("<pre>".print_r($ret, true)."</pre>");
 	}

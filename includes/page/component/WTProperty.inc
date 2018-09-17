@@ -5,10 +5,10 @@ class WTProperty extends WTBase {
 		parent::__construct($title);
 	}
 
-	function setJavascriptVariables($out) {
+	function setJavascriptVariables($out, $nofacts = false) {
 	}
 
-	function includeJSHeaders($out, $wgDir) {
+	function includeJSHeaders($out) {
 	}
 
 	function modifyWikiPage($out) {
@@ -37,4 +37,3 @@ class WTProperty extends WTBase {
 	}
 
 }
-

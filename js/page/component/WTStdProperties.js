@@ -56,7 +56,9 @@ WTStdProperties.prototype.generateTable = function() {
 	me.$table =  $('<div class="wt-table '+extracls+'"></div>');
 	//me.appendHeadingRow();
 	me.$item.append(me.$table);
-	for(var pname in this.stdprops) {
+	var propkeys = Object.keys(this.stdprops).sort();
+	for(var i=0; i<propkeys.length; i++) {
+		var pname = propkeys[i];
 		if(this.blacklist[pname])
 			continue;
 		var property = this.stdprops[pname];
@@ -163,7 +165,7 @@ WTStdProperties.prototype.appendNotesRow = function() {
 WTStdProperties.prototype.closeAllEdits = function() {
 	var me = this;
 	wtpagesuggest.setNames(wtnames);
-	
+
 	me.$table.find('.wt-row').each(function(k, row){
 		$row = $(row);
 		$row.removeClass('edit');

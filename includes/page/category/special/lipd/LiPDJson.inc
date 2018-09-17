@@ -64,11 +64,11 @@ class LiPDJson {
 	private function getLiPDJson( $datadir ) {
 		$files = array_diff(scandir($datadir), array('.','..'));
 		foreach ($files as $file) {
-			if(preg_match("/metadata.jsonld/", $file))
+			if(preg_match("/\.jsonld$/", $file))
 				return "$datadir/$file";
 		}
 		return null;
-    }
+	}
 
 	private function pageExists($id) {
 		$title = Title::newFromText($id);

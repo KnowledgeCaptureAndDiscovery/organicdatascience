@@ -10,7 +10,7 @@ class WTMainPage extends WTBase {
 //	function setJavascriptVariables($out) {
 //	}
 //
-//	function includeJSHeaders($out, $wgDir) {
+//	function includeJSHeaders($out) {
 //	}
 
 	function modifyWikiPage($out) {
@@ -34,7 +34,7 @@ class WTMainPage extends WTBase {
 
 		# -- Sidebar Div
 		$this->addSidebarDiv( $out );
-		
+
 		$this->addYandexMetrica( $out );
 
 		# -- CategoryChooser Div
@@ -119,7 +119,7 @@ class WTMainPage extends WTBase {
 			array( 'page_title'),
 			array( 'page_namespace = 0' ),
 			__METHOD__,
-			array( 
+			array(
 				'ORDER BY' => "page_touched DESC",
 				'LIMIT' => "$limit"
 			)
@@ -139,7 +139,7 @@ class WTMainPage extends WTBase {
 			array( 'distinct rev_user_text'),
 			array( 'rev_user > 0'),
 			__METHOD__,
-			array( 
+			array(
 				'ORDER BY' => "rev_timestamp DESC",
 				'LIMIT' => "$limit"
 			)
@@ -159,7 +159,7 @@ class WTMainPage extends WTBase {
 			array( 'rev_user_text', 'COUNT(*) total'),
 			array( 'rev_user > 0'),
 			__METHOD__,
-			array( 
+			array(
 				'GROUP BY' => "rev_user",
 				'ORDER BY' => "total DESC",
 				'LIMIT' => "$limit"
@@ -173,5 +173,3 @@ class WTMainPage extends WTBase {
 		return $highestContribs;
 	}
 }
-
-

@@ -69,7 +69,7 @@ class WTBase {
 
 
 
-	function includeJSHeaders($out, $wgDir) {
+	function includeJSHeaders($out) {
 		$out->addModules('WorkflowTasks');
 	}
 
@@ -105,6 +105,8 @@ class WTBase {
 	function setJavascriptVariables($out, $nofacts=false) {
 		global $wgCore;
 		global $wgUseSimpleTasks, $wgDisableTracking;
+		$facts = array();
+		$inprops = array();
 		$out->addHTML("<script>\n");
 		if(!$nofacts) {
 			list ($error, $facts, $text) = WTFactsAPI::getFacts($this->title->getFullText());

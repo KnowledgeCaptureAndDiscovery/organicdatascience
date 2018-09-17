@@ -1,7 +1,7 @@
 <?php
 
 class WTPerson extends WTBase {
-	
+
 	function __construct($title) {
 		parent::__construct($title);
 	}
@@ -14,13 +14,13 @@ class WTPerson extends WTBase {
 	function modifyWikiPage($out) {
 		$old = $out->getHTML();
 		$out->clearHTML();
-		
+
 		# WTPersonExpertise Div
 		$this->addPersonExpertiseDiv( $out );
-		
+
 		# WTPersonTaks Div
 		$this->addPersonTasksDiv( $out );
-		
+
 		# WTPerson Div
 		$this->addPersonDiv( $out, true );
 
@@ -36,14 +36,14 @@ class WTPerson extends WTBase {
 
 		# -- Sidebar Div
 		$this->addSidebarDiv( $out );
-		
-		# -- CategoryChooser Div 
-		$this->addCategoryChooserDiv( $out ); 
-				
+
+		# -- CategoryChooser Div
+		$this->addCategoryChooserDiv( $out );
+
 		$this->addYandexMetrica( $out );
 	}
 
-	function getPageDetails() {
+	function getPageDetails($title=NULL) {
 		$details = parent::getPageDetails();
 		$details["WTPerson"] = $this->getWTPerson();
 		return $details;
@@ -121,7 +121,7 @@ class WTPerson extends WTBase {
 			array( 'page_title', 'page_namespace', 'rev_comment', 'rev_timestamp' ),
 			array( "rev_user_text = '$uf'"),
 			__METHOD__,
-			array( 
+			array(
 				'ORDER BY' => "rev_timestamp DESC",
 				'LIMIT' => "$limit"
 			),
@@ -132,7 +132,7 @@ class WTPerson extends WTBase {
 			while($row = $dbr->fetchObject( $res ))
 				$recentContribs[] = array(
 					Title::makeName($row->page_namespace, $row->page_title),
-					$row->rev_comment, 
+					$row->rev_comment,
 					$row->rev_timestamp);
 		}
 		return $recentContribs;
@@ -143,17 +143,17 @@ class WTPerson extends WTBase {
 		$res = $dbr->select(
 			array( 'revision', 'page', 'categorylinks' ),
 			array( 'page_title', 'page_namespace', "cl_to 'page_category'",
-				"CASE WHEN rev_parent_id = 0 THEN 'Create' ELSE 'Edit' END 'operation'", 
+				"CASE WHEN rev_parent_id = 0 THEN 'Create' ELSE 'Edit' END 'operation'",
 				"CASE WHEN rev_comment LIKE 'WTBootstrapLE%' THEN 'Bootstrap' WHEN rev_comment LIKE 'WTLiPD%' THEN 'LiPD' ELSE 'User' END 'agent'",
 				"count(*) count" ),
 			array( "rev_user=$userid"),
 			__METHOD__,
-			array( 
+			array(
 				'GROUP BY' => "page_namespace, page_title, operation"
 			),
-			array( 
+			array(
 				'page' => array( 'LEFT JOIN', array('rev_page=page_id') ),
-				'categorylinks' => array( 'LEFT JOIN', array('rev_page=cl_from') ) 
+				'categorylinks' => array( 'LEFT JOIN', array('rev_page=cl_from') )
 			)
 		);
 		$userContribs = array();
@@ -161,66 +161,66 @@ class WTPerson extends WTBase {
 			while($row = $dbr->fetchObject( $res ))
 				$userContribs[] = array(
 					Title::makeName($row->page_namespace, $row->page_title),
-					$row->page_category, 
-					$row->operation, 
-					$row->count, 
+					$row->page_category,
+					$row->operation,
+					$row->count,
 					$row->agent);
 		}
 		return $userContribs;
 	}
-	
+
 	function getExpertise() {
 		$query = "[[Category:Person]] [[".$this->title."]]";
 		$rawparams = array($query, "?Expertise");
-	
+
 		SMWQueryProcessor::processFunctionParams( $rawparams, $query, $params, $printouts );
-		SMWQueryProcessor::addThisPrintout( $printouts, $params );		
+		SMWQueryProcessor::addThisPrintout( $printouts, $params );
 
 		$m_params = SMWQueryProcessor::getProcessedParams( $params, $printouts );
-		$queryobj = SMWQueryProcessor::createQuery( $query, $m_params, null, 'list', $printouts);	
+		$queryobj = SMWQueryProcessor::createQuery( $query, $m_params, null, 'list', $printouts);
 		$results = smwfGetStore()->getQueryResult( $queryobj );
-				
+
 		$res = $results->getNext();
 		while($res != null) {
 			if(sizeof($res) == 2) {
 				$expertise = array();
-				while($person = $res[0]->getNextObject()) {					
+				while($person = $res[0]->getNextObject()) {
 					if($person->getText() == $this->title){
 						while($exp = $res[1]->getNextObject())
 							$expertise[] = $exp->getText();
 						return $expertise;
 					}
 				}
-			}			
+			}
 			$res = $results->getNext();
 		}
-		return null;		
+		return null;
 	}
-	
-	public static function findAllExpertise(){	
+
+	public static function findAllExpertise(){
 		$persons = array();
 		$expertise = array();
-		
+
 		$query = "[[Category:Person]]";
 		$rawparams = array($query, "?Expertise", "limit=9999");
-	
+
 		SMWQueryProcessor::processFunctionParams( $rawparams, $query, $params, $printouts );
-		SMWQueryProcessor::addThisPrintout( $printouts, $params );		
+		SMWQueryProcessor::addThisPrintout( $printouts, $params );
 
 		$m_params = SMWQueryProcessor::getProcessedParams( $params, $printouts );
-		$queryobj = SMWQueryProcessor::createQuery( $query, $m_params, null, 'list', $printouts);	
+		$queryobj = SMWQueryProcessor::createQuery( $query, $m_params, null, 'list', $printouts);
 		$results = smwfGetStore()->getQueryResult( $queryobj );
-				
+
 		$res = $results->getNext();
 		while($res != null) {
-			if(sizeof($res) == 2) 
-				while($exp= $res[0]->getNextObject()) 					
-					$persons[$exp->getText()] = true;		
-				while($exp= $res[1]->getNextObject()) 					
-					$expertise[strtolower($exp->getText())] = true;		
+			if(sizeof($res) == 2)
+				while($exp= $res[0]->getNextObject())
+					$persons[$exp->getText()] = true;
+				while($exp= $res[1]->getNextObject())
+					$expertise[strtolower($exp->getText())] = true;
 			$res = $results->getNext();
 		}
-		return array(array_keys($persons), array_keys($expertise));		
+		return array(array_keys($persons), array_keys($expertise));
 	}
 
 	public static function getPersonNameFromUserId($userid) {
@@ -260,4 +260,3 @@ class WTPerson extends WTBase {
 		return true;
 	}
 }
-

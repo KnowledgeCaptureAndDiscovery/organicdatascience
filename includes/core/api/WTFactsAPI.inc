@@ -672,8 +672,12 @@ class WTFactsAPI extends ApiBase {
 	}
 
 	public static function updateWiki($title, $summary, $data) {
-		$article = new Article(Title::newFromText($title));
-		$text = $article->getContent();
+		$titobj = Title::newFromText($title);
+		if($titobj == null)
+			return array("Error", "Title: $title could not be initialized");
+
+		$article = new WikiPage($titobj);
+		$text = $article->getContent()->serialize();
 		$doc = new POMPage($text);
 
 		$facts = null;
@@ -738,16 +742,17 @@ class WTFactsAPI extends ApiBase {
 		}
 
 		// If summary is an array, do multiple edits with all summary items
+		$newcontent = ContentHandler::makeContent($newtext, $titobj);
 		if(is_array($summary)) {
 			foreach($summary as $sum) {
-				$status = $article->doEdit($newtext, $sum);
+				$status = $article->doEditContent($newcontent, $sum);
 				if (!$status->isOK())
 					return array( "Error", "Something went wrong: " . $status->getWikiText(), $data );
 			}
 			return array( "Success", $summary, $data );
 		}
 		else {
-			$status = $article->doEdit($newtext, $summary);
+			$status = $article->doEditContent($newcontent, $summary);
 			if ($status->isOK()) {
 				return array( "Success", $summary, $data );
 			} else {
@@ -771,7 +776,7 @@ class WTFactsAPI extends ApiBase {
 			/*$cats = array();
 			foreach($data->getPropertyValues(SMWDIProperty::newFromUserLabel("_INST")) as $catobj)
 				$cats[] = $catobj->getDbKey();*/
-			$text = (new Article($subTitle))->getContent();
+			$text = (new WikiPage($subTitle))->getContent()->serialize();
 			$text = preg_replace("/\[\[\s*Category:.+?\]\](\\n)?/", "", $text);
 		}
 		$summary = "Setting categories as ". implode(", ", $categories);
