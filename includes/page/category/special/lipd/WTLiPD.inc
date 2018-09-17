@@ -36,6 +36,15 @@ class WTLiPD extends SpecialPage {
 				if($ok)
 					$request->response()->header("Location: $loc");
 				break;
+			case "importurl":
+				if(!$wgUser->isAllowedAll("createpage", "edit-page-metadata"))
+					break;
+				$lipdname = $request->getText("name");
+				$lipdurl = $request->getText("url");
+				$ok = $this->importLiPDFromURL($lipdname, $lipdurl, $out);
+				if($ok)
+					$request->response()->header("Location: $loc");
+				break;
 			case "export":
 				$lipdid = $request->getText("lipdid");
 				$this->exportLiPD($lipdid, $request, $out);
@@ -79,6 +88,16 @@ class WTLiPD extends SpecialPage {
 			return ($processed_count == sizeof($_FILES));
 		}
 		return false;
+	}
+
+	function importLiPDFromURL($name, $url, $out) {
+		require_once("LiPDJson.inc");
+		$contents = file_get_contents($url);
+		$temp_file = tempnam(sys_get_temp_dir(), $name);
+		file_put_contents($temp_file, fopen($url, 'r'));
+		$importer = new LiPDJson($name, $temp_file);
+		$importer->import($out);
+		unlink($temp_file);
 	}
 
 	function exportLiPD($dsid, $request, $out) {

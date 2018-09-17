@@ -467,7 +467,10 @@ function getRevisionCategories($title, $rev, $parseTimestamp ) {
 	$content = $rev->getContent();
 	$options = $content->getContentHandler()->makeParserOptions( 'canonical' );
 	$options->setTimestamp( $parseTimestamp );
-	$titobj = Title::newFromText($title);
+	if(is_object($title))
+		$titobj = $title;
+	else
+		$titobj = Title::newFromText($title);
 	$output = $content->getParserOutput( $titobj, $rev->getId(), $options );
 	return array_map( 'strval', array_keys( $output->getCategories() ) );
 }

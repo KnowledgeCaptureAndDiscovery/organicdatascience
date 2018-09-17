@@ -673,6 +673,9 @@ class WTFactsAPI extends ApiBase {
 
 	public static function updateWiki($title, $summary, $data) {
 		$titobj = Title::newFromText($title);
+		if($titobj == null)
+			return array("Error", "Title: $title could not be initialized");
+
 		$article = new WikiPage($titobj);
 		$text = $article->getContent()->serialize();
 		$doc = new POMPage($text);
