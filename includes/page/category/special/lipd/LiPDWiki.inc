@@ -26,7 +26,8 @@ class LiPDWiki {
 		try {
 			$this->tmpdir = BagitHelper::tempdir();
 			$this->R_SCHEMA = $this->getSchemaReverseMap();
-			$facts = $this->getFactsRecursively($this->id);
+         $pagesdone = array();
+			$facts = $this->getFactsRecursively($this->id, $pagesdone);
 			$lipd = $this->convertToLiPD($this->id, $facts, "Dataset", "Dataset");
 			$lipd = $this->postProcessing($lipd, null);
 			$this->cleanUp($lipd);
@@ -115,7 +116,7 @@ class LiPDWiki {
 		$file->delete($this->id." LiPD Dataset was deleted");
 	}
 
-	private function getFactsRecursively($pageid, $pagesdone=array()) {
+	private function getFactsRecursively($pageid, &$pagesdone) {
 		if(array_key_exists($pageid, $pagesdone))
 			return;
 		$pagesdone[$pageid] = true;
