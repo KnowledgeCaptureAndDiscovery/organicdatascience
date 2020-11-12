@@ -114,9 +114,9 @@ $SCHEMA["Publication"] = array(
 	"title" => array(
 		"name"=>"Title"
 	),
-	"pubYear" => array(
+	"year" => array(
 		"name"=>"PublicationYear",
-		"alternates"=>["year"]
+		"alternates"=>["pubYear"]
 	),
 	"citation" => array(
 		"name"=>"Citation",

@@ -360,6 +360,13 @@ class WTBootstrap extends SpecialPage {
 			$itemid = null;
 			while($item = $res[0]->getNextObject()) {
 				$itemid = $item->getTitle()->getFullText();
+				$items[$itemid] = [];
+				if(sizeof($res) > 2) {
+					$nsitem = $res[2];
+					$ns = $nsitem->getNSID();
+					$ref = $nsitem->getNS() . $nsitem->getLocalName();
+					$items[$itemid] = array("ns"=>$ns, "ref"=>$ref);
+				}
 				while($nsitem = $res[1]->getNextObject()) {
 					$ns = $nsitem->getNSID();
 					$ref = $nsitem->getNS() . $nsitem->getLocalName();
@@ -588,16 +595,18 @@ class WTBootstrap extends SpecialPage {
 
 	function showBootstrapForm( $items, $out ) {
 		// Show the form
-		if(sizeof($items) == 0) {
-			$html  = "<h3>Load Ontology</h3>\n";
+		$html = "";
+		//if(sizeof($items) == 0) {
+			$html .= "<h3>Load Ontology</h3>\n";
 			$html .= "<form method='post'>\n";
 			$html .= "<input type='hidden' name='op' value='bootstrap' />\n";
 			$html .= "<input size='80' name='onturl'/> \n";
 			$html .= "<input type='submit' />\n";
-			$html .= "</form>\n";
-		}
-		else {
-			$html = "<a class='lodbutton x-small' ";
+			$html .= "</form><br />\n";
+		//}
+		//else {
+		if(sizeof($items) > 0) {
+			$html .= "<a class='lodbutton x-small' ";
 			$html .= "onclick='return confirm(\"Are you sure you want to remove all ontological terms from the wiki ?\");' ";
 			$html .= "href='?op=delete'>Delete all terms</a>";
 		}

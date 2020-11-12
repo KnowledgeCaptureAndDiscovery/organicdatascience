@@ -26,11 +26,12 @@ class LiPDWiki {
 		try {
 			$this->tmpdir = BagitHelper::tempdir();
 			$this->R_SCHEMA = $this->getSchemaReverseMap();
-         $pagesdone = array();
+			$pagesdone = array();
 			$facts = $this->getFactsRecursively($this->id, $pagesdone);
 			$lipd = $this->convertToLiPD($this->id, $facts, "Dataset", "Dataset");
 			$lipd = $this->postProcessing($lipd, null);
 			$this->cleanUp($lipd);
+			$lipd["createdBy"] = "wiki";
 
 			file_put_contents($this->tmpdir."/metadata.jsonld", json_encode($lipd, JSON_PRETTY_PRINT));
 
@@ -112,7 +113,7 @@ class LiPDWiki {
 
 	private function deleteFileFromWiki($fileid) {
 		$repo = RepoGroup::singleton()->getLocalRepo();
-    $file = new LocalFile($fileid, $repo);
+		$file = new LocalFile($fileid, $repo);
 		$file->delete($this->id." LiPD Dataset was deleted");
 	}
 
