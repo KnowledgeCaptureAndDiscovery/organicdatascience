@@ -344,7 +344,8 @@ WTStdProperties.prototype.generateContent = function(pname, index) {
 		$valentity.html(valobj.text);
     	if(valobj.type == 'WikiPage') {
         	var valcls = valobj.exists ? '' : 'new';
-    		var valuri = escape(wgScriptPath + '/index.php/' + valobj.key);
+    		//var valuri = escape(wgScriptPath + '/index.php/' + valobj.key);
+    		var valuri = wgScriptPath + '/index.php/' + valobj.key;
         	$valentity = $("<a href='"+valuri+"' class='"+valcls+"'>"+valobj.val.replace(/_/g,' ')+"</a>");
 			$valentity.click(function(e) { e.stopPropagation(); });
     	}
