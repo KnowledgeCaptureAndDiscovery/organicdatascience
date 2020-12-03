@@ -30,8 +30,8 @@ WTFacts.prototype.generateContent = function(fact) {
     	if(valobj.type == 'WikiPage') {
         	var valcls = valobj.exists ? '' : 'new';
     		//var valuri = escape(wgScriptPath + '/index.php/' + valobj.key);
-    		var valuri = wgScriptPath + '/index.php/' + valobj.key;
-        	$valentity = $("<a href='"+valuri+"' class='"+valcls+"'>"+valobj.val.replace(/_/g,' ')+"</a>");
+    		var valuri = wgScriptPath + '/index.php/' + valobj.key.replace(/"/g, "\\\"");
+        	$valentity = $("<a href=\""+valuri+"\" class='"+valcls+"'>"+valobj.val.replace(/_/g,' ')+"</a>");
 			$valentity.click(function( e ) { e.stopPropagation(); });
     	}
     	else if(valobj.type == 'Uri') {

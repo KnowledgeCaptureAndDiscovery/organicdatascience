@@ -118,14 +118,18 @@ class LiPDWiki {
 	}
 
 	private function getFactsRecursively($pageid, &$pagesdone) {
-		if(array_key_exists($pageid, $pagesdone))
+		$blacklist = [
+			"RelatedTo"
+		];
+		if(in_array($pageid, $pagesdone))
 			return;
-		$pagesdone[$pageid] = true;
+		array_push($pagesdone, $pageid);
 
 		$pageobjects = array();
 		list($status, $facts, $txt) = WTFactsAPI::getFacts($pageid);
 		foreach($facts as $prop=>&$details) {
 			if($prop == "subobjects") continue;
+			if(in_array($prop, $blacklist)) continue;
 
 			if(array_key_exists("values", $details)) {
 				foreach($details["values"] as &$value) {
@@ -152,6 +156,7 @@ class LiPDWiki {
 			unset($details["subobjects"]);
 		}
 		unset($facts["subobjects"]);
+		array_pop($pagesdone);
 
 		return $facts;
 	}
@@ -218,8 +223,8 @@ class LiPDWiki {
 				$type = array_key_exists("type", $details) ? $details["type"] : null;
 				$cat = array_key_exists("category", $details) ? $details["category"] : null;
 				$sch = array_key_exists("schema", $details) ? $details["schema"] : null;
-        if($cat && !$sch)
-          $sch = $cat;
+				if($cat && !$sch)
+					$sch = $cat;
 				$toJson = array_key_exists("toJson", $details) ? $details["toJson"] : null;
 				$multiple = array_key_exists("multiple", $details) ? $details["multiple"] : false;
 				$nofollow = array_key_exists("nofollow", $details) ? $details["nofollow"] : false;
